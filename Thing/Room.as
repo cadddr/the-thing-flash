@@ -124,6 +124,8 @@
 			characters.push(character);
 			character.currentRoom = this;
 
+			//todo:optimize
+			GlobalState.things.forEach(function(item:*){item.refreshVisibility()});
 			resetReachableRoomsColoring();
 
 			positionInRoom(character, this);

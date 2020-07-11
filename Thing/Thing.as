@@ -105,17 +105,6 @@
 			goInvisible();
 		}
 		
-		public override function act()
-		{
-			this.refreshVisibility();
-			Utils.sleep(1000);
-			
-			super.act();
-			
-			this.refreshVisibility();
-			
-		}
-		
 		private function onMouseOver(e:MouseEvent)
 		{
 			if(!isDead)
@@ -164,13 +153,13 @@
 			{
 				isVisible = false;
 				if(GlobalState.DEBUG)
-					alpha = 0.2;
+					alpha = 0.3;
 				else
 					alpha = 0;
 			}
 		}
 		
-		private function refreshVisibility()
+		public function refreshVisibility()
 		{
 			if (currentRoom.IsTakenOver)
 			{

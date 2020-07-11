@@ -75,7 +75,7 @@
 		public function getInfected(infection:Function)
 		{
 			if(GlobalState.DEBUG)
-				alpha = 0.2;
+				alpha = 0.3;
 			
 			policy = infection;
 			

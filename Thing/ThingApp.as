@@ -96,9 +96,12 @@
 			
 			squads.forEach(returnRandomPlayer);
 			
+			
 			GlobalState.players.forEach(function(item:*) {item.act()});
-			trace(GlobalState.things);
-			GlobalState.things.forEach(function(item:*) {trace(item);item.act()});
+			GlobalState.things.forEach(function(item:*) {item.act()});
+			
+			if(GlobalState.rooms.every(function(item:*){return item.IsTakenOver || item.characters.length == 0}))
+			   trace("YOU LOST");
 			
 		}
 		
