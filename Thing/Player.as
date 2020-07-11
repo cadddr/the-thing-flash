@@ -169,12 +169,13 @@
 		
 		public function finalizeAction()
 		{			
-			IsInactive = true;
-			stopDrag();
 			
-			GlobalState.draggableCharacter = null;
+			stopDrag();
 			mouseEnabled = true;
-			currentRoom.highlightReachableRooms(false);
+			GlobalState.draggableCharacter = null;
+			IsInactive = true;
+			
+			
 		}
 		
 		public override function toString():String

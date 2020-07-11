@@ -27,8 +27,8 @@
 		
 		public function Character()
 		{
-			scaleX = 1.25;
-			scaleY = 1.25;
+			scaleX = 1;
+			scaleY = 1;
 		}
 		
 		public function act()
