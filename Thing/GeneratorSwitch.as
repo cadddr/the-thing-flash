@@ -14,6 +14,7 @@
 			this.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
 			
 			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			myselection.visible = false;
 			myselection.gotoAndStop(1);
 		}
 		
@@ -21,12 +22,16 @@
 		{
 			if(GlobalState.draggableCharacter 
 			   && GlobalState.draggableCharacter.currentRoom is GenRoom)
-				myselection.gotoAndPlay(1);
+				{
+					myselection.gotoAndPlay(1);
+					myselection.visible = true;
+				}
 		}
 		
 		private function unhighlight(e:MouseEvent)
 		{
 			myselection.gotoAndStop(1);
+			myselection.visible = false;
 		}
 		
 		private function onMouseUp(e:MouseEvent)
@@ -48,6 +53,7 @@
 			   dispatchEvent(new Event("lightSwitched"));
 			   
 			   this.gotoAndStop(switchOn ? 1 : 2);
+			   this.myselection.visible = false;
 			   this.myselection.gotoAndStop(1);
 		}
 	}

@@ -14,7 +14,7 @@
 		{		
 			super();
 			
-			mycharge.myselection.visible = false
+			mycharge.myselection.visible = false;
 			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			this.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);

@@ -10,7 +10,7 @@
 	//todo: players can plant bombs to the rooms there are not in
 	public class ThingApp extends MovieClip 
 	{			
-		private const maxPlayers = 1;	
+		private const maxPlayers = 5;	
 		
 		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
 															[0, 1, 0, 0, 0, 0, 1, 0],
