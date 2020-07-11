@@ -18,14 +18,22 @@
 		var redPlayers : Vector.<MovieClip> = new Vector.<MovieClip>();
 		const maxPlayers = 7;
 		
-		public function ThingApp() {
+		public var myMegaPlayer : Player;
+		var c = 0;
+		
+		
+		
+		public function ThingApp() 
+		{
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);		
-			
 		}
 		
 		private function onAddedToStage(e:Event) : void 
 		{
-			this.stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+		
+			stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+			
+			
 			
 			rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
@@ -43,22 +51,18 @@
 			
 			trace(roomNumber + 1);
 			//PutInRoom(redPlayer, rooms[roomNumber]);
-		}
+			
+		}	
 		
-		private function monMouseUp(event : MouseEvent) : void
-		{
-			var draggableCharacter = Globals.draggableCharacter as Player;
-			if(draggableCharacter != null)
+		private function monMouseUp(e:MouseEvent) : void
+		{			
+			if(Globals.draggableCharacter != null)
 			{
-				draggableCharacter.stopDrag();
-				draggableCharacter.mouseEnabled = true;
-				Globals.draggableCharacter = null;
+				Globals.draggableCharacter.stopDrag();
+				Globals.draggableCharacter.mouseEnabled = true;
+			    Globals.draggableCharacter = null;
 			}
 		}
-		
-		// puts a character at a random location within a specified room
-		
-		
 		
 	}
 	

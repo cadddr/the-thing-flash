@@ -19,35 +19,39 @@
 			
 			
 			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndStop(2);});
+			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});
 			
-			addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+			
+			//addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
 					
 		}
 		
 		private function onMouseOver(event : MouseEvent) 
 		{
-			trace(this);
-			if (Globals.highlightedRoom != null)
-				Globals.highlightedRoom.gotoAndStop(1); 
-			Globals.highlightedRoom = this;
+			//trace(Globals.draggableCharacter as Player);
+			//if (Globals.highlightedRoom != null)
+				//Globals.highlightedRoom.gotoAndStop(1); 
+			//Globals.highlightedRoom = this;
 			
 			gotoAndStop(2); 
 		}
 		
 		private function monMouseUp(event : MouseEvent)
 		{
-			var draggableCharacter = Globals.draggableCharacter as Player;
-			if(draggableCharacter != null)
-			{
-				draggableCharacter.stopDrag();
-				draggableCharacter.mouseEnabled = true;
-				Globals.draggableCharacter = null;
-			}
+			//var draggableCharacter = Globals.draggableCharacter as Player;
+			//if(draggableCharacter != null)
+			//{
+			//	draggableCharacter.stopDrag();
+			//	//draggableCharacter.mouseEnabled = true;
+			//	PutInRoom(draggableCharacter, this);
+			//	Globals.draggableCharacter = null;
+			//}
 			
-			PutInRoom(draggableCharacter, this);
+			
 		}
 		
+		// puts a character at a random location within a specified room
 		private function PutInRoom(whom : MovieClip, where : MovieClip)
 		{					
 		

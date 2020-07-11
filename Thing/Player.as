@@ -6,35 +6,28 @@
     import flash.geom.ColorTransform;
 	import Globals;
 	
-	public class Player extends MovieClip {
+	public class Player extends MovieClip {		
 		
-		
-		public function Player(playerName : String = "r") {
+		public function Player(playerName : String = "r") {			
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, monMouseDown);
-			addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			// mouse up handled by stage
 			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndStop(2)});
 			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});
 			
-			this.playerName.text = playerName;
 			this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
 		
-		
-		
-		function monMouseDown(e:MouseEvent)
+		function onMouseDown(e:MouseEvent)
 		{
-			startDrag(false, new Rectangle(222,50,563,490));
-			Globals.draggableCharacter = this;
+			startDrag();			
 			mouseEnabled = false;
+			Globals.draggableCharacter = this;			
 		}
 		
-		function monMouseUp(e:MouseEvent)
-		{
-			stopDrag();
-		}
+		
 	}
 	
 }
