@@ -12,27 +12,8 @@
 		//todo: normalize
 		public const killProbability:Number = 2
 		
-		private var alreadyActed:Boolean = false;
-		
+		private var alreadyActed:Boolean = false;		
 		private var isInfected:Boolean = false;
-		//private var syringe:Syringe = null;
-		/*
-		override public function set x(n:Number):void
-		{
-			super.x = n;
-			
-			if(this.syringe)
-				this.syringe.x = this.x + 20;
-		}
-		
-		override public function set y(n:Number):void
-		{
-			super.y = n;
-			
-			if(this.syringe)
-				this.syringe.y = this.y;
-		}
-		*/
 		
 		public function get IsInfected()
 		{
@@ -54,47 +35,45 @@
 			return alreadyActed;
 		}
 		
-		public function equipSyringe()
-		{
-			trace("syringe:", this.mysyringe)
-			this.mysyringe.visible = true;
-			this.mysyringe.owner = this;
-			/*if(!this.syringe)
-			{
-				this.syringe = syringe;
-				this.syringe.x = this.x + 20;
-				this.syringe.y = this.y;
-			}*/
-		}
-		
 		
 		public function Player() 
 		{							
-			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			//dragging
+			addEventListener(MouseEvent.MOUSE_DOWN, drag);
 			// mouse up handled by stage
 			
 			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);		
-			
-			//addEventListener(Event.ENTER_FRAME, function(e:Event) {if(syringe != null){syringe.x = this.x; syringe.y = this.y}});
-			
+			addEventListener(MouseEvent.MOUSE_OVER, highlight);
+			addEventListener(MouseEvent.MOUSE_OUT, unhighlight);		
+
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}		
 		
-		private function onMouseOver(e:MouseEvent)
+		public function equipSyringe()
+		{
+			trace(this, "has equipped syringe")
+			this.mysyringe.visible = true;
+			this.mysyringe.owner = this;
+		}
+		
+		public override function toString():String
+		{
+			return "Player " + this.transform.colorTransform.color.toString(16);
+		}
+		
+		private function highlight(e:MouseEvent)
 		{
 			if(!alreadyActed)
 				gotoAndPlay(2);
 		}
 		
-		private function onMouseOut(e:MouseEvent)
+		private function unhighlight(e:MouseEvent)
 		{
 			if(!alreadyActed)
 				gotoAndPlay(1);
 		}
 		
-		private function onMouseDown(e:MouseEvent)
+		private function drag(e:MouseEvent)
 		{
 			if(!alreadyActed)
 			{
@@ -108,6 +87,8 @@
 		
 		public function getInfected(infection:Function)
 		{
+			trace(this, "got infected");
+			
 			if(GlobalState.DEBUG)
 				this.Visible = false;
 			
@@ -141,11 +122,12 @@
 				//assuming the thing will act after players act
 			}
 		}
-		
-		
+				
 		
 		override public function die()
 		{
+			trace(this, "died");
+			
 			super.die()
 			gotoAndStop(24);
 			//for not acting anymore

@@ -118,7 +118,7 @@
 				gotoAndStop(1);
 		}
 		
-		//gets killer by a dragger
+		//gets attacked by a dragger
 		private function onMouseUp(e:MouseEvent)
 		{
 			if(!isDead)
@@ -127,7 +127,7 @@
 			 	   {	
 						//dice roll should be 2 or 1
 						var killingDice = Utils.getRandom(6, 1);
-						trace("killing dice:", killingDice);
+						trace(GlobalState.draggableCharacter, "is attacking", this, "\n\tdice:", killingDice);
 						
 						if(killingDice <= GlobalState.draggableCharacter.killProbability)
 						{
@@ -204,11 +204,13 @@
 				
 			}
 			
+			trace(this, "has assimilated into", victim);
 			victim.getInfected(infection);
 		}
 		
 		override public function die()
 		{
+			trace(this, "died")
 			IsDead = true;
 			super.die();
 		}
@@ -216,7 +218,9 @@
 		private function attack(victim:Player)
 		{
 			var attackingDice = Utils.getRandom(6, 1);
-			trace("attacking dice:", attackingDice);
+			
+			trace(this, "is attacking", victim, "\n\tdice:", attackingDice);
+			
 			if(attackingDice <= killProbability)
 				victim.die();
 		}
@@ -233,6 +237,8 @@
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			ReachableRooms[randomRoom].putIn(this);
 		}
+		
+		
 	}
 	
 }

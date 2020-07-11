@@ -54,6 +54,18 @@
 		
 		private function onTurnEnd(e:KeyboardEvent)
 		{			
+		
+			//to enhance players with syringes
+			var testRoom = GlobalState.rooms.filter(function(item:*) {return item is TestRoom})[0];
+			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.IsInactive});
+			
+			eligiblePlayers.forEach(function(item:*) 
+									{
+										
+										item.equipSyringe(); 
+										//stage.addChild(syringe);
+									});
+									
 			var squads:Array = [];
 			var checkedSquadMembers:Array = [];
 			
@@ -98,16 +110,7 @@
 			
 			//////////////////////////////////////////////
 			
-			//to enhance players with syringes
-			var testRoom = GlobalState.rooms.filter(function(item:*) {return item is TestRoom})[0];
-			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.IsInactive});
 			
-			eligiblePlayers.forEach(function(item:*) 
-									{
-										
-										item.equipSyringe(); 
-										//stage.addChild(syringe);
-									});
 			
 			
 			GlobalState.players.forEach(function(item:*) {item.act()});
@@ -115,6 +118,12 @@
 			
 			if(GlobalState.rooms.every(function(item:*){return item.IsTakenOver || item.characters.length == 0}))
 			   trace("YOU LOST");
+			  
+			 if(GlobalState.rooms.every(function(item:*)
+										{return !item.characters.some(function(character:*)
+																	  {return character is Thing})
+										}))
+			   trace("YOU WON");
 			
 		}
 		

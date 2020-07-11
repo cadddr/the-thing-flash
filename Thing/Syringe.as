@@ -15,10 +15,14 @@
 		
 		private function onClick(e:MouseEvent)
 		{
+			trace(owner, "has used syringe");
+			
 			//todo: animation with delay
 			if(!owner.IsInactive)
 			{
 				owner.currentRoom.characters.forEach(function(item:*) {item.revealItself()});
+				//to reset room coloring
+				owner.currentRoom.putIn(owner);
 				owner.finalizeAction();
 			}
 			//todo: disposable syringe
