@@ -18,11 +18,24 @@
 			this.type = type;			
 			
 			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndStop(2);});
-			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});			
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
 			
 			//for putting draggable players into rooms
 			//addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+		}
+		
+		private function onMouseOver(e:MouseEvent)
+		{
+			gotoAndStop(2);
+		}
+		
+		private function onMouseOut(e:MouseEvent)
+		{
+			gotoAndStop(1);
+			
+			if(Globals.draggableCharacter != null)
+				characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);
 		}
 		
 		private function monMouseUp(event : MouseEvent)
@@ -39,7 +52,8 @@
 		
 		public function putIn(character:MovieClip)
 		{			
-			trace(this);
+			characters.push(character);
+			
 			if (this is Room7)
 				positionInCorridor7(character, this); 
 			else if (this is Room8)

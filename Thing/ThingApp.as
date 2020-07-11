@@ -16,9 +16,6 @@
 		
 		private function onAddedToStage(e:Event) : void 
 		{
-			
-			
-			
 			//so that we could undrag the player
 			stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);			
 			
@@ -30,16 +27,10 @@
 			{
 				var player = new Player(String.fromCharCode(97 + i));
 				
-				players.push(player);
-				stage.addChild(player);
-				
-								
+				stage.addChild(player);		
 				rooms[initialRoomNumber].putIn(player);
-				
+				players.push(player);
 			}
-			
-			
-			
 		}	
 		
 		private function monMouseUp(e:MouseEvent) : void

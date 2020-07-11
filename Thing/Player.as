@@ -14,7 +14,7 @@
 			// mouse up handled by stage
 			
 			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndStop(2)});
+			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndPlay(2)});
 			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});
 			
 			this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
