@@ -1,7 +1,7 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
-	import flash.events.MouseEvent; 
+	import flash.events.*; 
 		
 	public class ThingApp extends MovieClip {
 		
@@ -19,14 +19,9 @@
 		const maxPlayers = 7;
 		
 		public function ThingApp() {
-
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			//this.stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
 			rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
-			
-			for (var room in rooms)
-			{
-				room1.addEventListener(MouseEvent.MOUSE_OVER, function(e:MouseEvent){trace(this); gotoAndStop(2)});
-				room1.addEventListener(MouseEvent.MOUSE_OUT, function(e:MouseEvent){gotoAndStop(1)});
-			}
 			
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
@@ -38,18 +33,30 @@
 				PutInCorridor8(player, rooms[7]);
 			}
 			
-			
-			
 			var roomNumber = Math.round(Math.random() * (rooms.length - 1));
 			
 			trace(roomNumber + 1);
 			//PutInRoom(redPlayer, rooms[roomNumber]);
 			
 		}
-		function onRoomOver(e:MouseEvent)
+		
+		private function onAddedToStage(e:Event) : void 
 		{
-			e.target.gotoAndStop(2);
+		
 		}
+		
+		private function monMouseUp(event : MouseEvent)
+		{/*
+			var draggableCharacter = Globals.draggableCharacter as Player;
+			if(draggableCharacter != null)
+			{
+				draggableCharacter.stopDrag();
+				draggableCharacter.mouseEnabled();
+				draggableCharacter = null;
+				trace(draggableCharacter, Globals.draggableCharacter);
+			}*/
+		}
+		
 		// puts a character at a random location within a specified room
 		private function PutInRoom(whom : MovieClip, where : MovieClip)
 		{					

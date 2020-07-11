@@ -1,21 +1,35 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
-	
+	import flash.events.MouseEvent;
+	import Globals;
 	
 	public class Room extends MovieClip {
 		
-		id:String;
-		destroyed:Boolean = false;
-		type:String;
-		characters:Array = []
+		var id : int;
+		var destroyed : Boolean = false;
+		var type : String;
+		var characters : Array = []
 		
 		
-		public function Room(id:String, type:String) {
+		public function Room(id : int = -1, type : String = "regular") 
+		{
 			this.id = id;
 			this.type = type;
 			
-			trace(id);
+			
+			//highlighting
+			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseMove);
+					
+		}
+		
+		private function onMouseMove(event : MouseEvent) 
+		{
+			trace(this);
+			if (Globals.highlightedRoom != null)
+				Globals.highlightedRoom.gotoAndStop(1); 
+			Globals.highlightedRoom = this;
+			gotoAndStop(2); 
 		}
 	}
 	

@@ -4,6 +4,7 @@
 	import flash.events.MouseEvent;
     import flash.geom.Rectangle;
     import flash.geom.ColorTransform;
+	import Globals;
 	
 	public class Player extends MovieClip {
 		
@@ -26,6 +27,8 @@
 		function monMouseDown(e:MouseEvent)
 		{
 			startDrag(false, new Rectangle(222,50,563,490));
+			//Globals.draggableCharacter = this;
+			mouseEnabled = false;
 		}
 		
 		function monMouseUp(e:MouseEvent)
