@@ -135,7 +135,7 @@
 			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
 			{
 				trace("HUMANS LOST");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		   
 			}
 			  
@@ -145,7 +145,7 @@
 										}))
 		   {
 				trace("HUMANS WON");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		   }
 		   
 		   //reset action flags

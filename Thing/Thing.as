@@ -5,6 +5,7 @@
 	import flash.geom.ColorTransform;
 	import GlobalState;
 	import Character;
+	import Room;
 	
 	public class Thing extends Character 
 	{		
@@ -64,11 +65,12 @@
 							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * GlobalState.thingCautiousnessLevel)						
 								attack(victim)
 							else												
-								goToAnotherRandomReachableRoom();					
+								//goToAnotherRandomReachableRoom();		
+								goToLeastPopulatedRoom();
 						}									
 					}				
 					else
-						goToRandomReachableRoom();
+						goToLeastPopulatedRoom();
 				}
 			}
 			/////////////////////////
@@ -206,6 +208,20 @@
 			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			ReachableRooms[randomRoom].putIn(this);
+		}
+		
+		private function goToLeastPopulatedRoom()
+		{
+			var leastPopulatedRoom:Room = ReachableRooms[0];
+			
+			for(var i:int = 0; i < ReachableRooms.length; i++)
+			{
+				trace(this, "is deciding on where to go");
+				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * GlobalState.thingCautiousnessLevel)	
+					leastPopulatedRoom = ReachableRooms[i];
+			}
+			
+			leastPopulatedRoom.putIn(this);
 		}
 		
 		

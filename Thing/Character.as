@@ -12,15 +12,15 @@
 		
 		public var isDead:Boolean = false;
 		
-		public function set Visible(value:Boolean)
+		public function set IsVisible(value:Boolean)
 		{
 			if(value)
 				alpha = 1;
-			else
+			else if(GlobalState.DEBUG)
 				alpha = 0.3;
 		}
 		
-		public function get ReachableRooms()
+		public function get ReachableRooms():Array
 		{
 			var originRoomIndex:int = GlobalState.rooms.indexOf(currentRoom);			
 			var passabilityList = reachabilityMap[originRoomIndex];				

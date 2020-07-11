@@ -86,25 +86,24 @@
 				if(this.isInfected)
 				{	
 					trace("Is", this, "going to refuse to execute the order?");
-					if(Utils.getRandom(6,1) <= GlobalState.humanInfectedRefusalProbability)
-						this.revealItself();
+					if(Utils.getRandom(6,1) <= GlobalState.humanInfectedRefusalProbability)						
+						{
+							this.revealItself();
+							return;
+						}
 				}
 				
-				else
-				{				
-					highlightReachableRooms();
+				highlightReachableRooms();
+				initializeAction();
 				
-					initializeAction();
-				}
 			}
 		}
 		
 		public function getInfected(infection:Function)
 		{
-			trace(this, "got infected");
+			trace(this, "got infected");	
 			
-			if(GlobalState.DEBUG)
-				this.Visible = false;
+			this.IsVisible = false;
 			
 			policy = infection;
 			
