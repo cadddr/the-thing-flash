@@ -5,8 +5,7 @@
 		
 	public class ThingApp extends MovieClip {			
 								  
-		var rooms : Array = [];
-		var players : Vector.<MovieClip> = new Vector.<MovieClip>();
+		var players : Array = [];
 		const maxPlayers = 7;
 		
 		public function ThingApp() 
@@ -16,19 +15,30 @@
 		
 		private function onAddedToStage(e:Event) : void 
 		{			
-			rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
 			
-			var initialRoom = Math.round(Math.random() * (rooms.length - 1));
+			Globals.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
+			
+			var initialRoom = Math.round(Math.random() * (Globals.rooms.length - 1));
 			
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
-				var player = new Player(String.fromCharCode(97 + i));
+				var player = new Player();
 				
 				stage.addChild(player);		
-				rooms[initialRoom].putIn(player);
+				Globals.rooms[initialRoom].putIn(player);
 				players.push(player);
 			}
 		}		
+		
+		private function onTurnEnd(e:KeyboardEvent)
+		{
+			//reset action flags
+			for (var i:int = 0; i < players.length; i++)
+			{
+				players[i].alreadyActed = false;
+			}
+		}
 		
 	}
 	

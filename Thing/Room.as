@@ -45,17 +45,31 @@
 			
 			if(draggableCharacter != null)
 			{
+				draggableCharacter.alreadyActed = true;
 				draggableCharacter.stopDrag();
 				draggableCharacter.mouseEnabled = true;
 			    
 				putIn(draggableCharacter);
 			    Globals.draggableCharacter = null;
 			}	
+			
+			resetReachableRoomsColoring();
+			
+		}
+		
+		private function resetReachableRoomsColoring()
+		{
+			for (var i:int = 0; i < Globals.rooms.length; i++)
+			{
+				if (Globals.rooms[i] != this)
+					Globals.rooms[i].gotoAndStop(1);
+			}
 		}
 		
 		public function putIn(character:MovieClip)
 		{			
 			characters.push(character);
+			character.currentRoom = this;
 			
 			if (this is Room7)
 				positionInCorridor7(character, this); 
