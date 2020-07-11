@@ -22,7 +22,7 @@
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
 			
 			//for putting draggable players into rooms
-			//addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
+			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
 		private function onMouseOver(e:MouseEvent)
@@ -38,16 +38,19 @@
 				characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);
 		}
 		
-		private function monMouseUp(event : MouseEvent)
+		//undrags the player and puts it into the room
+		private function onMouseUp(event : MouseEvent)
 		{
-			//var draggableCharacter = Globals.draggableCharacter as Player;
-			//if(draggableCharacter != null)
-			//{
-			//	draggableCharacter.stopDrag();
-			//	//draggableCharacter.mouseEnabled = true;
-			//	PutInRoom(draggableCharacter, this);
-			//	Globals.draggableCharacter = null;
-			//}	
+			var draggableCharacter = Globals.draggableCharacter as Player;
+			
+			if(draggableCharacter != null)
+			{
+				draggableCharacter.stopDrag();
+				draggableCharacter.mouseEnabled = true;
+			    
+				putIn(draggableCharacter);
+			    Globals.draggableCharacter = null;
+			}	
 		}
 		
 		public function putIn(character:MovieClip)
