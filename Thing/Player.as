@@ -17,14 +17,37 @@
 			// mouse up handled by stage
 			
 			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndPlay(2)});
-			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 			
 			
 			alreadyActed = false;
 			currentRoom = null;
 			
 			this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+		}
+		
+		public function set IsInactive(value)
+		{
+			if(value)
+				gotoAndStop(23);
+			else 
+				gotoAndStop(1);
+			
+			alreadyActed = value;
+			
+		}
+		
+		private function onMouseOver(e:MouseEvent)
+		{
+			if(!alreadyActed)
+				gotoAndPlay(2);
+		}
+		
+		private function onMouseOut(e:MouseEvent)
+		{
+			if(!alreadyActed)
+				gotoAndPlay(1);
 		}
 		
 		function onMouseDown(e:MouseEvent)
@@ -72,8 +95,10 @@
 				for(var i:int = 0; i < passabilityList.length; i++)
 				{
 					if (passabilityList[i] == 1)
-						
-						Globals.rooms[i].gotoAndStop(3);
+					{
+						Globals.reachableRooms.push(Globals.rooms[i])
+						Globals.rooms[i].highlightReachable();
+					}
 				}
 			}
 		

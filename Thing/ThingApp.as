@@ -36,7 +36,7 @@
 			//reset action flags
 			for (var i:int = 0; i < players.length; i++)
 			{
-				players[i].alreadyActed = false;
+				players[i].IsInactive = false;
 			}
 		}
 		

@@ -9,8 +9,7 @@
 		public var id : int;
 		var destroyed : Boolean = false;
 		var type : String;
-		var characters : Array = []
-		
+		var characters : Array = []	
 		
 		public function Room(id : int = -1, type : String = "regular") 
 		{
@@ -25,45 +24,80 @@
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
+		private function get IsReachable():Boolean
+		{
+			return Globals.reachableRooms.indexOf(this) > -1;
+		}
+		
 		private function onMouseOver(e:MouseEvent)
 		{
-			gotoAndStop(2);
+			if(IsReachable || Globals.draggableCharacter == null)
+				highlightSelected();
+			else
+				highlightRestricted();
 		}
 		
 		private function onMouseOut(e:MouseEvent)
 		{
-			gotoAndStop(1);
+			if(Globals.reachableRooms.indexOf(this) > -1)
+				highlightReachable();
+			else
+				unhighlight();
 			
 			if(Globals.draggableCharacter != null)
-				characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);
+				characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);		
+			
 		}
 		
 		//undrags the player and puts it into the room
 		private function onMouseUp(event : MouseEvent)
 		{
-			var draggableCharacter = Globals.draggableCharacter as Player;
-			
-			if(draggableCharacter != null)
-			{
-				draggableCharacter.alreadyActed = true;
-				draggableCharacter.stopDrag();
-				draggableCharacter.mouseEnabled = true;
-			    
-				putIn(draggableCharacter);
-			    Globals.draggableCharacter = null;
-			}	
-			
-			resetReachableRoomsColoring();
-			
+			if(IsReachable)
+			{			
+				var draggableCharacter = Globals.draggableCharacter as Player;
+				
+				if(draggableCharacter != null)
+				{
+					draggableCharacter.IsInactive = true;
+					draggableCharacter.stopDrag();
+					draggableCharacter.mouseEnabled = true;
+					
+					putIn(draggableCharacter);
+					Globals.draggableCharacter = null;
+				}	
+				
+				resetReachableRoomsColoring();
+			}
+		}
+		
+		public function unhighlight()
+		{
+			gotoAndStop(1);
+		}
+		
+		public function highlightSelected()
+		{
+			gotoAndStop(2);
+		}
+		
+		public function highlightReachable()
+		{
+			gotoAndStop(3);
+		}
+		
+		public function highlightRestricted()
+		{
+			gotoAndStop(4);
 		}
 		
 		private function resetReachableRoomsColoring()
 		{
-			for (var i:int = 0; i < Globals.rooms.length; i++)
-			{
-				if (Globals.rooms[i] != this)
-					Globals.rooms[i].gotoAndStop(1);
+			for (var i:int = 0; i < Globals.reachableRooms.length; i++)
+			{				
+				Globals.reachableRooms[i].gotoAndStop(1);
 			}
+			
+			Globals.reachableRooms = [];
 		}
 		
 		public function putIn(character:MovieClip)
