@@ -4,5 +4,6 @@ do
 	mkdir ./Thing/
 	unar ~/Projects/Thing/backups/${FILE} -o ./Thing/ -D
 	git add ./Thing/*       
-	git commit -m ${FILE/"Thing_"/""/".rar"/""} 
+        message=${FILE/"Thing_"/""} 
+	git commit -m ${message/".rar"/""} 
 done

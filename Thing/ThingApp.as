@@ -10,7 +10,7 @@
 	//todo: players can plant bombs to the rooms there are not in
 	public class ThingApp extends MovieClip 
 	{			
-		private const maxPlayers = 5;	
+		private const maxPlayers = 0;	
 		
 		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
 															[0, 1, 0, 0, 0, 0, 1, 0],
@@ -126,7 +126,7 @@
 				var player = new Player(humanInfectedRefusalProbability);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 								
-				GlobalState.rooms[initialRoom].putIn(player);
+				GlobalState.rooms[3].putIn(player);
 				stage.addChild(player);					
 			}
 		}
@@ -137,14 +137,15 @@
 			
 			//todo: needs refactoring
 			trace("Where does", thing, "start?");
-			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-			
+			//var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
+			var thingsInitialRoom = 3;
+			/*
 			if(!GlobalState.rooms[thingsInitialRoom].IsTakenOver)
 			{
 				trace(thing, "needs another room to start?");
 				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
 			}
-			
+			*/
 			GlobalState.rooms[thingsInitialRoom].putIn(thing);
 			stage.addChild(thing);
 		}

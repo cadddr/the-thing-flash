@@ -60,6 +60,11 @@
 			return NonInfectedPlayers.length - Things.length - InfectedPlayers.length;
 		}
 		
+		protected function get VisibleGuests()
+		{
+			return guests.filter(function(guest:*) {return guest.IsVisible});
+		}
+		
 		public function getRoommates(player:Player)
 		{
 			return Players.filter(function(item:*){return item != player});
@@ -125,9 +130,7 @@
 				{
 					draggableCharacter.finalizeAction();
 					putIn(draggableCharacter);
-					
 				}
-				
 				highlightReachableRooms(false);
 			}
 		}
@@ -157,15 +160,12 @@
 			accessibleRooms.forEach(function(room:*) 
 									{
 										room.IsReachable = shouldHighlight;
-										
 									});
 		}
 
 		public function putIn(character:Character)
 		{
 			register(character);
-			
-			
 			
 			moveSmoothly(character, computePositionInRoom(character));
 		}
@@ -185,14 +185,73 @@
 		
 		// puts a character at a random location within a room
 		protected function computePositionInRoom(whom:Character):Array
-		{
-			var offset_x = Math.pow(-1,Math.round(Math.random() + 1)) * Math.random() * width / 2;
+		{			
+			var margin = 0;
+			
+			var destinationX = whom.x;
+			var destinationY = whom.y;
+			
+			var semiWidth = whom.width / 2;
+			
+			if(whom is Player)
+				semiWidth = (whom as Player).body.width / 2;
+				
+			var semiWallWidth = width / 2;
+			
+			var rightmostX = destinationX + semiWidth;
+			var rightmostWallX = x + semiWallWidth;
+			
+			
+			if (rightmostX > rightmostWallX)
+			{
+				trace("Exceeds width");
+				destinationX -= rightmostX - rightmostWallX - margin;
+			}
+			
+			var leftmostX = destinationX - semiWidth;
+			var leftmostWallX = x - semiWallWidth;
+			
+			if (leftmostX < leftmostWallX)
+			{
+				
+				
+				stage.addChild(Utils.createPoint(leftmostWallX, -1, 0));
+				trace("Unexceeds width. dest=", destinationX, "leftX=", leftmostX, "leftWallX=",leftmostWallX);
+				destinationX += leftmostWallX - leftmostX + margin;
+				stage.addChild(Utils.createPoint(destinationX - semiWidth));
+				
+				
+				trace(destinationX);
+			}
+			
+			var topmostY = destinationY - whom.scaleY * whom.height / 2;
+			var topmostWallY = y - scaleY * height / 2;
+			if (topmostY < topmostWallY)
+			{
+				trace("Exceeds height", scaleY);
+				destinationY += topmostWallY - topmostY;
+			}
+			
+			var bottommostY = destinationY + whom.scaleY * whom.height / 2;
+			var bottommostWallY = y + scaleY * height / 2;
+			if(bottommostY > bottommostWallY)
+			{
+				trace("Unexceeds height");
+				destinationY -= bottommostY - bottommostWallY;
+			}
+			
+			
+			/*
+			var offset_x = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * width / 2;
 			var correction_x = offset_x < 0 ? whom.width / 2: -  whom.width / 2;
 			var destinationX = x + offset_x + correction_x;
 
-			var offset_y = Math.pow(-1,Math.round(Math.random() + 1)) * Math.random() * height / 2;
+			var offset_y = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * height / 2;
 			var correction_y = offset_y < 0 ? whom.height / 2: -  whom.height / 2;
 			var destinationY = y + offset_y + correction_y;
+			*/
+			
+			
 			
 			return [destinationX, destinationY];			
 		}		

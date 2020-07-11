@@ -13,6 +13,12 @@
 		public var isVisible:Boolean;
 		private var switchLightRetries = 2;
 		
+		
+		public function get IsVisible()
+		{
+			return isVisible;
+		}
+		
 		public function set IsDead(value)
 		{
 			if (value)

@@ -3,7 +3,7 @@
 	import Room;
 	public class GlobalState {
 		
-		public static var DEBUG:Boolean = false;
+		public static var DEBUG:Boolean = true;
 		
 		public static const thingKillingProbability:Number = 3;
 		public static const thingOpenAssimilationProbability:Number = 2;

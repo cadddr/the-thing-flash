@@ -8,6 +8,7 @@
 		
 		public function Item() 
 		{
+			// todo: should be invisible
 			this.visible = false;
 			addEventListener(MouseEvent.CLICK , onClick);
 		}

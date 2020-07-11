@@ -16,6 +16,11 @@
 		
 		//public var revelationCallback:Function = null;
 		
+		public function get IsVisible()
+		{
+			return true;
+		}
+		
 		public function get IsInfected()
 		{
 			return isInfected;
