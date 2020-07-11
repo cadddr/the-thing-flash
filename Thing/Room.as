@@ -2,7 +2,7 @@
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import Globals;
+	import GlobalState;
 	
 	public class Room extends MovieClip {
 		
@@ -20,12 +20,12 @@
 		
 		private function get IsReachable():Boolean
 		{
-			return Globals.reachableRooms.indexOf(this) > -1;
+			return GlobalState.reachableRooms.indexOf(this) > -1;
 		}
 		
 		private function onMouseOver(e:MouseEvent)
 		{
-			if(IsReachable || Globals.draggableCharacter == null)
+			if(IsReachable || GlobalState.draggableCharacter == null)
 				highlightSelected();
 			else
 				highlightRestricted();
@@ -33,7 +33,7 @@
 		
 		private function onMouseOut(e:MouseEvent)
 		{
-			if(Globals.reachableRooms.indexOf(this) > -1)
+			if(GlobalState.reachableRooms.indexOf(this) > -1)
 				highlightReachable();
 			else
 				unhighlight();
@@ -44,16 +44,13 @@
 		{
 			if(IsReachable)
 			{			
-				var draggableCharacter = Globals.draggableCharacter as Player;
+				var draggableCharacter = GlobalState.draggableCharacter as Player;
 				
 				if(draggableCharacter != null)
-				{
-					draggableCharacter.IsInactive = true;
-					draggableCharacter.stopDrag();
-					draggableCharacter.mouseEnabled = true;
-					
+				{				
 					putIn(draggableCharacter);
-					Globals.draggableCharacter = null;
+					draggableCharacter.finalizeAction();
+					
 				}	
 				
 				resetReachableRoomsColoring();
@@ -80,14 +77,14 @@
 			gotoAndStop(4);
 		}
 		
-		private function resetReachableRoomsColoring()
+		public function resetReachableRoomsColoring()
 		{
-			for (var i:int = 0; i < Globals.reachableRooms.length; i++)
+			for (var i:int = 0; i < GlobalState.reachableRooms.length; i++)
 			{				
-				Globals.reachableRooms[i].gotoAndStop(1);
+				GlobalState.reachableRooms[i].gotoAndStop(1);
 			}
 			
-			Globals.reachableRooms = [];
+			GlobalState.reachableRooms = [];
 		}
 		
 		public function putIn(character:MovieClip)
@@ -98,6 +95,8 @@
 				
 			characters.push(character);
 			character.currentRoom = this;
+			
+			resetReachableRoomsColoring();
 			
 			//refresh things' visibility
 			var players = characters.filter(function(item:*){return item is Player});

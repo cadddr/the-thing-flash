@@ -3,7 +3,7 @@
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
-	import Globals;
+	import GlobalState;
 	
 	public class Thing extends MovieClip {
 		
@@ -26,7 +26,7 @@
 		private function onMouseOver(e:MouseEvent)
 		{
 			if(!isDead)
-				if(Globals.draggableCharacter && currentRoom == Globals.draggableCharacter.currentRoom)
+				if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
 					gotoAndPlay(2);
 		}
 		
@@ -40,23 +40,32 @@
 		private function onMouseUp(e:MouseEvent)
 		{
 			if(!isDead)
-				if(Globals.draggableCharacter && currentRoom == Globals.draggableCharacter.currentRoom)
-			 		
-					//dice roll should be 2
-					if(Math.round(Math.random() * 5) < 6)
-					{
-						transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
-						isDead = true;
-						gotoAndStop(1);
-					}
+				if(GlobalState.draggableCharacter)
+				   if(currentRoom == GlobalState.draggableCharacter.currentRoom)
+			 	   {	
+						//dice roll should be 2 or 1
+						var killingDice = Utils.getRandom(6, 1);
+						trace("killing dice:", killingDice);
+						
+						if(killingDice < 3)
+						{
+							transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+							isDead = true;
+							mouseEnabled = false;
+						}
+						
+						//needs refactoring
+						
 					
-					//needs refactoring
-					mouseEnabled = false;
-					Globals.draggableCharacter.stopDrag();
-					Globals.draggableCharacter.IsInactive = true;
-					currentRoom.putIn(Globals.draggableCharacter as Player);
+					currentRoom.putIn(GlobalState.draggableCharacter as Player);
+					GlobalState.draggableCharacter.finalizeAction();
 					
-					Globals.draggableCharacter = null;
+					
+					gotoAndStop(1);
+					
+					
+					
+			}
 		}
 		
 		public function goVisible()
@@ -107,13 +116,13 @@
 				originRoomIndex = 7;
 			
 			
-			var passabilityList = Globals.adjacencyMap[originRoomIndex];
+			var passabilityList = GlobalState.adjacencyMap[originRoomIndex];
 			var reachableRooms:Array = []
 				for(var i:int = 0; i < passabilityList.length; i++)
 				{
 					if (passabilityList[i] == 1)
 					{
-						reachableRooms.push(Globals.rooms[i])
+						reachableRooms.push(GlobalState.rooms[i])
 					}
 				}
 				
@@ -122,7 +131,7 @@
 		
 		private function goToRandomReachableRoom()
 		{
-			ReachableRooms[Math.round(Math.random() * (ReachableRooms.length - 1))].putIn(this);
+			ReachableRooms[Utils.getRandom(ReachableRooms.length - 1)].putIn(this);
 		}
 	}
 	

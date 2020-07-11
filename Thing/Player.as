@@ -4,7 +4,7 @@
 	import flash.events.MouseEvent;
     import flash.geom.Rectangle;
     import flash.geom.ColorTransform;
-	import Globals;
+	import GlobalState;
 	
 	public class Player extends MovieClip {		
 		
@@ -56,17 +56,33 @@
 				gotoAndPlay(1);
 		}
 		
-		function onMouseDown(e:MouseEvent)
+		private function onMouseDown(e:MouseEvent)
 		{
 			if(!alreadyActed)
 			{
 				previousRoom = currentRoom;
 				
 				highlightReachableRooms();
-				startDrag();			
-				mouseEnabled = false;
-				Globals.draggableCharacter = this;	
+				
+				initializeAction();
 			}
+		}
+		
+		private function initializeAction()
+		{
+			GlobalState.draggableCharacter = this;	
+			startDrag();	
+			
+			mouseEnabled = false;
+		}
+		
+		public function finalizeAction()
+		{
+			
+			IsInactive = true;
+			stopDrag();
+			GlobalState.draggableCharacter = null;
+			mouseEnabled = true;
 		}
 		
 		private function highlightReachableRooms()
@@ -98,14 +114,14 @@
 				originRoomIndex = 7;
 			
 			
-			var passabilityList = Globals.passabilityMap[originRoomIndex];
+			var passabilityList = GlobalState.passabilityMap[originRoomIndex];
 								
 				for(var i:int = 0; i < passabilityList.length; i++)
 				{
 					if (passabilityList[i] == 1)
 					{
-						Globals.reachableRooms.push(Globals.rooms[i])
-						Globals.rooms[i].highlightReachable();
+						GlobalState.reachableRooms.push(GlobalState.rooms[i])
+						GlobalState.rooms[i].highlightReachable();
 					}
 				}
 			}

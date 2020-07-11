@@ -2,7 +2,7 @@
 	
 	import flash.display.MovieClip;
 	import flash.events.*; 
-		
+	import Utils;
 	public class ThingApp extends MovieClip {			
 								  
 		var players : Array = [];
@@ -17,7 +17,7 @@
 		{			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
 			
-			Globals.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
+			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
 		
 			initializeThing();	
@@ -27,14 +27,14 @@
 		
 		private function initializePlayers()
 		{
-			var initialRoom = Math.round(Math.random() * (Globals.rooms.length - 1));
+			var initialRoom = Utils.getRandom(GlobalState.rooms.length - 1);
 			
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
 				
 				stage.addChild(player);		
-				Globals.rooms[initialRoom].putIn(player);
+				GlobalState.rooms[initialRoom].putIn(player);
 				players.push(player);
 			}
 		}
@@ -42,11 +42,11 @@
 		private function initializeThing()
 		{
 			var thing = new Thing();
-			Globals.things.push(thing);
+			GlobalState.things.push(thing);
 			
-			var thingsInitialRoom = Math.round(Math.random() * (Globals.rooms.length - 1))
+			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1);
 			
-			Globals.rooms[thingsInitialRoom].putIn(thing);
+			GlobalState.rooms[thingsInitialRoom].putIn(thing);
 			stage.addChild(thing);
 		}
 		
@@ -84,16 +84,16 @@
 			//return random players to their previous rooms
 			var returnRandomPlayer:Function = function(item:*)
 			{
-				if(item.length > 1 && Math.round(Math.random() * 5) > 3)
+				if(item.length > 1 && Utils.getRandom(5) > 3)
 				{
-					var luckyMan:Player = item[Math.round(Math.random() * (item.length - 1))];
+					var luckyMan:Player = item[Utils.getRandom(item.length - 1)];
 						luckyMan.previousRoom.putIn(luckyMan);
 				}
 			}			
 			
 			squads.forEach(returnRandomPlayer);
 			
-			Globals.things.forEach(function(item:*) {item.act()});
+			GlobalState.things.forEach(function(item:*) {item.act()});
 		}
 		
 	}
