@@ -3,10 +3,11 @@
 	import flash.display.MovieClip;
 	import flash.events.*; 
 	import Utils;
+	import flashx.textLayout.formats.BackgroundColor;
 	
 	public class ThingApp extends MovieClip 
 	{			
-		const maxPlayers = 7;
+		const maxPlayers = 5;
 		
 		public function ThingApp() 
 		{
@@ -52,20 +53,8 @@
 			stage.addChild(thing);
 		}
 		
-		private function onTurnEnd(e:KeyboardEvent)
-		{			
-		
-			//to enhance players with syringes
-			var testRoom = GlobalState.rooms.filter(function(item:*) {return item is TestRoom})[0];
-			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.IsInactive});
-			
-			eligiblePlayers.forEach(function(item:*) 
-									{
-										
-										item.equipSyringe(); 
-										//stage.addChild(syringe);
-									});
-									
+		private function identifySquads()
+		{
 			var squads:Array = [];
 			var checkedSquadMembers:Array = [];
 			
@@ -90,40 +79,54 @@
 					//so we wouldn't consider members of the same squad twice
 					checkedSquadMembers.push(GlobalState.players[i]);
 				}
-				///////////////////////////////////////////////////////////
-				
-				//reset action flags			
-				GlobalState.players[i].IsInactive = false;
 			}			
 			
+			return squads;
+		}
+		
+		private function returnRandomSquadMember(squad:*)
+		{
 			//return random players to their previous rooms
 			var returnRandomPlayer:Function = function(item:*)
 			{
-				if(item.length > 1 && Utils.getRandom(5) > 3)
+				if(squad.length > 1 && Utils.getRandom(5) > 3)
 				{
-					var luckyMan:Player = item[Utils.getRandom(item.length - 1)];
+					var luckyMan:Player = squad[Utils.getRandom(item.length - 1)];
 						luckyMan.previousRoom.putIn(luckyMan);
 				}
 			}			
+		}
+		
+		private function onTurnEnd(e:KeyboardEvent)
+		{			
+		
+			//test room gives out syringes
+			room5.enhancePlayers();	
 			
-			squads.forEach(returnRandomPlayer);
-			
-			//////////////////////////////////////////////
-			
-			
-			
+			var squads = identifySquads();			
+			squads.forEach(function(item:*){returnRandomSquadMember(item)});
 			
 			GlobalState.players.forEach(function(item:*) {item.act()});
 			GlobalState.things.forEach(function(item:*) {item.act()});
 			
-			if(GlobalState.rooms.every(function(item:*){return item.IsTakenOver || item.characters.length == 0}))
-			   trace("YOU LOST");
+			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
+			{
+				trace("YOU LOST");
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
+		   
+			}
 			  
 			 if(GlobalState.rooms.every(function(item:*)
 										{return !item.characters.some(function(character:*)
-																	  {return character is Thing})
+																	  {return character is Thing || character.IsInfected})
 										}))
-			   trace("YOU WON");
+		   {
+				trace("YOU WON");
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
+		   }
+		   
+		   //reset action flags
+		   GlobalState.players.forEach(function(item:*){item.IsInactive = false});
 			
 		}
 		

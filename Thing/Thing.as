@@ -81,7 +81,7 @@
 				{
 					var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
 					
-					if(currentRoom.IsTakenOver)
+					if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
 					{					
 						assimilate(victim);
 					}
@@ -161,7 +161,7 @@
 		
 		public function refreshVisibility()
 		{
-			if (currentRoom.IsTakenOver)
+			if (currentRoom.IsTakenOver || !GlobalState.isLightOn)
 			{
 				goInvisible();
 			}
@@ -171,10 +171,6 @@
 			}
 		}
 		
-		public function revealItself()
-		{
-			goVisible();
-		}
 		
 		private function assimilate(victim:Player)
 		{

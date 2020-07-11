@@ -20,7 +20,7 @@
 			//todo: animation with delay
 			if(!owner.IsInactive)
 			{
-				owner.currentRoom.characters.forEach(function(item:*) {item.revealItself()});
+				owner.currentRoom.characters.forEach(function(item:*) {if (item is Player) item.revealItself()});
 				//to reset room coloring
 				owner.currentRoom.putIn(owner);
 				owner.finalizeAction();
