@@ -63,7 +63,8 @@
 					 return item.previousRoom == players[i].previousRoom
 						 && item.currentRoom == players[i].currentRoom
 						 && item.currentRoom != players[i].previousRoom
-						 && item.previousRoom != players[i].currentRoom;
+						 && item.previousRoom != players[i].currentRoom
+						 && item.IsInactive;
 				}
 				
 				if (!checkedSquadMembers.some(checkSameSquad)

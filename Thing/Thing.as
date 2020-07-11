@@ -104,37 +104,21 @@
 				else
 					goToRandomReachableRoom();
 			}
-			
-			/*
-			puppets.forEach(function(item:*)
-							{
-								item.act(function()
-										 {
-											 if(item.currentRoom.IsTakenOver)
-											 {
-											 }
-			
-										 }
-										)
-							});
-			*/
 		}
 		
 		private function assimilate(victim:Player)
 		{
-			//puppets.push(victim);
-			
 			var infection:Function = function()
-			{
+			{				
 				var checkNonInfectedPlayers:Function = function(item:*)
 				{
-					trace(this, currentRoom, "In infection: ", item, item.currentRoom)
 					return item is Player && (!item.IsInfected)
-				}
-				 trace(this, currentRoom, " :outside infectioN")
-				var potentialVictims = currentRoom.characters.filter(checkNonInfectedPlayers);
+				}				
 				
-				if(currentRoom.IsTakenOver && potentialVictims.length > 0)
+				var potentialVictims = this.currentRoom.characters.filter(checkNonInfectedPlayers);
+				trace("Infected in:", this.currentRoom, "potential victims:", potentialVictims.length)
+				
+				if(this.currentRoom.IsTakenOver && potentialVictims.length > 0)
 				{
 					potentialVictims[Utils.getRandom(potentialVictims.length - 1)].IsInfected = infection;
 				}
