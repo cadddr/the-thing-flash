@@ -12,8 +12,6 @@
 		//todo: normalize
 		private const killProbability:Number = 3;
 		
-		
-		private var isDead:Boolean;
 		private var isVisible:Boolean;
 		
 		public function Thing() 

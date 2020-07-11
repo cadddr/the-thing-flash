@@ -8,14 +8,11 @@
 	import Character;
 	
 	public class Player extends Character
-	{		
-		
+	{				
 		//todo: normalize
 		public const killProbability:Number = 2
 		
 		private var alreadyActed:Boolean;
-		
-		public var isDead:Boolean;
 		
 		private var isInfected:Boolean;
 		private var infection:Function;
@@ -110,8 +107,7 @@
 		}
 		
 		public function finalizeAction()
-		{
-			
+		{			
 			IsInactive = true;
 			stopDrag();
 			GlobalState.draggableCharacter = null;

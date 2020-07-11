@@ -5,6 +5,7 @@
 
 		public var currentRoom:Room = null;
 		public var previousRoom:Room = null;
+		public var isDead:Boolean = false;
 		
 		public function Character()
 		{
