@@ -19,13 +19,22 @@
 			
 		}
 		
-		public function commitObservation(room:int)
+		public function commitObservation(room:int, impression:Boolean)
 		{
-			distribution[room] = 1;
+			if(impression)
+			{
+				distribution[room] = 1;
+			}
+			else
+			{
+				// recursively make the thing propagate further through these rooms convoluted with probabilities
+				distribution = GlobalState.thingReachabilityMap[room].map(function(r:*) {if(r==1) return 1 else return 0});
+			}
+			
 			normalize();
 		}
 		
-		public function RoomLikelyhood(room:int)
+		public function roomLikelyhood(room:int)
 		{
 			return distribution[room];
 		}

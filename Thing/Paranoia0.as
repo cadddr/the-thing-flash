@@ -10,7 +10,7 @@
 		private var suspects:Dictionary = new Dictionary();
 		private var numInitialSuspects:int;
 		private var thingModels:Array = [];
-		
+		private var pastDetection:Boolean = false;
 		public function Paranoia0(players:Array) 
 		{
 			numInitialSuspects = players.length;
@@ -21,13 +21,12 @@
 			}
 			
 			thingModels.push(new ThingModel(GlobalState.rooms.indexOf(players[0].currentRoom)));
-			trace(thingModels[0]);
-			
 			
 		}
 	
 		public override function toString():String
 		{
+			traceThingModels();
 			var string = "--------------------------"
 					 + "\n|Infection probabilities:|"
 					 + "\n--------------------------"
@@ -41,17 +40,17 @@
 			return string;
 		}
 		
+		private function traceThingModels()
+		{
+			for(var i:int = 0; i < thingModels.length; i++)
+			{
+				trace("---------------------------------")
+				trace("|Thing",i,"location distribution: |");
+				trace("---------------------------------")
+				trace(thingModels[i]);
+			}
+		}
 		
-		/*
-		What can happen:
-			can get infected by thing
-				precond: outnumbered by thing in a room:
-					ex: 1 on 1: prob + prob(thing_being_there)
-			can get infected by suspect
-			
-			can manifest
-			can syringe
-		*/
 		public function considerEvidence(suspect:Player, isInfected:Boolean)
 		{
 			
@@ -73,8 +72,13 @@
 			{
 				if(victim.currentRoom.VisibleThings.length > 0)
 				{
-					thingModels[0].commitObservation(GlobalState.rooms.indexOf(victim.currentRoom));
-					trace(thingModels[0]);
+					thingModels[0].commitObservation(GlobalState.rooms.indexOf(victim.currentRoom), true);
+					pastDetection = true;
+				}
+				else if(pastDetection)
+				{
+					thingModels[0].commitObservation(GlobalState.rooms.indexOf(victim.currentRoom), false);
+					pastDetection = false;
 				}
 				
 				var numPlayers = victim.Roommates.length + 1;
@@ -83,7 +87,7 @@
 				{
 					
 					var thingMargin = numThings - numPlayers;
-					futureSuspects[victim] +=  Math.pow(1 / numRooms, numThings) + thingMargin / numRooms;
+					futureSuspects[victim] +=  thingModels[0].roomLikelyhood(GlobalState.rooms.indexOf(victim.currentRoom)) + thingMargin / numRooms;
 				}
 				
 				// if the light is off anyone can get infected
