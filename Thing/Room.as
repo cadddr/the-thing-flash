@@ -23,6 +23,26 @@
 			return GlobalState.reachableRooms.indexOf(this) > -1;
 		}
 		
+		public function get IsTakenOver():Boolean
+		{
+			var things = characters.filter(function(item:*) {return item is Thing});
+			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});			
+			
+			return things.length + infectedPlayers.length >= players.length;			
+		}
+		
+		//tells how much the things are outnumbered by non-things
+		public function get PlayerMargin():int
+		{
+			var things = characters.filter(function(item:*) {return item is Thing});
+			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});			
+			
+			return players.length - things.length - infectedPlayers.length;	
+		}
+		
+		
 		private function onMouseOver(e:MouseEvent)
 		{
 			if(IsReachable || GlobalState.draggableCharacter == null)
@@ -85,15 +105,6 @@
 			}
 			
 			GlobalState.reachableRooms = [];
-		}
-		
-		public function get IsTakenOver()
-		{
-			var things = characters.filter(function(item:*) {return item is Thing});
-			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});			
-			
-			return things.length + infectedPlayers.length >= players.length;			
 		}
 		
 		public function putIn(character:MovieClip)

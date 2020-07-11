@@ -5,7 +5,7 @@
 	import Utils;
 	public class ThingApp extends MovieClip {			
 								  
-		var players : Array = [];
+		
 		const maxPlayers = 7;
 		
 		public function ThingApp() 
@@ -32,10 +32,10 @@
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
+				GlobalState.players.push(player);
 				
-				stage.addChild(player);		
 				GlobalState.rooms[initialRoom].putIn(player);
-				players.push(player);
+				stage.addChild(player);					
 			}
 		}
 		
@@ -55,31 +55,31 @@
 			var squads:Array = [];
 			var checkedSquadMembers:Array = [];
 			
-			for (var i:int = 0; i < players.length; i++)
+			for (var i:int = 0; i < GlobalState.players.length; i++)
 			{				
 				//identifying squads of players moving together
 				var checkSameSquad:Function = function(item:*)
 				{
-					 return item.previousRoom == players[i].previousRoom
-						 && item.currentRoom == players[i].currentRoom
-						 && item.currentRoom != players[i].previousRoom
-						 && item.previousRoom != players[i].currentRoom
+					 return item.previousRoom == GlobalState.players[i].previousRoom
+						 && item.currentRoom == GlobalState.players[i].currentRoom
+						 && item.currentRoom != GlobalState.players[i].previousRoom
+						 && item.previousRoom != GlobalState.players[i].currentRoom
 						 && item.IsInactive;
 				}
 				
 				if (!checkedSquadMembers.some(checkSameSquad)
-					&& players[i].IsInactive)
+					&& GlobalState.players[i].IsInactive)
 				{
-					var squad:Array = players.filter(checkSameSquad);
+					var squad:Array = GlobalState.players.filter(checkSameSquad);
 					
 					squads.push(squad);
 					//so we wouldn't consider members of the same squad twice
-					checkedSquadMembers.push(players[i]);
+					checkedSquadMembers.push(GlobalState.players[i]);
 				}
 				///////////////////////////////////////////////////////////
 				
 				//reset action flags			
-				players[i].IsInactive = false;
+				GlobalState.players[i].IsInactive = false;
 			}			
 			
 			//return random players to their previous rooms
@@ -95,7 +95,7 @@
 			squads.forEach(returnRandomPlayer);
 			
 			GlobalState.things.forEach(function(item:*) {item.act()});
-			players.forEach(function(item:*) {item.selfact()});
+			GlobalState.players.forEach(function(item:*) {item.selfact()});
 		}
 		
 	}

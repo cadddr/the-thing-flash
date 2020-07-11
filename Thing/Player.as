@@ -8,9 +8,16 @@
 	
 	public class Player extends MovieClip {		
 		
+		//todo: normalize
+		public const killProbability:Number = 2
+		
 		private var alreadyActed:Boolean;
+		
+		public var isDead:Boolean;
+		
 		public var currentRoom:Room;
 		public var previousRoom:Room;
+		
 		private var isInfected:Boolean;
 		private var infection:Function;
 		
@@ -30,11 +37,8 @@
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
 			
-			
-			
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
-		}
-		
+		}		
 		
 		public function set IsInfected(infection:Function)
 		{
@@ -88,6 +92,16 @@
 				
 				initializeAction();
 			}
+		}
+		
+		public function die()
+		{
+			gotoAndStop(24);
+			//for not acting anymore
+			alreadyActed = true;
+			
+			GlobalState.players.splice(GlobalState.players.indexOf(this), 1);
+			
 		}
 		
 		private function initializeAction()

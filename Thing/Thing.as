@@ -7,18 +7,19 @@
 	
 	public class Thing extends MovieClip {
 		
+		//todo: normalize
+		private const killProbability:Number = 3;
 		public var currentRoom:Room;
+		
 		private var isDead:Boolean;
 		private var isVisible:Boolean;
-		private var puppets:Array;
 		
 		public function Thing() 
-		{
-			
+		{			
 			currentRoom = null;
 			isDead = false;
 			goInvisible();
-			puppets = [];
+			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
@@ -61,7 +62,7 @@
 						var killingDice = Utils.getRandom(6, 1);
 						trace("killing dice:", killingDice);
 						
-						if(killingDice < 3)
+						if(killingDice <= GlobalState.draggableCharacter.killProbability)
 						{
 							IsDead = true;
 						}
@@ -96,11 +97,27 @@
 			if(!isDead)
 			{
 				var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-				if(currentRoom.IsTakenOver && potentialVictims.length > 0)
+				if(potentialVictims.length > 0)
 				{
-					assimilate(potentialVictims[Utils.getRandom(potentialVictims.length - 1)]);
-				}
-				//also a random chance of engaging in open fight
+					var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
+					
+					if(currentRoom.IsTakenOver)
+					{					
+						assimilate(victim);
+					}
+				
+					//also a random chance of engaging in open fight
+					//has to do with player's killing probability
+					else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
+					{
+						attack(victim);
+					}
+					
+					else
+					{						
+						goToRandomReachableRoom();
+					}
+				}				
 				else
 					goToRandomReachableRoom();
 			}
@@ -108,6 +125,7 @@
 		
 		private function assimilate(victim:Player)
 		{
+			//infection to be communicated to victim
 			var infection:Function = function()
 			{				
 				var checkNonInfectedPlayers:Function = function(item:*)
@@ -125,6 +143,12 @@
 			}
 			
 			victim.IsInfected = infection;
+		}
+		
+		private function attack(victim:Player)
+		{
+			if(Utils.getRandom(6, 1) <= killProbability)
+				victim.die();
 		}
 		
 		private function get ReachableRooms()
@@ -171,7 +195,8 @@
 		
 		private function goToRandomReachableRoom()
 		{
-			ReachableRooms[Utils.getRandom(ReachableRooms.length - 1)].putIn(this);
+			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
+			ReachableRooms[randomRoom].putIn(this);
 		}
 	}
 	
