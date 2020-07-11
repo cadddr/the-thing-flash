@@ -140,6 +140,8 @@
 													
 				//assuming the thing will act after players act
 			}
+			
+			revelationCallback(isInfected);
 		}
 				
 		

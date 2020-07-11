@@ -1,50 +1,53 @@
 ﻿package  {
 	import flash.utils.Dictionary;
 	import flash.display.MovieClip;
-	
+	import BeliefState;
 	public class Paranoia extends MovieClip
 	{
-
-		private var suspects:Dictionary = new Dictionary();
-		private var numInitialSuspects:int;
-		public function Paranoia(players:Array) 
+		private var beliefStates:Array = [];
+		private var suspects:Array = [];
+		
+		public function Paranoia(suspects:Array) 
 		{
-			numInitialSuspects = players.length;
-			//suspects.forEach(function(suspect:*){this.suspects[suspect] = 0});			
-			for (var i:int = 0; i < numInitialSuspects; i++)
-			{
-				this.suspects[players[i]] = 0;
-			}
-			
-			
+			var initialState = new BeliefState(suspects, 1);
+			beliefStates.push(initialState);
+						
+			this.suspects = suspects;
 		}
 	
 		public override function toString():String
 		{
-			var string = "--------------------------"
-					 + "\n|Infection probabilities:|"
-					 + "\n--------------------------"
+			var string = "----------"
+					 + "\n|Paranoia|"
+					 + "\n----------"
 					 + "\n";
 			
-			for (var suspect:* in this.suspects)
+			for (var i:int = 0; i < beliefStates.length; i++)
 			{
-				string += suspect + "\t" + this.suspects[suspect] + "\n";
+				string += beliefStates[i].toString() + "\n";
 			}
-			
 			return string;
+		}
+		
+		public function updateBeliefs()
+		{
+			for (var i:int = 0; i < beliefStates.length; i++)
+			{
+				//observed_state * belief_states[] = outcomes[][]
+			}
+		}
+		
+		private function branch()
+		{
+			
+		}
+		
+		private function prune()
+		{
 		}
 		
 		
 		/*
-		What can happen:
-			can get infected by thing
-				precond: outnumbered by thing in a room:
-					ex: 1 on 1: prob + prob(thing_being_there)
-			can get infected by suspect
-			
-			can manifest
-			can syringe
-		*/
 		public function updateProbabilities()
 		{
 			var numInitialThings:Number = 1;
@@ -61,6 +64,8 @@
 				}
 			}
 		}
+		
+		*/
 		
 		public static function length(myDictionary:Dictionary):int 
 		{

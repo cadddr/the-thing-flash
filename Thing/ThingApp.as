@@ -3,7 +3,7 @@
 	import flash.display.MovieClip;
 	import flash.events.*; 
 	import Utils;
-	import Paranoia;
+	import Paranoia0;
 	import flashx.textLayout.formats.BackgroundColor;
 	
 	//todo: hovering players can be underneath other objects
@@ -11,7 +11,7 @@
 	public class ThingApp extends MovieClip 
 	{			
 		const maxPlayers = 5;
-		var paranoia:Paranoia;
+		var paranoia:Paranoia0;
 		
 		public function ThingApp() 
 		{
@@ -27,7 +27,7 @@
 			initializePlayers();
 			initializeThing();	
 			
-			paranoia = new Paranoia(GlobalState.players);
+			paranoia = new Paranoia0(GlobalState.players);
 			
 		}		
 		
@@ -39,6 +39,7 @@
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
+				player.revelationCallback = function(isInfected:Boolean){paranoia.considerEvidence();}
 				GlobalState.players.push(player);
 				
 				GlobalState.rooms[initialRoom].putIn(player);
