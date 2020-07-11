@@ -15,7 +15,6 @@
 		
 		override protected function onClick(e:MouseEvent)
 		{			
-			//todo: animation with delay
 			if(!owner.IsInactive)
 			{
 				trace(owner, "has used syringe");
@@ -23,7 +22,7 @@
 				owner.currentRoom.characters.forEach(function(item:*) {if (item is Player) item.revealItself()});
 				
 				//to reset room coloring
-				owner.currentRoom.putIn(owner);
+				//owner.currentRoom.putIn(owner);
 				owner.finalizeAction();
 			}
 			//todo: disposable syringe
@@ -32,7 +31,6 @@
 		private function dispose()
 		{
 			this.gotoAndStop(1);
-			trace("disp")
 			this.visible = false;
 		}
 	}
