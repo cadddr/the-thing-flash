@@ -39,6 +39,7 @@
 		public static var draggableCharacter:Player;
 		public static var isLightOn:Boolean = true;
 		
+		public static var plantedCharges:Array = [];
 		
 			
 	}
