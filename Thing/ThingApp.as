@@ -3,25 +3,11 @@
 	import flash.display.MovieClip;
 	import flash.events.*; 
 		
-	public class ThingApp extends MovieClip {
-		
-		var passabilityMap : Array = [[0, 0, 0, 0, 0, 0, 1, 1],
-								  [0, 0, 0, 0, 0, 0, 1, 0],
-								  [0, 0, 0, 0, 0, 0, 1, 0],
-								  [0, 0, 0, 0, 0, 0, 1, 0],
-								  [0, 0, 0, 0, 0, 0, 0, 1],
-								  [0, 0, 0, 0, 0, 0, 0, 1],
-								  [1, 1, 1, 1, 0, 0, 0, 1],
-								  [0, 0, 0, 0, 1, 1, 1, 0]];
+	public class ThingApp extends MovieClip {			
 								  
 		var rooms : Array = [];
-		var redPlayers : Vector.<MovieClip> = new Vector.<MovieClip>();
+		var players : Vector.<MovieClip> = new Vector.<MovieClip>();
 		const maxPlayers = 7;
-		
-		public var myMegaPlayer : Player;
-		var c = 0;
-		
-		
 		
 		public function ThingApp() 
 		{
@@ -30,27 +16,29 @@
 		
 		private function onAddedToStage(e:Event) : void 
 		{
-		
-			stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
 			
 			
+			
+			//so that we could undrag the player
+			stage.addEventListener(MouseEvent.MOUSE_UP, monMouseUp);			
 			
 			rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
+			
+			var initialRoomNumber = Math.round(Math.random() * (rooms.length - 1));
 			
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player(String.fromCharCode(97 + i));
 				
-				redPlayers.push(player);
-				parent.addChild(player);
+				players.push(player);
+				stage.addChild(player);
 				
-				rooms[7].PutInCorridor8(player, rooms[7]);
+								
+				rooms[initialRoomNumber].putIn(player);
+				
 			}
 			
-			var roomNumber = Math.round(Math.random() * (rooms.length - 1));
 			
-			trace(roomNumber + 1);
-			//PutInRoom(redPlayer, rooms[roomNumber]);
 			
 		}	
 		
@@ -63,6 +51,7 @@
 			    Globals.draggableCharacter = null;
 			}
 		}
+		
 		
 	}
 	

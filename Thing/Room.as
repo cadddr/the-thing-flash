@@ -6,7 +6,7 @@
 	
 	public class Room extends MovieClip {
 		
-		var id : int;
+		public var id : int;
 		var destroyed : Boolean = false;
 		var type : String;
 		var characters : Array = []
@@ -15,26 +15,14 @@
 		public function Room(id : int = -1, type : String = "regular") 
 		{
 			this.id = id;
-			this.type = type;
-			
+			this.type = type;			
 			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, function() {gotoAndStop(2);});
-			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});
+			addEventListener(MouseEvent.MOUSE_OUT, function() {gotoAndStop(1)});			
 			
-			
+			//for putting draggable players into rooms
 			//addEventListener(MouseEvent.MOUSE_UP, monMouseUp);
-					
-		}
-		
-		private function onMouseOver(event : MouseEvent) 
-		{
-			//trace(Globals.draggableCharacter as Player);
-			//if (Globals.highlightedRoom != null)
-				//Globals.highlightedRoom.gotoAndStop(1); 
-			//Globals.highlightedRoom = this;
-			
-			gotoAndStop(2); 
 		}
 		
 		private function monMouseUp(event : MouseEvent)
@@ -46,18 +34,24 @@
 			//	//draggableCharacter.mouseEnabled = true;
 			//	PutInRoom(draggableCharacter, this);
 			//	Globals.draggableCharacter = null;
-			//}
-			
+			//}	
+		}
+		
+		public function putIn(character:MovieClip)
+		{			
+			trace(this);
+			if (this is Room7)
+				positionInCorridor7(character, this); 
+			else if (this is Room8)
+				positionInCorridor8(character, this); 
+			else
+				positionInRoom(character, this);
 			
 		}
 		
 		// puts a character at a random location within a specified room
-		private function PutInRoom(whom : MovieClip, where : MovieClip)
-		{					
-		
-			
-			trace(where.x, where.y);
-			
+		private function positionInRoom(whom : MovieClip, where : MovieClip)
+		{							
 			var offset_x = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * where.width / 2;
 			var correction_x = offset_x < 0 ? whom.width / 2 : - whom.width / 2
 								
@@ -67,12 +61,9 @@
 			var correction_y = offset_y < 0 ? whom.height / 2 : - whom.height / 2
 			
 			whom.y = where.y + offset_y + correction_y;	
-			
-			trace(offset_x + correction_x, offset_y + correction_y);
-			trace(whom.x, whom.y);
 		}
 		
-		private function PutInCorridor7(whom : MovieClip, where : MovieClip)
+		private function positionInCorridor7(whom : MovieClip, where : MovieClip)
 		{
 			const wideness = 39.25;
 			var offset_x = 0;
@@ -122,7 +113,7 @@
 			whom.y = where.y + offset_y;
 		}
 		
-		public function PutInCorridor8(whom : MovieClip, where : MovieClip)
+		private function positionInCorridor8(whom : MovieClip, where : MovieClip)
 		{
 			const wideness = 39.25;
 			var offset_x = 0;
