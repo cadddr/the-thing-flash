@@ -1,6 +1,5 @@
 ﻿package 
 {
-
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import GlobalState;
@@ -140,10 +139,6 @@
 			var offset_y = Math.pow(-1,Math.round(Math.random() + 1)) * Math.random() * where.height / 2;
 			var correction_y = offset_y < 0 ? whom.height / 2: -  whom.height / 2;
 			whom.y = where.y + offset_y + correction_y;
-		}
-
-		
-			
+		}		
 	}
-
 }

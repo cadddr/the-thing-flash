@@ -12,43 +12,15 @@
 		//todo: normalize
 		public const killProbability:Number = 2
 		
-		private var alreadyActed:Boolean;
+		private var alreadyActed:Boolean = false;
 		
-		private var isInfected:Boolean;
-		private var infection:Function;
-		
-		public function Player() 
-		{				
-			alreadyActed = false;
-			
-			infection = null;
-			isInfected = false;
-			
-			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			// mouse up handled by stage
-			
-			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
-			
-			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
-		}		
-		
-		public function set IsInfected(infection:Function)
-		{
-			if(GlobalState.DEBUG)
-				alpha = 0.2;
-			
-			this.infection = infection;
-			
-			if(infection != null)
-				isInfected = true;
-		}
+		private var isInfected:Boolean = false;
 		
 		public function get IsInfected()
 		{
 			return isInfected;
 		}
+		
 		public function set IsInactive(value)
 		{
 			if(value)
@@ -63,6 +35,18 @@
 		{
 			return alreadyActed;
 		}
+		
+		public function Player() 
+		{							
+			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			// mouse up handled by stage
+			
+			//highlighting
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
+			
+			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+		}		
 		
 		private function onMouseOver(e:MouseEvent)
 		{
@@ -88,14 +72,24 @@
 			}
 		}
 		
-		public function die()
+		public function getInfected(infection:Function)
+		{
+			if(GlobalState.DEBUG)
+				alpha = 0.2;
+			
+			policy = infection;
+			
+			if(infection != null)
+				isInfected = true;
+		}
+		
+		override public function die()
 		{
 			gotoAndStop(24);
 			//for not acting anymore
 			alreadyActed = true;
 			
-			GlobalState.players.splice(GlobalState.players.indexOf(this), 1);
-			
+			GlobalState.players.splice(GlobalState.players.indexOf(this), 1);			
 		}
 		
 		private function initializeAction()
@@ -112,12 +106,6 @@
 			stopDrag();
 			GlobalState.draggableCharacter = null;
 			mouseEnabled = true;
-		}
-		
-		public function selfact()
-		{			
-			if(infection != null)
-				infection();
 		}
 		
 		private function highlightReachableRooms() 
