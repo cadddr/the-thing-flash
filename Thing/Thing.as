@@ -23,6 +23,16 @@
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
+		
+		public function set IsDead(value)
+		{
+			if (value)
+			{
+				gotoAndStop(22);
+				isDead = true;
+				mouseEnabled = false;
+			}
+		}
 		private function onMouseOver(e:MouseEvent)
 		{
 			if(!isDead)
@@ -32,7 +42,7 @@
 		
 		private function onMouseOut(e:MouseEvent)
 		{
-			
+			if(!isDead)
 				gotoAndStop(1);
 		}
 		
@@ -47,24 +57,15 @@
 						var killingDice = Utils.getRandom(6, 1);
 						trace("killing dice:", killingDice);
 						
-						if(killingDice < 3)
+						if(killingDice < 7)
 						{
-							transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
-							isDead = true;
-							mouseEnabled = false;
+							IsDead = true;
 						}
-						
-						//needs refactoring
-						
-					
+						else
+							gotoAndStop(1);
+							
 					currentRoom.putIn(GlobalState.draggableCharacter as Player);
 					GlobalState.draggableCharacter.finalizeAction();
-					
-					
-					gotoAndStop(1);
-					
-					
-					
 			}
 		}
 		
