@@ -47,13 +47,21 @@
 		private function onAddedToStage(e:Event) : void 
 		{			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			btn_endTurn.addEventListener(MouseEvent.CLICK, function(e:*){endTurn()});
+			btn_endTurn.addEventListener(MouseEvent.CLICK, function(e:*)
+										 				   {
+															   endTurn();
+														   });
+														   
 			room2.lightSwitch.addEventListener("lightSwitched", function(e:*)
-										 				  {
-															  Things.forEach(function(thing:*) {thing.refreshVisibility()});  
-														  });
+															    {
+																    Things.forEach(function(thing:*) 
+																				   {
+																					   thing.refreshVisibility();
+																				   });  
+															    });
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];			
+			reachabilityMaps2AdjacencyLists(GlobalState.rooms);
 			
 			initializePlayers();
 			initializeThing();	
@@ -61,6 +69,26 @@
 			//paranoia = new Paranoia0(GlobalState.players);
 			
 		}		
+		
+		//todo: make look nicer
+		private function reachabilityMaps2AdjacencyLists(rooms:Array)
+		{
+			for(var i:int = 0; i < rooms.length; i++)
+			{
+				for(var j:int = 0; j < GlobalState.playerReachabilityMap[i].length; j++)
+				{
+					if(GlobalState.playerReachabilityMap[i][j] == 1)
+					{
+						rooms[i].accessibleRooms.push(rooms[j]);
+					}
+					
+					if(GlobalState.thingReachabilityMap[i][j] == 1)
+					{
+						rooms[i].adjacentRooms.push(rooms[j]);
+					}
+				}
+			}
+		}
 		
 		private function initializePlayers()
 		{
@@ -121,8 +149,7 @@
 					//so we wouldn't consider members of the same squad twice
 					checkedSquadMembers.push(Players[i]);
 				}
-			}			
-			
+			}				
 			return squads.filter(function(squad:*) {return squad.length > 1});
 		}
 		
@@ -158,7 +185,10 @@
 			room4.enhancePlayers();
 			
 			var squads = identifySquads();
-			squads.forEach(function(squad:*) {returnRandomSquadMember(squad)});
+			squads.forEach(function(squad:*) 
+						   {
+							   returnRandomSquadMember(squad)
+						   });
 			
 			Players.forEach(function(item:*) {item.act()});
 			Things.forEach(function(item:*) {item.act()});

@@ -55,8 +55,6 @@
 			addEventListener(MouseEvent.MOUSE_OUT, unhighlight);		
 
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
-			
-			reachabilityMap = GlobalState.playerReachabilityMap;
 		}		
 		
 		public function equipSyringe()
@@ -71,11 +69,6 @@
 			trace(this, "has equipped explosive charge")
 			this.mycharge.visible = true;
 			this.mycharge.owner = this;
-		}
-		
-		public override function toString():String
-		{
-			return "Player " + this.transform.colorTransform.color.toString(16);
 		}
 		
 		private function highlight(e:MouseEvent)
@@ -98,15 +91,13 @@
 				{	
 					trace("Is", this, "going to refuse to execute the order?");
 					if(Utils.getRandom(6,1) <= GlobalState.humanInfectedRefusalProbability)						
-						{
-							this.revealItself();
-							return;
-						}
+					{
+						this.revealItself();
+						return;
+					}
 				}
-				
-				highlightReachableRooms();
+				currentRoom.highlightReachableRooms(true);
 				initializeAction();
-				
 			}
 		}
 		
@@ -181,9 +172,9 @@
 			mouseEnabled = true;
 		}
 		
-		private function highlightReachableRooms() 
-		{			
-			ReachableRooms.forEach(function(room:*) {room.highlightReachable()});
+		public override function toString():String
+		{
+			return "Player " + this.transform.colorTransform.color.toString(16);
 		}
 		
 	}

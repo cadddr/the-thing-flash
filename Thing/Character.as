@@ -8,8 +8,6 @@
 		public var currentRoom:Room = null;
 		public var previousRoom:Room = null;
 		
-		protected var reachabilityMap:Array = null;
-		
 		public var isDead:Boolean = false;
 		
 		public function set IsVisible(value:Boolean)
@@ -20,16 +18,12 @@
 				alpha = 0.3;
 		}
 		
-		public function get ReachableRooms():Array
+		
+		protected function get ReachableRooms():Array
 		{
-			var originRoomIndex:int = GlobalState.rooms.indexOf(currentRoom);			
-			var passabilityList = reachabilityMap[originRoomIndex];				
-			
-			return GlobalState.rooms.filter(function (room:*) 
-											{
-												return Boolean(passabilityList[GlobalState.rooms.indexOf(room)])
-											});	
+			return currentRoom.accessibleRooms;
 		}
+		
 		
 		public function Character()
 		{
@@ -60,8 +54,7 @@
 				ReachableRooms.forEach(function(item:*){item.unhighlight()});
 				previousRoom = currentRoom;
 				
-				currentRoom.getOut(this);
-				
+				currentRoom.getOut(this);				
 			}
 		}
 	}

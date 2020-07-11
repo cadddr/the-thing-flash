@@ -8,11 +8,29 @@
 	public class Room extends MovieClip
 	{
 		protected var guests:Array = [];
-	
-		protected function get IsReachable():Boolean
+		
+		public var accessibleRooms:Array = [];
+		public var adjacentRooms:Array = [];
+		
+		protected var isReachable:Boolean = false;
+		
+		public function get IsReachable():Boolean
 		{
-			return GlobalState.draggableCharacter 
-				&& GlobalState.draggableCharacter.ReachableRooms.indexOf(this) > -1;
+			return isReachable;
+		}
+		
+		public function set IsReachable(value:Boolean)
+		{
+			isReachable = value;
+			
+			if(value)
+			{
+				highlightReachable();
+			}
+			else
+			{
+				unhighlight();
+			}
 		}
 		
 		public function get Things():Array
@@ -51,14 +69,10 @@
 			return NonInfectedPlayerMargin <= 0;
 		}
 		
-		
-		
 		public function get VisibleThings()
 		{
 			return Things.filter(function(item:*) {return item.isVisible});
 		}
-		
-		
 
 		public function Room()
 		{
@@ -111,6 +125,8 @@
 					putIn(draggableCharacter);
 					draggableCharacter.finalizeAction();
 				}
+				
+				highlightReachableRooms(false);
 			}
 		}
 
@@ -134,6 +150,14 @@
 			gotoAndStop(4);
 		}
 
+		public function highlightReachableRooms(shouldHighlight:Boolean) 
+		{			
+			accessibleRooms.forEach(function(room:*) 
+									{
+										room.IsReachable = shouldHighlight;
+										
+									});
+		}
 
 		public function putIn(character:Character)
 		{

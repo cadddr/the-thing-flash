@@ -24,6 +24,11 @@
 			}
 		}
 		
+		override protected function get ReachableRooms():Array
+		{
+			return currentRoom.adjacentRooms;
+		}
+		
 		public function Thing() 
 		{			
 			trace("One more", this);
@@ -34,9 +39,7 @@
 			
 			//for getting attacked by the dragged player
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			
-			reachabilityMap = GlobalState.thingReachabilityMap;
-			
+
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
