@@ -9,6 +9,14 @@
 		
 		public var isDead:Boolean = false;
 		
+		public function set Visible(value:Boolean)
+		{
+			if(value)
+				alpha = 1;
+			else
+				alpha = 0.3;
+		}
+		
 		public function Character()
 		{
 		}
@@ -37,6 +45,8 @@
 				currentRoom.characters.splice(characterIndex, 1);
 			}
 		}
+		
+		
 
 	}
 	

@@ -96,6 +96,19 @@
 			
 			squads.forEach(returnRandomPlayer);
 			
+			//////////////////////////////////////////////
+			
+			//to enhance players with syringes
+			var testRoom = GlobalState.rooms.filter(function(item:*) {return item is TestRoom})[0];
+			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.alreadyActed});
+			
+			eligiblePlayers.forEach(function(item:*) 
+									{
+										var syringe = new Syringe(item);
+										item.Syringe = syringe; 
+										stage.addChild(syringe);
+									});
+			
 			
 			GlobalState.players.forEach(function(item:*) {item.act()});
 			GlobalState.things.forEach(function(item:*) {item.act()});

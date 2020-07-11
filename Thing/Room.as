@@ -33,6 +33,11 @@
 
 			return players.length - things.length - infectedPlayers.length;
 		}
+		
+		public function get Players()
+		{
+			return characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+		}
 
 		public function Room()
 		{

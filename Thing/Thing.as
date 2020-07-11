@@ -171,6 +171,11 @@
 			}
 		}
 		
+		public function revealItself()
+		{
+			goVisible();
+		}
+		
 		private function assimilate(victim:Player)
 		{
 			//infection to be communicated to victim
@@ -193,29 +198,7 @@
 				}
 				else
 				{					
-					var revealedThing = new Thing();
-					GlobalState.things.push(revealedThing);
-					stage.addChild(revealedThing);
-					
-					var tmpX = this.x;
-					var tmpY = this.y;
-					
-					var tmpRoom = this.currentRoom;
-					
-					this.die();
-					stage.removeChild(this);
-					
-					tmpRoom.putIn(revealedThing);
-					
-					revealedThing.x = tmpX;
-					revealedThing.y = tmpY;
-										
-					
-						
-					
-					
-					//assuming the thing will act after players act
-					
+					//this.revealItself();				
 					
 				}
 				

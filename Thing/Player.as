@@ -1,7 +1,7 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
-	import flash.events.MouseEvent;
+	import flash.events.*;
     import flash.geom.Rectangle;
     import flash.geom.ColorTransform;
 	import GlobalState;
@@ -12,9 +12,26 @@
 		//todo: normalize
 		public const killProbability:Number = 2
 		
-		private var alreadyActed:Boolean = false;
+		public var alreadyActed:Boolean = false;
 		
 		private var isInfected:Boolean = false;
+		private var syringe:Syringe = null;
+		
+		override public function set x(n:Number):void
+		{
+			super.x = n;
+			
+			if(this.syringe)
+				this.syringe.x = this.x + 20;
+		}
+		
+		override public function set y(n:Number):void
+		{
+			super.y = n;
+			
+			if(this.syringe)
+				this.syringe.y = this.y;
+		}
 		
 		public function get IsInfected()
 		{
@@ -36,6 +53,17 @@
 			return alreadyActed;
 		}
 		
+		public function set Syringe(syringe:Syringe)
+		{
+			if(!this.syringe)
+			{
+				this.syringe = syringe;
+				this.syringe.x = this.x + 20;
+				this.syringe.y = this.y;
+			}
+		}
+		
+		
 		public function Player() 
 		{							
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -43,7 +71,9 @@
 			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);		
+			
+			//addEventListener(Event.ENTER_FRAME, function(e:Event) {if(syringe != null){syringe.x = this.x; syringe.y = this.y}});
 			
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}		
@@ -75,13 +105,40 @@
 		public function getInfected(infection:Function)
 		{
 			if(GlobalState.DEBUG)
-				alpha = 0.3;
+				this.Visible = false;
 			
 			policy = infection;
 			
 			if(infection != null)
 				isInfected = true;
 		}
+		
+		public function revealItself()
+		{
+			if (isInfected)
+			{
+				var revealedThing = new Thing();
+				GlobalState.things.push(revealedThing);
+				stage.addChild(revealedThing);
+				
+				var tmpX = this.x;
+				var tmpY = this.y;
+				
+				var tmpRoom = this.currentRoom;
+				
+				this.die();
+				stage.removeChild(this);
+				
+				tmpRoom.putIn(revealedThing);
+				
+				revealedThing.x = tmpX;
+				revealedThing.y = tmpY;
+													
+				//assuming the thing will act after players act
+			}
+		}
+		
+		
 		
 		override public function die()
 		{
@@ -98,6 +155,7 @@
 			GlobalState.draggableCharacter = this;	
 			startDrag();	
 			
+			
 			mouseEnabled = false;
 		}
 		
@@ -105,6 +163,7 @@
 		{			
 			IsInactive = true;
 			stopDrag();
+			
 			GlobalState.draggableCharacter = null;
 			mouseEnabled = true;
 		}
