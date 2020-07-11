@@ -6,6 +6,7 @@
 	import GlobalState;
 	import Character;
 	import Room;
+	import flash.events.Event;
 	
 	public class Thing extends Character 
 	{		
@@ -120,6 +121,8 @@
 			isVisible = true;
 			alpha = 1;
 			this.mouseEnabled = true;
+			
+			dispatchEvent(new Event("ThingRevealed"));
 		}
 		
 		public function goInvisible()

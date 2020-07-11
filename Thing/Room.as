@@ -38,6 +38,11 @@
 		{
 			return characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
 		}
+		
+		public function get VisibleThings()
+		{
+			return characters.filter(function(character:*) {return character is Thing && character.isVisible});
+		}
 
 		public function Room()
 		{

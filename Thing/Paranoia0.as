@@ -1,22 +1,27 @@
-﻿package  {
+﻿package  
+{
 	import flash.utils.Dictionary;
 	import flash.display.MovieClip;
 	import flashx.textLayout.elements.ParagraphElement;
+	import ThingModel;
 	
 	public class Paranoia0 extends MovieClip
 	{
-
 		private var suspects:Dictionary = new Dictionary();
 		private var numInitialSuspects:int;
+		private var thingModels:Array = [];
 		
 		public function Paranoia0(players:Array) 
 		{
 			numInitialSuspects = players.length;
-			//suspects.forEach(function(suspect:*){this.suspects[suspect] = 0});			
+			
 			for (var i:int = 0; i < numInitialSuspects; i++)
 			{
 				this.suspects[players[i]] = 0;
 			}
+			
+			thingModels.push(new ThingModel(GlobalState.rooms.indexOf(players[0].currentRoom)));
+			trace(thingModels[0]);
 			
 			
 		}
@@ -56,6 +61,8 @@
 		
 		public function updateProbabilities()
 		{
+			
+			
 			var numInitialThings:Number = 1;
 			var numThings:Number = numInitialSuspects - length(suspects) + numInitialThings;
 			var numRooms:Number = 8;
@@ -64,6 +71,12 @@
 			
 			for(var victim:* in this.suspects)
 			{
+				if(victim.currentRoom.VisibleThings.length > 0)
+				{
+					thingModels[0].commitObservation(GlobalState.rooms.indexOf(victim.currentRoom));
+					trace(thingModels[0]);
+				}
+				
 				var numPlayers = victim.Roommates.length + 1;
 				// consider closed thing's attack scenario
 				if(victim.Roommates.length < numThings)
