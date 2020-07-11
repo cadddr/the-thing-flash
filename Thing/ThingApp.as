@@ -29,16 +29,26 @@
 				Globals.rooms[initialRoom].putIn(player);
 				players.push(player);
 			}
+			
+			//initialize thing
+			var thing = new Thing();
+			Globals.things.push(thing);
+			
+			var thingsInitialRoom = Math.round(Math.random() * (Globals.rooms.length - 1))
+			
+			Globals.rooms[thingsInitialRoom].putIn(thing);
+			stage.addChild(thing);
+			
 		}		
 		
 		private function onTurnEnd(e:KeyboardEvent)
 		{			
-			//return random players to their previous rooms
 			var squads:Array = [];
 			var checkedSquadMembers:Array = [];
 			
 			for (var i:int = 0; i < players.length; i++)
 			{				
+				//identifying squads of players moving together
 				var checkSameSquad:Function = function(item:*)
 				{
 					 return item.previousRoom == players[i].previousRoom
@@ -49,27 +59,22 @@
 				
 				if (!checkedSquadMembers.some(checkSameSquad)
 					&& players[i].IsInactive)
-					
 				{
-					
 					var squad:Array = players.filter(checkSameSquad);
 					
-					trace(i, squads);
-					//var checkDuplicateSquads:Function = function(item:*)
-					//{
-					//	return item.some(function(item2:*) {squad.indexOf(item2) == -1})
-					//}
-					
-					//if (!squads.some(checkDuplicateSquads))
-					squads.push(squad);			
+					trace(i, squad);
+				
+					squads.push(squad);
+					//so we wouldn't consider members of the same squad twice
 					checkedSquadMembers.push(players[i]);
 				}
+				///////////////////////////////////////////////////////////
 				
 				//reset action flags			
 				players[i].IsInactive = false;
 			}			
 			
-			
+			//return random players to their previous rooms
 			var returnRandomPlayer:Function = function(item:*)
 			{
 				if(item.length > 1 && Math.round(Math.random() * 5) > 3)
@@ -81,7 +86,7 @@
 			
 			squads.forEach(returnRandomPlayer);
 			
-			
+			Globals.things.forEach(function(item:*) {item.act()});
 		}
 		
 	}
