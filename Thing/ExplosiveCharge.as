@@ -44,12 +44,17 @@
 			//explode
 			if(isCharged && GlobalState.draggableCharacter != null)
 			{
-				trace(currentRoom);
-				currentRoom.characters.forEach(function(item:*) {item.die()});
-				stage.removeChild(this);
 				
 				GlobalState.draggableCharacter.currentRoom.putIn(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
+				
+				trace("Charge exploded in", currentRoom);
+				//cloning to avoid mutability problems
+				var tempChars = currentRoom.characters.concat();
+				tempChars.forEach(function(item:*) {item.die()});
+				gotoAndPlay(2);
+				
+				
 			}
 				
 		}
