@@ -8,9 +8,6 @@
 	
 	public class Thing extends Character 
 	{		
-		//todo: normalize
-		private const killProbability:Number = 3;
-		
 		private var isVisible:Boolean;
 		
 		public function set IsDead(value)
@@ -20,6 +17,7 @@
 				gotoAndStop(22);
 				isDead = true;
 				mouseEnabled = false;
+				this.goVisible();
 			}
 		}
 		
@@ -67,6 +65,8 @@
 		
 		public function Thing() 
 		{			
+			trace("One more", this);
+			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
@@ -83,25 +83,24 @@
 					var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
 					if(potentialVictims.length > 0)
 					{
+						trace(this, "is choosing whom to assimilate")
 						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
 						
 						if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
 						{					
 							assimilate(victim);
-						}
-					
+						}					
 						//also a random chance of engaging in open fight
 						//has to do with player's killing probability
-						else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * 2)
-						{
-							attack(victim);
-						}
 						
-						else
-						{						
-							goToAnotherRandomReachableRoom();
-							
-						}
+						else 
+						{
+							trace(this, "is deciding on whether to engage in an open fight");
+							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * 2)						
+								attack(victim)
+							else												
+								goToAnotherRandomReachableRoom();					
+						}									
 					}				
 					else
 						goToRandomReachableRoom();
@@ -133,11 +132,10 @@
 				if(GlobalState.draggableCharacter)
 				   if(currentRoom == GlobalState.draggableCharacter.currentRoom)
 			 	   {	
-						//dice roll should be 2 or 1
-						var killingDice = Utils.getRandom(6, 1);
-						trace(GlobalState.draggableCharacter, "is attacking", this, "\n\tdice:", killingDice);
+						trace(GlobalState.draggableCharacter, "is attacking", this);
 						
-						if(killingDice <= GlobalState.draggableCharacter.killProbability)
+						//dice roll should be 2 or 1
+						if(Utils.getRandom(6, 1) <= GlobalState.humanKillingProbability)
 						{
 							die();
 						}
@@ -197,6 +195,7 @@
 				{
 					if(potentialVictims.length > 0)
 					{
+						trace(this, "is choosing whom to assimilate")
 						potentialVictims[Utils.getRandom(potentialVictims.length - 1)].getInfected(infection);
 					}
 				}
@@ -221,22 +220,22 @@
 		
 		private function attack(victim:Player)
 		{
-			var attackingDice = Utils.getRandom(6, 1);
+			trace(this, "is attacking", victim);
 			
-			trace(this, "is attacking", victim, "\n\tdice:", attackingDice);
-			
-			if(attackingDice <= killProbability)
+			if(Utils.getRandom(6, 1) <= GlobalState.thingKillingProbability)
 				victim.die();
 		}
 				
 		private function goToRandomReachableRoom()
 		{
+			trace(this, "is moving to a random reachable room");
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
 			ReachableRooms[randomRoom].putIn(this);
 		}
 		
 		private function goToAnotherRandomReachableRoom()
 		{
+			trace(this, "is moving to a different room");
 			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			ReachableRooms[randomRoom].putIn(this);

@@ -8,10 +8,7 @@
 	import Character;
 	
 	public class Player extends Character
-	{				
-		//todo: normalize
-		public const killProbability:Number = 2
-		
+	{						
 		private var alreadyActed:Boolean = false;		
 		private var isInfected:Boolean = false;
 		
@@ -125,6 +122,8 @@
 				
 				revealedThing.x = tmpX;
 				revealedThing.y = tmpY;
+				
+				revealedThing.goVisible();
 													
 				//assuming the thing will act after players act
 			}

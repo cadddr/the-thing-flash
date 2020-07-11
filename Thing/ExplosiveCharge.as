@@ -16,12 +16,11 @@
 		}
 		
 		override protected function onClick(e:MouseEvent)
-		{
-			trace(owner, "has planted explosive charge in", owner.currentRoom);
-			
-			//todo: animation with delay
+		{			
 			if(!owner.IsInactive)
 			{
+				trace(owner, "has planted explosive charge in", owner.currentRoom);
+				
 				this.visible = false;
 				
 				var plantedCharge = new ExplosiveCharge();

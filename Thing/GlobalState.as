@@ -4,6 +4,10 @@
 	public class GlobalState {
 
 		public static var DEBUG:Boolean = false;
+		//out of 6
+		public static var leftBehindProbability:Number = 5
+		public static var humanKillingProbability:Number = 2;
+		public static var thingKillingProbability:Number = 3;
 		
 		public static var rooms:Array;
 		public static var things:Array = [];

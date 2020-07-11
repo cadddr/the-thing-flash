@@ -12,6 +12,8 @@
 			}
 			while(rand == exclusion);
 			
+			trace("\tdice:", rand)
+			
 			return  rand;
 		}
 		
