@@ -48,7 +48,7 @@
 				else
 				{
 					switchLightRetries++;
-					var potentialVictims = currentRoom.Players;
+					var potentialVictims = currentRoom.NonInfectedPlayers;
 					if(potentialVictims.length > 0)
 					{
 						trace(this, "is choosing whom to assimilate")
@@ -63,7 +63,7 @@
 						else 
 						{
 							trace(this, "is deciding on whether to engage in an open fight");
-							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * GlobalState.thingCautiousnessLevel)						
+							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * GlobalState.thingCautiousnessLevel)						
 								attack(victim)
 							else												
 								goToAnotherRandomReachableRoom();		

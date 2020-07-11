@@ -18,8 +18,8 @@
 			if(!owner.IsInactive)
 			{
 				trace(owner, "has used syringe");
+				owner.currentRoom.revealInfectedPlayers();
 				gotoAndPlay(1);
-				owner.currentRoom.characters.forEach(function(item:*) {if (item is Player) item.revealItself()});
 				owner.finalizeAction();
 			}
 		}

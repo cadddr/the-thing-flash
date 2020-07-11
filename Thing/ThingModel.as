@@ -34,6 +34,23 @@
 			normalize();
 		}
 		
+		public function update()
+		{
+			var futureDistribution = distribution;
+			for(var i:int = 0; i < futureDistribution.length; i++)
+			{
+				var branchingFactor = GlobalState.thingReachabilityMap[i].length;
+				for(var j:int = 0; j < futureDistribution.length; j++)
+				{
+					futureDistribution[j] += GlobalState.thingReachabilityMap[i][j] / branchingFactor;
+				}
+			}
+			
+			distribution = futureDistribution;
+			
+			normalize();
+		}
+		
 		public function roomLikelyhood(room:int)
 		{
 			return distribution[room];

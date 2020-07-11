@@ -57,9 +57,8 @@
 		private function explode()
 		{			
 			trace("Charge exploded in", currentRoom);
-			//cloning to avoid mutability problems
-			var tempChars = currentRoom.characters.concat();
-			tempChars.forEach(function(item:*) {item.die()});
+			
+			currentRoom.killGuests();
 			gotoAndPlay(2);
 		}
 	}

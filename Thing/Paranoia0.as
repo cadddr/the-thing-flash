@@ -80,6 +80,10 @@
 					thingModels[0].commitObservation(GlobalState.rooms.indexOf(victim.currentRoom), false);
 					pastDetection = false;
 				}
+				else
+				{
+					thingModels[0].update();
+				}
 				
 				var numPlayers = victim.Roommates.length + 1;
 				// consider closed thing's attack scenario

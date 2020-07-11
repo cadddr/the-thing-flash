@@ -21,13 +21,14 @@
 		private function onAddedToStage(e:Event) : void 
 		{			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			btn_endTurn.addEventListener(MouseEvent.CLICK, function(e:*){endTurn()});
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];			
 			
 			initializePlayers();
 			initializeThing();	
 			
-			paranoia = new Paranoia0(GlobalState.players);
+			//paranoia = new Paranoia0(GlobalState.players);
 			
 		}		
 		
@@ -39,7 +40,7 @@
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
-				player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
+				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 				
 				GlobalState.players.push(player);
 				
@@ -122,10 +123,7 @@
 		}
 		
 		private function endTurn()
-		{			
-			
-			
-			
+		{						
 			//test room gives out syringes
 			room5.enhancePlayers();	
 			
@@ -138,17 +136,15 @@
 			GlobalState.players.forEach(function(item:*) {item.act()});
 			GlobalState.things.forEach(function(item:*) {item.act()});
 			
-			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
+			if(GlobalState.rooms.every(function(item:*) {return item.NonInfectedPlayers.length == 0}))
 			{
 				trace("HUMANS LOST");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		   
 			}
 			  
-			 if(GlobalState.rooms.every(function(item:*)
-										{return !item.characters.some(function(character:*)
-																	  {return character is Thing || character.IsInfected})
-										}))
+			 if(GlobalState.rooms.every(function(item:*) {return item.Things.length == 0 
+															  && item.InfectedPlayers.length == 0}))
 		   {
 				trace("HUMANS WON");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -157,8 +153,8 @@
 		   //reset action flags
 		   GlobalState.players.forEach(function(item:*){item.IsInactive = false});
 			
-			paranoia.updateProbabilities();
-			trace(paranoia);
+			//paranoia.updateProbabilities();
+			//trace(paranoia);
 		}
 		
 	}

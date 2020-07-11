@@ -33,6 +33,8 @@
 		
 		public function Character()
 		{
+			scaleX = 1.25;
+			scaleY = 1.25;
 		}
 		
 		public function act()
@@ -57,8 +59,9 @@
 			{
 				ReachableRooms.forEach(function(item:*){item.unhighlight()});
 				previousRoom = currentRoom;
-				var characterIndex = currentRoom.characters.indexOf(this)
-				currentRoom.characters.splice(characterIndex, 1);
+				
+				currentRoom.getOut(this);
+				
 			}
 		}
 	}

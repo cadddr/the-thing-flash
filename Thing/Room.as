@@ -7,7 +7,7 @@
 
 	public class Room extends MovieClip
 	{
-		public var characters:Array = [];
+		protected var guests:Array = [];
 	
 		protected function get IsReachable():Boolean
 		{
@@ -15,34 +15,50 @@
 				&& GlobalState.draggableCharacter.ReachableRooms.indexOf(this) > -1;
 		}
 		
-		public function get IsTakenOver():Boolean
+		public function get Things():Array
 		{
-			var things = characters.filter(function(item:*) {return item is Thing});
-			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});
-
-			return things.length + infectedPlayers.length >= players.length;
-		}
-
-		//tells how much the things are outnumbered by non-things
-		public function get PlayerMargin():int
-		{
-			var things = characters.filter(function(item:*) {return item is Thing});
-			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});
-
-			return players.length - things.length - infectedPlayers.length;
+			return guests.filter(function(item:*) {return item is Thing});
 		}
 		
-		public function get Players()
+		public function get Players():Array
 		{
-			return characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+			return guests.filter(function(item:*) {return item is Player});
 		}
+		
+		public function get InfectedPlayers():Array
+		{
+			return Players.filter(function(item:*) {return item.IsInfected});
+		}
+
+		public function get NonInfectedPlayers()
+		{
+			return Players.filter(function(item:*){return !item.IsInfected});
+		}
+		
+		//tells how much the things are outnumbered by non-things
+		public function get NonInfectedPlayerMargin():int
+		{			
+			return NonInfectedPlayers.length - Things.length - InfectedPlayers.length;
+		}
+		
+		public function getRoommates(player:Player)
+		{
+			return Players.filter(function(item:*){return item != player});
+		}
+		
+		public function get IsTakenOver():Boolean
+		{
+			return NonInfectedPlayerMargin <= 0;
+		}
+		
+		
 		
 		public function get VisibleThings()
 		{
-			return characters.filter(function(character:*) {return character is Thing && character.isVisible});
+			return Things.filter(function(item:*) {return item.isVisible});
 		}
+		
+		
 
 		public function Room()
 		{
@@ -124,12 +140,30 @@
 			//leave previous room
 			character.leaveRoom();
 
-			characters.push(character);
+			guests.push(character);
 			character.currentRoom = this;
 
 			GlobalState.things.forEach(function(item:*){item.refreshVisibility()});
 			
 			positionInRoom(character, this);
+		}
+		
+		public function getOut(character:Character)
+		{
+			var characterIndex = guests.indexOf(character);
+			guests.splice(characterIndex, 1);
+		}
+		
+		public function killGuests()
+		{
+			//cloning to avoid mutability problems
+			var tempChars = guests.concat();
+			tempChars.forEach(function(item:*) {item.die()});
+		}
+		
+		public function revealInfectedPlayers()
+		{
+			guests.forEach(function(item:*) {if (item is Player) item.revealItself()});
 		}
 
 		// puts a character at a random location within a specified room

@@ -11,7 +11,9 @@
 	{						
 		private var alreadyActed:Boolean = false;		
 		private var isInfected:Boolean = false;
-		public var revelationCallback:Function = null;
+		
+		//public var revelationCallback:Function = null;
+		
 		public function get IsInfected()
 		{
 			return isInfected;
@@ -33,13 +35,13 @@
 		}
 		
 		public function get Roommates():Array
-		{   var thisPlayer = this;
-			return currentRoom.characters.filter(function(item:*){return item is Player && item != thisPlayer});
+		{   
+			return currentRoom.getRoommates(this);
 		}
 		
 		public function get SeenThings():int
 		{
-			return currentRoom.characters.filter(function(thing:*) {return thing is Thing && thing.isVisible}).length;
+			return currentRoom.VisibleThings.length;
 		}
 		
 		public function Player() 
@@ -146,7 +148,7 @@
 				//assuming the thing will act after players act
 			}
 			
-			revelationCallback(this, isInfected);
+			//revelationCallback(this, isInfected);
 		}
 				
 		
