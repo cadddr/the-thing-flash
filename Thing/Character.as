@@ -51,7 +51,7 @@
 		{
 			if (currentRoom)
 			{
-				ReachableRooms.forEach(function(item:*){item.unhighlight()});
+				currentRoom.highlightReachableRooms(false);
 				previousRoom = currentRoom;
 				
 				currentRoom.getOut(this);				

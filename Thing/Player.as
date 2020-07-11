@@ -9,6 +9,8 @@
 	
 	public class Player extends Character
 	{						
+		private var infectedRefusalProbability;
+		
 		private var alreadyActed:Boolean = false;		
 		private var isInfected:Boolean = false;
 		
@@ -44,8 +46,9 @@
 			return currentRoom.VisibleThings.length;
 		}
 		
-		public function Player() 
+		public function Player(infectedRefusalProbability) 
 		{							
+			this.infectedRefusalProbability = infectedRefusalProbability;
 			//dragging
 			addEventListener(MouseEvent.MOUSE_DOWN, drag);
 			// mouse up handled by stage
@@ -90,13 +93,13 @@
 				if(this.isInfected)
 				{	
 					trace("Is", this, "going to refuse to execute the order?");
-					if(Utils.getRandom(6,1) <= GlobalState.humanInfectedRefusalProbability)						
+					if(Utils.getRandom(6,1) <= infectedRefusalProbability)						
 					{
 						this.revealItself();
 						return;
 					}
 				}
-				currentRoom.highlightReachableRooms(true);
+				
 				initializeAction();
 			}
 		}
@@ -156,6 +159,7 @@
 		
 		private function initializeAction()
 		{
+			currentRoom.highlightReachableRooms(true);
 			stage.setChildIndex(this, stage.numChildren - 1);
 			GlobalState.draggableCharacter = this;	
 			startDrag();	
@@ -170,6 +174,7 @@
 			
 			GlobalState.draggableCharacter = null;
 			mouseEnabled = true;
+			currentRoom.highlightReachableRooms(false);
 		}
 		
 		public override function toString():String

@@ -10,7 +10,33 @@
 	//todo: players can plant bombs to the rooms there are not in
 	public class ThingApp extends MovieClip 
 	{			
-		const maxPlayers = 5;
+		private const maxPlayers = 1;	
+		
+		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
+															[0, 1, 0, 0, 0, 0, 1, 0],
+															[0, 0, 1, 0, 0, 0, 1, 0],
+															[0, 0, 0, 1, 0, 0, 1, 0],
+															[0, 0, 0, 0, 1, 0, 0, 1],
+															[0, 0, 0, 0, 0, 1, 0, 1],
+															[1, 1, 1, 1, 0, 0, 1, 1],
+															[1, 0, 0, 0, 1, 1, 1, 1]];
+													
+		public static const thingReachabilityMap : Array = [[1, 1, 0, 0, 0, 0, 1, 1],
+														  [1, 1, 0, 0, 0, 0, 1, 1],
+														  [0, 0, 1, 1, 0, 1, 1, 1],
+														  [0, 0, 1, 1, 1, 0, 1, 1],
+														  [0, 0, 0, 1, 1, 1, 0, 1],
+														  [0, 0, 1, 0, 1, 1, 0, 1],
+														  [1, 1, 1, 1, 0, 0, 1, 1],
+														  [1, 1, 1, 1, 1, 1, 1, 1]];
+		
+		//out of 6
+		public static const leftBehindProbability:Number = 2
+		
+		public static const humanInfectedRefusalProbability = 2;
+		
+		
+		
 		var paranoia:Paranoia0;
 		
 		private function get Players()
@@ -75,14 +101,14 @@
 		{
 			for(var i:int = 0; i < rooms.length; i++)
 			{
-				for(var j:int = 0; j < GlobalState.playerReachabilityMap[i].length; j++)
+				for(var j:int = 0; j < playerReachabilityMap[i].length; j++)
 				{
-					if(GlobalState.playerReachabilityMap[i][j] == 1)
+					if(playerReachabilityMap[i][j] == 1)
 					{
 						rooms[i].accessibleRooms.push(rooms[j]);
 					}
 					
-					if(GlobalState.thingReachabilityMap[i][j] == 1)
+					if(thingReachabilityMap[i][j] == 1)
 					{
 						rooms[i].adjacentRooms.push(rooms[j]);
 					}
@@ -97,7 +123,7 @@
 		
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
-				var player = new Player();
+				var player = new Player(humanInfectedRefusalProbability);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 								
 				GlobalState.rooms[initialRoom].putIn(player);
@@ -158,7 +184,7 @@
 		{
 			trace("Squad: [", squad, "]");
 			trace("Will someone get left behind?");
-			if(Utils.getRandom(6, 1) <= GlobalState.leftBehindProbability)
+			if(Utils.getRandom(6, 1) <= leftBehindProbability)
 			{
 				trace("Who's the lucky man?");
 				var luckyMan:Player = squad[Utils.getRandom(squad.length - 1)];

@@ -31,10 +31,7 @@
 				
 				stage.addChild(plantedCharge);
 				GlobalState.plantedCharges.push(plantedCharge);
-				
-				
-				//to reset room coloring
-				owner.currentRoom.putIn(owner);
+			
 				owner.finalizeAction();
 			}
 		}
@@ -47,7 +44,6 @@
 				GlobalState.draggableCharacter.currentRoom.putIn(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
 				
-				trace(GlobalState.plantedCharges)
 				GlobalState.plantedCharges.forEach(function(charge:*) {charge.explode()})
 				GlobalState.plantedCharges = [];
 			}

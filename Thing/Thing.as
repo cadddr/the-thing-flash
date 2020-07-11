@@ -39,7 +39,8 @@
 			
 			//for getting attacked by the dragged player
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-
+			
+			
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
@@ -114,6 +115,7 @@
 						else
 							gotoAndStop(1);
 							
+					// so he would knock off
 					currentRoom.putIn(GlobalState.draggableCharacter as Player);
 					GlobalState.draggableCharacter.finalizeAction();
 			}
