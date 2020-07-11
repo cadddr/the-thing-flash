@@ -67,8 +67,6 @@
 		
 		public function Thing() 
 		{			
-			goInvisible();
-			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
@@ -77,40 +75,43 @@
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 			policy = function()
-			{
-				if(!isDead)
+			{						
+				var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+				if(potentialVictims.length > 0)
 				{
-					refreshVisibility();
-					Utils.sleep(1000);
+					var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
 					
-					var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-					if(potentialVictims.length > 0)
+					if(currentRoom.IsTakenOver)
+					{					
+						assimilate(victim);
+					}
+				
+					//also a random chance of engaging in open fight
+					//has to do with player's killing probability
+					else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
 					{
-						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
-						
-						if(currentRoom.IsTakenOver)
-						{					
-							assimilate(victim);
-						}
+						attack(victim);
+					}
 					
-						//also a random chance of engaging in open fight
-						//has to do with player's killing probability
-						else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
-						{
-							attack(victim);
-						}
-						
-						else
-						{						
-							goToRandomReachableRoom();
-						}
-					}				
 					else
+					{						
 						goToRandomReachableRoom();
-						
-					refreshVisibility();
-				}
+					}
+				}				
+				else
+					goToAnotherRandomReachableRoom();
 			}
+		}
+		
+		public override function act()
+		{
+			this.refreshVisibility();
+			Utils.sleep(1000);
+			
+			super.act();
+			
+			this.refreshVisibility();
+			
 		}
 		
 		private function onMouseOver(e:MouseEvent)
@@ -192,10 +193,32 @@
 				var potentialVictims = this.currentRoom.characters.filter(checkNonInfectedPlayers);
 				trace("Infected in:", this.currentRoom, "potential victims:", potentialVictims.length)
 				
-				if(this.currentRoom.IsTakenOver && potentialVictims.length > 0)
+				if(this.currentRoom.IsTakenOver)
 				{
-					potentialVictims[Utils.getRandom(potentialVictims.length - 1)].getInfected(infection);
+					if(potentialVictims.length > 0)
+					{
+						potentialVictims[Utils.getRandom(potentialVictims.length - 1)].getInfected(infection);
+					}
 				}
+				else
+				{					
+					var revealedThing = new Thing();
+					GlobalState.things.push(revealedThing);
+					this.currentRoom.putIn(revealedThing);
+					
+					this.die();
+					stage.removeChild(this);
+					
+					stage.addChild(revealedThing);
+						
+					revealedThing.x = this.x;
+					revealedThing.y = this.y;
+					
+					//assuming the thing will act after players act
+					
+					
+				}
+				
 			}
 			
 			victim.getInfected(infection);
@@ -210,6 +233,13 @@
 		private function goToRandomReachableRoom()
 		{
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
+			ReachableRooms[randomRoom].putIn(this);
+		}
+		
+		private function goToAnotherRandomReachableRoom()
+		{
+			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
+			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			ReachableRooms[randomRoom].putIn(this);
 		}
 	}

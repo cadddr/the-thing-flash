@@ -15,8 +15,13 @@
 		
 		public function act()
 		{
-			if(policy != null)
-				policy();
+			if (!isDead)
+			{
+				if(policy != null)
+					{
+						policy();
+					}
+			}
 		}
 		
 		public function die()

@@ -85,6 +85,7 @@
 		
 		override public function die()
 		{
+			leaveRoom();
 			gotoAndStop(24);
 			//for not acting anymore
 			alreadyActed = true;

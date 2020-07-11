@@ -92,8 +92,10 @@
 			
 			squads.forEach(returnRandomPlayer);
 			
-			GlobalState.things.forEach(function(item:*) {item.act()});
 			GlobalState.players.forEach(function(item:*) {item.act()});
+			trace(GlobalState.things);
+			GlobalState.things.forEach(function(item:*) {trace(item);item.act()});
+			
 		}
 		
 	}
