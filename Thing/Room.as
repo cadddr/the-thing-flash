@@ -19,11 +19,11 @@
 			
 			
 			//highlighting
-			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseMove);
+			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 					
 		}
 		
-		private function onMouseMove(event : MouseEvent) 
+		private function onMouseOver(event : MouseEvent) 
 		{
 			trace(this);
 			if (Globals.highlightedRoom != null)

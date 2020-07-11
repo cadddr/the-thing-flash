@@ -4,7 +4,7 @@
 	public class Globals {
 
 		public static var highlightedRoom : Object;
-		//public static var draggableCharacter : Object;
+		public static var draggableCharacter : Object;
 	}
 	
 }

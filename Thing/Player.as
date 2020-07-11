@@ -27,7 +27,7 @@
 		function monMouseDown(e:MouseEvent)
 		{
 			startDrag(false, new Rectangle(222,50,563,490));
-			//Globals.draggableCharacter = this;
+			Globals.draggableCharacter = this;
 			mouseEnabled = false;
 		}
 		
