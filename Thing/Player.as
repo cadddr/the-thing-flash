@@ -20,14 +20,13 @@
 			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
-			
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
 			
 			alreadyActed = false;
 			currentRoom = null;
 			previousRoom = null;
 			
-			this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
 		
 		public function set IsInactive(value)

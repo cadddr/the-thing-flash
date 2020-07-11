@@ -1,13 +1,62 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
-	
+	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
+	import Globals;
 	
 	public class Thing extends MovieClip {
 		
 		public var currentRoom:Room;
-		public function Thing() {
+		private var isDead:Boolean;
+		
+		public function Thing() 
+		{
+			
 			currentRoom = null;
+			isDead = false;
+			//highlighting
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
+			
+			//for getting attacked by the dragged player
+			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		}
+		
+		private function onMouseOver(e:MouseEvent)
+		{
+			if(!isDead)
+				if(Globals.draggableCharacter && currentRoom == Globals.draggableCharacter.currentRoom)
+					gotoAndPlay(2);
+		}
+		
+		private function onMouseOut(e:MouseEvent)
+		{
+			
+				gotoAndStop(1);
+		}
+		
+		//gets killer by a dragger
+		private function onMouseUp(e:MouseEvent)
+		{
+			if(!isDead)
+				if(Globals.draggableCharacter && currentRoom == Globals.draggableCharacter.currentRoom)
+			 		
+					//dice roll should be 2
+					if(Math.round(Math.random() * 5) < 6)
+					{
+						transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+						isDead = true;
+						gotoAndStop(1);
+					}
+					
+					//needs refactoring
+					mouseEnabled = false;
+					Globals.draggableCharacter.stopDrag();
+					Globals.draggableCharacter.IsInactive = true;
+					currentRoom.putIn(Globals.draggableCharacter as Player);
+					
+					Globals.draggableCharacter = null;
 		}
 		
 		public function goVisible()
@@ -17,12 +66,14 @@
 		
 		public function goInvisible()
 		{
-			alpha = 0.2;
+			if(!isDead)
+				alpha = 0.2;
 		}
 		
 		public function act()
 		{
-			goToRandomReachableRoom();
+			if(!isDead)
+				goToRandomReachableRoom();
 			
 		}
 		

@@ -19,6 +19,14 @@
 			
 			Globals.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
+		
+			initializeThing();	
+			
+			initializePlayers();
+		}		
+		
+		private function initializePlayers()
+		{
 			var initialRoom = Math.round(Math.random() * (Globals.rooms.length - 1));
 			
 			for (var i:int = 0; i < maxPlayers; i++)
@@ -29,8 +37,10 @@
 				Globals.rooms[initialRoom].putIn(player);
 				players.push(player);
 			}
-			
-			//initialize thing
+		}
+		
+		private function initializeThing()
+		{
 			var thing = new Thing();
 			Globals.things.push(thing);
 			
@@ -38,8 +48,7 @@
 			
 			Globals.rooms[thingsInitialRoom].putIn(thing);
 			stage.addChild(thing);
-			
-		}		
+		}
 		
 		private function onTurnEnd(e:KeyboardEvent)
 		{			

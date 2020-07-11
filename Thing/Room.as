@@ -6,16 +6,10 @@
 	
 	public class Room extends MovieClip {
 		
-		public var id : int;
-		var destroyed : Boolean = false;
-		var type : String;
 		var characters : Array = []	
 		
-		public function Room(id : int = -1, type : String = "regular") 
+		public function Room() 
 		{
-			this.id = id;
-			this.type = type;			
-			
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
@@ -43,10 +37,6 @@
 				highlightReachable();
 			else
 				unhighlight();
-			
-			//if(Globals.draggableCharacter != null)
-				//characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);		
-			
 		}
 		
 		//undrags the player and puts it into the room
@@ -112,7 +102,7 @@
 			//refresh things' visibility
 			var players = characters.filter(function(item:*){return item is Player});
 			var things = characters.filter(function(item:*) {return item is Thing})
-			trace(things.length, players.length);
+			
 			if(players.length > things.length)
 				things.forEach(function(item:*){item.goVisible()});
 			else
