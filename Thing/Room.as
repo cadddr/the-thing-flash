@@ -87,6 +87,15 @@
 			GlobalState.reachableRooms = [];
 		}
 		
+		public function get IsTakenOver()
+		{
+			var things = characters.filter(function(item:*) {return item is Thing});
+			var players = characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+			var infectedPlayers = characters.filter(function(item:*){return item is Player && item.IsInfected});			
+			
+			return things.length + infectedPlayers.length >= players.length;			
+		}
+		
 		public function putIn(character:MovieClip)
 		{			
 			//leave previous room
@@ -99,13 +108,12 @@
 			resetReachableRoomsColoring();
 			
 			//refresh things' visibility
-			var players = characters.filter(function(item:*){return item is Player});
 			var things = characters.filter(function(item:*) {return item is Thing})
 			
-			if(players.length > things.length)
-				things.forEach(function(item:*){item.goVisible()});
-			else
+			if(IsTakenOver)
 				things.forEach(function(item:*){item.goInvisible()});
+			else				
+				things.forEach(function(item:*){item.goVisible()});
 			
 			
 			//position in rooms

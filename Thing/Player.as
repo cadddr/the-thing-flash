@@ -8,12 +8,20 @@
 	
 	public class Player extends MovieClip {		
 		
-		var alreadyActed:Boolean;
+		private var alreadyActed:Boolean;
 		public var currentRoom:Room;
 		public var previousRoom:Room;
+		private var isInfected:Boolean;
+		private var infection:Function;
 		
-		
-		public function Player() {			
+		public function Player() 
+		{				
+			alreadyActed = false;
+			currentRoom = null;
+			previousRoom = null;
+			
+			infection = null;
+			isInfected = false;
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			// mouse up handled by stage
@@ -22,13 +30,27 @@
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
 			
-			alreadyActed = false;
-			currentRoom = null;
-			previousRoom = null;
+			
 			
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
 		
+		
+		public function set IsInfected(infection:Function)
+		{
+			if(GlobalState.DEBUG)
+				alpha = 0.2;
+			
+			this.infection = infection;
+			
+			if(infection != null)
+				isInfected = true;
+		}
+		
+		public function get IsInfected()
+		{
+			return isInfected;
+		}
 		public function set IsInactive(value)
 		{
 			if(value)
@@ -85,7 +107,13 @@
 			mouseEnabled = true;
 		}
 		
-		private function highlightReachableRooms()
+		public function selfact()
+		{			
+			if(infection != null)
+				infection();
+		}
+		
+		private function highlightReachableRooms() 
 		{
 			var originRoomIndex:int = 0;
 			

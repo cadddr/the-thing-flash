@@ -94,6 +94,7 @@
 			squads.forEach(returnRandomPlayer);
 			
 			GlobalState.things.forEach(function(item:*) {item.act()});
+			players.forEach(function(item:*) {item.selfact()});
 		}
 		
 	}

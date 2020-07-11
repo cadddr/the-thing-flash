@@ -9,12 +9,16 @@
 		
 		public var currentRoom:Room;
 		private var isDead:Boolean;
+		private var isVisible:Boolean;
+		private var puppets:Array;
 		
 		public function Thing() 
 		{
 			
 			currentRoom = null;
 			isDead = false;
+			goInvisible();
+			puppets = [];
 			//highlighting
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
@@ -57,7 +61,7 @@
 						var killingDice = Utils.getRandom(6, 1);
 						trace("killing dice:", killingDice);
 						
-						if(killingDice < 7)
+						if(killingDice < 3)
 						{
 							IsDead = true;
 						}
@@ -71,22 +75,73 @@
 		
 		public function goVisible()
 		{
+			isVisible = true;
 			alpha = 1;
 		}
 		
 		public function goInvisible()
 		{
 			if(!isDead)
-				alpha = 0.2;
+			{
+				isVisible = false;
+				if(GlobalState.DEBUG)
+					alpha = 0.2;
+				else
+					alpha = 0;
+			}
 		}
 		
 		public function act()
 		{
 			if(!isDead)
-				goToRandomReachableRoom();
+			{
+				var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+				if(currentRoom.IsTakenOver && potentialVictims.length > 0)
+				{
+					assimilate(potentialVictims[Utils.getRandom(potentialVictims.length - 1)]);
+				}
+				//also a random chance of engaging in open fight
+				else
+					goToRandomReachableRoom();
+			}
 			
+			/*
+			puppets.forEach(function(item:*)
+							{
+								item.act(function()
+										 {
+											 if(item.currentRoom.IsTakenOver)
+											 {
+											 }
+			
+										 }
+										)
+							});
+			*/
 		}
 		
+		private function assimilate(victim:Player)
+		{
+			//puppets.push(victim);
+			
+			var infection:Function = function()
+			{
+				var checkNonInfectedPlayers:Function = function(item:*)
+				{
+					trace(this, currentRoom, "In infection: ", item, item.currentRoom)
+					return item is Player && (!item.IsInfected)
+				}
+				 trace(this, currentRoom, " :outside infectioN")
+				var potentialVictims = currentRoom.characters.filter(checkNonInfectedPlayers);
+				
+				if(currentRoom.IsTakenOver && potentialVictims.length > 0)
+				{
+					potentialVictims[Utils.getRandom(potentialVictims.length - 1)].IsInfected = infection;
+				}
+			}
+			
+			victim.IsInfected = infection;
+		}
 		
 		private function get ReachableRooms()
 		{

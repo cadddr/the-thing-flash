@@ -3,6 +3,7 @@
 	import Room;
 	public class GlobalState {
 
+		public static const DEBUG:Boolean = true;
 		public static var rooms : Array;
 		public static var reachableRooms:Array = [];
 		public static var things:Array = [];
