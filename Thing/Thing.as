@@ -16,7 +16,7 @@
 		{
 			if (value)
 			{
-				gotoAndStop(22);
+				gotoAndStop(23);
 				isDead = true;
 				mouseEnabled = false;
 				this.goVisible();
@@ -65,12 +65,13 @@
 							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * GlobalState.thingCautiousnessLevel)						
 								attack(victim)
 							else												
-								//goToAnotherRandomReachableRoom();		
-								goToLeastPopulatedRoom();
+								goToAnotherRandomReachableRoom();		
+								//goToLeastPopulatedRoom();
 						}									
 					}				
 					else
-						goToLeastPopulatedRoom();
+						//goToLeastPopulatedRoom()
+						goToAnotherRandomReachableRoom();
 				}
 			}
 			/////////////////////////

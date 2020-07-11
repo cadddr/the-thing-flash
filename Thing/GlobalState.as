@@ -31,7 +31,7 @@
 		public static var thingKillingProbability:Number = 3;
 		public static var thingOpenAssimilationProbability:Number = 2;
 		
-		public static var thingCautiousnessLevel:Number = 3;
+		public static var thingCautiousnessLevel:Number = 0;
 		
 		public static var rooms:Array;
 		public static var things:Array = [];
