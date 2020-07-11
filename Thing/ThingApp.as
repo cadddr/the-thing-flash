@@ -16,7 +16,7 @@
 		
 		private function onAddedToStage(e:Event) : void 
 		{			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
@@ -96,8 +96,17 @@
 				}
 			}			
 		}
+		private function onKeyPress(e:KeyboardEvent)
+		{
+			//space
+			if (e.keyCode == 32)
+				endTurn();
+			else (String.fromCharCode(e.charCode) == "d")
+				//needs improvement
+				GlobalState.DEBUG = !GlobalState.DEBUG;
+		}
 		
-		private function onTurnEnd(e:KeyboardEvent)
+		private function endTurn()
 		{			
 		
 			//test room gives out syringes
@@ -115,7 +124,7 @@
 			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
 			{
 				trace("HUMANS LOST");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
 		   
 			}
 			  
@@ -125,7 +134,7 @@
 										}))
 		   {
 				trace("HUMANS WON");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
 		   }
 		   
 		   //reset action flags
