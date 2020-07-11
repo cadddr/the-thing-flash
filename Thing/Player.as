@@ -44,6 +44,8 @@
 			addEventListener(MouseEvent.MOUSE_OUT, unhighlight);		
 
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+			
+			reachabilityMap = GlobalState.playerReachabilityMap;
 		}		
 		
 		public function equipSyringe()
@@ -89,9 +91,7 @@
 				}
 				
 				else
-				{
-					previousRoom = currentRoom;
-				
+				{				
 					highlightReachableRooms();
 				
 					initializeAction();
@@ -168,49 +168,14 @@
 			
 			GlobalState.draggableCharacter = null;
 			mouseEnabled = true;
+			
+			
 		}
 		
 		private function highlightReachableRooms() 
-		{
-			var originRoomIndex:int = 0;
-			
-			if (currentRoom is Room1)
-				originRoomIndex = 0			
-			
-			else if (currentRoom is GenRoom)
-				originRoomIndex = 1
-				
-			else if (currentRoom is Room3)
-				originRoomIndex = 2
-				
-			else if (currentRoom is AmmoRoom)
-				originRoomIndex = 3
-			
-			else if (currentRoom is TestRoom)
-				originRoomIndex = 4
-				
-			else if (currentRoom is Room6)
-				originRoomIndex = 5
-				
-			else if (currentRoom is Room7)
-				originRoomIndex = 6
-				
-			else if (currentRoom is Room8)
-				originRoomIndex = 7;
-			
-			
-			var passabilityList = GlobalState.passabilityMap[originRoomIndex];
-								
-				for(var i:int = 0; i < passabilityList.length; i++)
-				{
-					if (passabilityList[i] == 1)
-					{
-						GlobalState.reachableRooms.push(GlobalState.rooms[i])
-						GlobalState.rooms[i].highlightReachable();
-					}
-				}
-			}
-		
+		{			
+			ReachableRooms.forEach(function(room:*) {room.highlightReachable()});
+		}
 		
 	}
 	

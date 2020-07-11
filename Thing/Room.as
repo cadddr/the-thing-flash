@@ -12,7 +12,8 @@
 		//todo: 
 		protected function get IsReachable():Boolean
 		{
-			return GlobalState.reachableRooms.indexOf(this) > -1;
+			return GlobalState.draggableCharacter 
+				&& GlobalState.draggableCharacter.ReachableRooms.indexOf(this) > -1;
 		}
 		
 		public function get IsTakenOver():Boolean
@@ -56,7 +57,7 @@
 
 		private function onMouseOver(e:MouseEvent)
 		{
-			if (IsReachable || GlobalState.draggableCharacter == null)
+			if (!GlobalState.draggableCharacter || IsReachable)
 			{
 				highlightSelected();
 			}
@@ -68,7 +69,7 @@
 
 		private function onMouseOut(e:MouseEvent)
 		{
-			if (GlobalState.reachableRooms.indexOf(this) > -1)
+			if (IsReachable)
 			{
 				highlightReachable();
 			}
@@ -90,8 +91,6 @@
 					putIn(draggableCharacter);
 					draggableCharacter.finalizeAction();
 				}
-
-				resetReachableRoomsColoring();
 			}
 		}
 
@@ -115,11 +114,6 @@
 			gotoAndStop(4);
 		}
 
-		public function resetReachableRoomsColoring()
-		{
-			GlobalState.reachableRooms.forEach(function(item:*){item.unhighlight()});
-			GlobalState.reachableRooms = [];
-		}
 
 		public function putIn(character:Character)
 		{
@@ -129,9 +123,8 @@
 			characters.push(character);
 			character.currentRoom = this;
 
-			//todo:optimize
 			GlobalState.things.forEach(function(item:*){item.refreshVisibility()});
-			resetReachableRoomsColoring();
+			
 
 			positionInRoom(character, this);
 		}
