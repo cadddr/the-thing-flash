@@ -20,12 +20,8 @@
 				trace(owner, "has used syringe");
 				gotoAndPlay(1);
 				owner.currentRoom.characters.forEach(function(item:*) {if (item is Player) item.revealItself()});
-				
-				//to reset room coloring
-				//owner.currentRoom.putIn(owner);
 				owner.finalizeAction();
 			}
-			//todo: disposable syringe
 		}
 		
 		private function dispose()

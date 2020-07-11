@@ -32,6 +32,10 @@
 			return alreadyActed;
 		}
 		
+		public function get Roommates():Array
+		{   var thisPlayer = this;
+			return currentRoom.characters.filter(function(item:*){return item is Player && item != thisPlayer});
+		}
 		
 		public function Player() 
 		{							
@@ -153,9 +157,9 @@
 		
 		private function initializeAction()
 		{
+			stage.setChildIndex(this, stage.numChildren - 1);
 			GlobalState.draggableCharacter = this;	
 			startDrag();	
-			
 			
 			mouseEnabled = false;
 		}
@@ -167,8 +171,6 @@
 			
 			GlobalState.draggableCharacter = null;
 			mouseEnabled = true;
-			
-			
 		}
 		
 		private function highlightReachableRooms() 

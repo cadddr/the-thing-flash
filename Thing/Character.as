@@ -61,9 +61,6 @@
 				currentRoom.characters.splice(characterIndex, 1);
 			}
 		}
-		
-		
-
 	}
 	
 }

@@ -8,8 +8,7 @@
 	public class Room extends MovieClip
 	{
 		public var characters:Array = [];
-		
-		//todo: 
+	
 		protected function get IsReachable():Boolean
 		{
 			return GlobalState.draggableCharacter 
@@ -125,7 +124,6 @@
 
 			GlobalState.things.forEach(function(item:*){item.refreshVisibility()});
 			
-
 			positionInRoom(character, this);
 		}
 
