@@ -47,8 +47,8 @@
 		
 			   GlobalState.things.forEach(function(item:*) {item.refreshVisibility()});  
 			   
-			   gotoAndStop(switchOn ? 1 : 2);
-			   myselection.gotoAndStop(1);
+			   this.gotoAndStop(switchOn ? 1 : 2);
+			   this.myselection.gotoAndStop(1);
 		}
 	}
 	
