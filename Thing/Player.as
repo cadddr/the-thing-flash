@@ -132,7 +132,7 @@
 				this.die();
 				stage.removeChild(this);
 				
-				tmpRoom.putIn(revealedThing);
+				tmpRoom.register(revealedThing);
 				
 				revealedThing.x = tmpX;
 				revealedThing.y = tmpY;

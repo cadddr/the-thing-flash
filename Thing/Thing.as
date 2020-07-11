@@ -7,7 +7,7 @@
 	import Character;
 	import Room;
 	import flash.events.Event;
-	
+	//todo: inprove ai
 	public class Thing extends Character 
 	{		
 		public var isVisible:Boolean;

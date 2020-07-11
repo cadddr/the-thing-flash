@@ -163,16 +163,24 @@
 
 		public function putIn(character:Character)
 		{
+			register(character);
+			
+			
+			
+			moveSmoothly(character, computePositionInRoom(character));
+		}
+		
+		public function register(character:Character)
+		{
 			highlightReachableRooms(false);
+			
 			//leave previous room
 			character.leaveRoom();
 
 			guests.push(character);
 			character.currentRoom = this;
-
-			Things.forEach(function(thing:*){thing.refreshVisibility()});
 			
-			moveSmoothly(character, computePositionInRoom(character));
+			Things.forEach(function(thing:*){thing.refreshVisibility()});			
 		}
 		
 		// puts a character at a random location within a room
@@ -194,7 +202,7 @@
 			var destinationX = destination[0];
 			var destinationY = destination[1];
 
-			var numSteps = 20;
+			var numSteps = 10;
 			var stepX = (destinationX - whom.x) / numSteps;
 			var stepY = (destinationY - whom.y) / numSteps;
 			const epsilon = 10;
