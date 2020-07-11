@@ -32,12 +32,56 @@
 		}		
 		
 		private function onTurnEnd(e:KeyboardEvent)
-		{
-			//reset action flags
+		{			
+			//return random players to their previous rooms
+			var squads:Array = [];
+			var checkedSquadMembers:Array = [];
+			
 			for (var i:int = 0; i < players.length; i++)
-			{
+			{				
+				var checkSameSquad:Function = function(item:*)
+				{
+					 return item.previousRoom == players[i].previousRoom
+						 && item.currentRoom == players[i].currentRoom
+						 && item.currentRoom != players[i].previousRoom
+						 && item.previousRoom != players[i].currentRoom;
+				}
+				
+				if (!checkedSquadMembers.some(checkSameSquad)
+					&& players[i].IsInactive)
+					
+				{
+					
+					var squad:Array = players.filter(checkSameSquad);
+					
+					trace(i, squads);
+					//var checkDuplicateSquads:Function = function(item:*)
+					//{
+					//	return item.some(function(item2:*) {squad.indexOf(item2) == -1})
+					//}
+					
+					//if (!squads.some(checkDuplicateSquads))
+					squads.push(squad);			
+					checkedSquadMembers.push(players[i]);
+				}
+				
+				//reset action flags			
 				players[i].IsInactive = false;
-			}
+			}			
+			
+			
+			var returnRandomPlayer:Function = function(item:*)
+			{
+				if(item.length > 1 && Math.round(Math.random() * 5) > 3)
+				{
+					var luckyMan:Player = item[Math.round(Math.random() * (item.length - 1))];
+						luckyMan.previousRoom.putIn(luckyMan);
+				}
+			}			
+			
+			squads.forEach(returnRandomPlayer);
+			
+			
 		}
 		
 	}

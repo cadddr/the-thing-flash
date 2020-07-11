@@ -10,6 +10,8 @@
 		
 		var alreadyActed:Boolean;
 		public var currentRoom:Room;
+		public var previousRoom:Room;
+		
 		
 		public function Player() {			
 			
@@ -23,6 +25,7 @@
 			
 			alreadyActed = false;
 			currentRoom = null;
+			previousRoom = null;
 			
 			this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
@@ -35,7 +38,11 @@
 				gotoAndStop(1);
 			
 			alreadyActed = value;
-			
+		}
+		
+		public function get IsInactive():Boolean
+		{
+			return alreadyActed;
 		}
 		
 		private function onMouseOver(e:MouseEvent)
@@ -54,6 +61,8 @@
 		{
 			if(!alreadyActed)
 			{
+				previousRoom = currentRoom;
+				
 				highlightReachableRooms();
 				startDrag();			
 				mouseEnabled = false;
