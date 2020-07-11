@@ -26,6 +26,7 @@
 		
 		public function die()
 		{
+			leaveRoom();
 		}
 		
 		public function leaveRoom()

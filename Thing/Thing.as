@@ -131,7 +131,7 @@
 						
 						if(killingDice <= GlobalState.draggableCharacter.killProbability)
 						{
-							IsDead = true;
+							die();
 						}
 						else
 							gotoAndStop(1);
@@ -195,15 +195,24 @@
 				{					
 					var revealedThing = new Thing();
 					GlobalState.things.push(revealedThing);
-					this.currentRoom.putIn(revealedThing);
+					stage.addChild(revealedThing);
+					
+					var tmpX = this.x;
+					var tmpY = this.y;
+					
+					var tmpRoom = this.currentRoom;
 					
 					this.die();
 					stage.removeChild(this);
 					
-					stage.addChild(revealedThing);
+					tmpRoom.putIn(revealedThing);
+					
+					revealedThing.x = tmpX;
+					revealedThing.y = tmpY;
+										
+					
 						
-					revealedThing.x = this.x;
-					revealedThing.y = this.y;
+					
 					
 					//assuming the thing will act after players act
 					
@@ -215,9 +224,17 @@
 			victim.getInfected(infection);
 		}
 		
+		override public function die()
+		{
+			IsDead = true;
+			super.die();
+		}
+		
 		private function attack(victim:Player)
 		{
-			if(Utils.getRandom(6, 1) <= killProbability)
+			var attackingDice = Utils.getRandom(6, 1);
+			trace("attacking dice:", attackingDice);
+			if(attackingDice <= killProbability)
 				victim.die();
 		}
 				
