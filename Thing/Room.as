@@ -44,8 +44,8 @@
 			else
 				unhighlight();
 			
-			if(Globals.draggableCharacter != null)
-				characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);		
+			//if(Globals.draggableCharacter != null)
+				//characters.splice(characters.indexOf(Globals.draggableCharacter as Player), 1);		
 			
 		}
 		
@@ -102,9 +102,24 @@
 		
 		public function putIn(character:MovieClip)
 		{			
+			//leave previous room
+			if(character.currentRoom)
+				character.currentRoom.characters.splice(character.currentRoom.characters.indexOf(character), 1);
+				
 			characters.push(character);
 			character.currentRoom = this;
 			
+			//refresh things' visibility
+			var players = characters.filter(function(item:*){return item is Player});
+			var things = characters.filter(function(item:*) {return item is Thing})
+			trace(things.length, players.length);
+			if(players.length > things.length)
+				things.forEach(function(item:*){item.goVisible()});
+			else
+				things.forEach(function(item:*){item.goInvisible()});
+			
+			
+			//position in rooms
 			if (this is Room7)
 				positionInCorridor7(character, this); 
 			else if (this is Room8)

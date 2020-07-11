@@ -62,8 +62,6 @@
 				{
 					var squad:Array = players.filter(checkSameSquad);
 					
-					trace(i, squad);
-				
 					squads.push(squad);
 					//so we wouldn't consider members of the same squad twice
 					checkedSquadMembers.push(players[i]);

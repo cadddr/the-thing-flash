@@ -23,7 +23,9 @@
 		public function act()
 		{
 			goToRandomReachableRoom();
+			
 		}
+		
 		
 		private function get ReachableRooms()
 		{
