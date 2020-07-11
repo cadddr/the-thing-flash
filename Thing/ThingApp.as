@@ -19,8 +19,9 @@
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
-			initializeThing();	
+			
 			initializePlayers();
+			initializeThing();	
 		}		
 		
 		private function initializePlayers()
@@ -42,7 +43,10 @@
 			var thing = new Thing();
 			GlobalState.things.push(thing);
 			
+			//needs refactoring
 			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1);
+			if(!GlobalState.rooms[thingsInitialRoom].IsTakenOver)
+			thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
 			
 			GlobalState.rooms[thingsInitialRoom].putIn(thing);
 			stage.addChild(thing);

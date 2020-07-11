@@ -101,6 +101,8 @@
 				else
 					goToAnotherRandomReachableRoom();
 			}
+			
+			goInvisible();
 		}
 		
 		public override function act()
