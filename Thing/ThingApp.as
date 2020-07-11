@@ -101,9 +101,10 @@
 			//space
 			if (e.keyCode == 32)
 				endTurn();
-			else (String.fromCharCode(e.charCode) == "d")
-				//needs improvement
+			else if (String.fromCharCode(e.charCode) == "d")
 				GlobalState.DEBUG = !GlobalState.DEBUG;
+				//needs improvement
+				
 		}
 		
 		private function endTurn()

@@ -92,18 +92,19 @@
 					
 						//also a random chance of engaging in open fight
 						//has to do with player's killing probability
-						else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
+						else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * 2)
 						{
 							attack(victim);
 						}
 						
 						else
 						{						
-							goToRandomReachableRoom();
+							goToAnotherRandomReachableRoom();
+							
 						}
 					}				
 					else
-						goToAnotherRandomReachableRoom();
+						goToRandomReachableRoom();
 				}
 			}
 			/////////////////////////
