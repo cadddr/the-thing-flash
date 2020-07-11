@@ -4,15 +4,36 @@
 	import Item;
 	import Room;
 	import flash.events.MouseEvent;
+	import fl.motion.MotionEvent;
 	
 	public class ExplosiveCharge extends Item {
 		
 		var currentRoom:Room;
 		var isCharged:Boolean = false;
 		public function ExplosiveCharge() 
-		{
+		{		
 			super();
+			
+			mycharge.myselection.visible = false
 			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			this.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+		}
+		
+		private function onMouseOver(e:MouseEvent)
+		{
+			if(GlobalState.draggableCharacter 
+				&& currentRoom)
+			{	
+				mycharge.myselection.gotoAndPlay(1);
+				mycharge.myselection.visible = true;
+			}
+		}
+		
+		private function onMouseOut(e:MouseEvent)
+		{
+			mycharge.myselection.gotoAndStop(1);
+			mycharge.myselection.visible = false;
 		}
 		
 		override protected function onClick(e:MouseEvent)
