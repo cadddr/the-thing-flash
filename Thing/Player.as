@@ -56,6 +56,13 @@
 			this.mysyringe.owner = this;
 		}
 		
+		public function equipExplosiveCharge()
+		{
+			trace(this, "has equipped explosive charge")
+			this.mycharge.visible = true;
+			this.mycharge.owner = this;
+		}
+		
 		public override function toString():String
 		{
 			return "Player " + this.transform.colorTransform.color.toString(16);

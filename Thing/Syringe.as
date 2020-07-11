@@ -3,17 +3,16 @@
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import Player;
+	import Item;
 	
-	public class Syringe extends MovieClip {
+	public class Syringe extends Item {
 		
-		public var owner:Player;
 		public function Syringe() 
 		{
-			this.visible = false;
-			addEventListener(MouseEvent.CLICK , onClick);
+			super();
 		}
 		
-		private function onClick(e:MouseEvent)
+		override protected function onClick(e:MouseEvent)
 		{
 			trace(owner, "has used syringe");
 			

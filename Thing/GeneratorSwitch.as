@@ -13,7 +13,7 @@
 			this.addEventListener(MouseEvent.MOUSE_OVER, highlight);
 			this.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
 			
-			this.addEventListener(MouseEvent.MOUSE_UP, switchPower);
+			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 		}
 		
@@ -24,18 +24,23 @@
 		private function unhighlight(e:MouseEvent)
 		{}
 		
-		private function switchPower(e:MouseEvent)
+		private function onMouseUp(e:MouseEvent)
 		{
 			if(GlobalState.draggableCharacter)
 				   if(GlobalState.draggableCharacter.currentRoom is GenRoom)
 				   {
-					   GlobalState.isLightOn = false;
-					   stage.color = 0;
-					   
-					   GlobalState.things.forEach(function(item:*) {item.refreshVisibility()});
-					   
+					   switchPower(true);
 					   GlobalState.draggableCharacter.finalizeAction();
 				   }
+		}
+		
+		public function switchPower(switchOn:Boolean)
+		{			
+			   trace("Light has been switched to", switchOn ? "on": "off");
+			   GlobalState.isLightOn = switchOn;
+			   stage.color = int(switchOn) * 0xffffff;
+			   
+			   GlobalState.things.forEach(function(item:*) {item.refreshVisibility()});  
 		}
 	}
 	

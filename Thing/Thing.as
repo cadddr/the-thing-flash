@@ -75,32 +75,39 @@
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 			policy = function()
-			{						
-				var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
-				if(potentialVictims.length > 0)
-				{
-					var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
-					
-					if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
-					{					
-						assimilate(victim);
-					}
-				
-					//also a random chance of engaging in open fight
-					//has to do with player's killing probability
-					else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
-					{
-						attack(victim);
-					}
-					
-					else
-					{						
-						goToRandomReachableRoom();
-					}
-				}				
+			{					
+				if (this.currentRoom is GenRoom && GlobalState.isLightOn)
+					this.currentRoom.lightSwitch.switchPower(false);
 				else
-					goToAnotherRandomReachableRoom();
+				{
+					var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+					if(potentialVictims.length > 0)
+					{
+						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
+						
+						if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
+						{					
+							assimilate(victim);
+						}
+					
+						//also a random chance of engaging in open fight
+						//has to do with player's killing probability
+						else if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin)
+						{
+							attack(victim);
+						}
+						
+						else
+						{						
+							goToRandomReachableRoom();
+						}
+					}				
+					else
+						goToAnotherRandomReachableRoom();
+				}
 			}
+			/////////////////////////
+			
 			
 			goInvisible();
 		}

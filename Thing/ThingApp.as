@@ -103,6 +103,9 @@
 			//test room gives out syringes
 			room5.enhancePlayers();	
 			
+			//room4 gives out bombs
+			room4.enhancePlayers();
+			
 			var squads = identifySquads();			
 			squads.forEach(function(item:*){returnRandomSquadMember(item)});
 			
@@ -111,7 +114,7 @@
 			
 			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
 			{
-				trace("YOU LOST");
+				trace("HUMANS LOST");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
 		   
 			}
@@ -121,7 +124,7 @@
 																	  {return character is Thing || character.IsInfected})
 										}))
 		   {
-				trace("YOU WON");
+				trace("HUMANS WON");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onTurnEnd);
 		   }
 		   
