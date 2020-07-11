@@ -5,6 +5,8 @@
 	import Utils;
 	import flashx.textLayout.formats.BackgroundColor;
 	
+	//todo: hovering players can be underneath other objects
+	//todo: players can plant bombs to the rooms there are not in
 	public class ThingApp extends MovieClip 
 	{			
 		const maxPlayers = 5;
@@ -19,11 +21,11 @@
 		{			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			
-			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
-			
+			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];			
 			
 			initializePlayers();
 			initializeThing();	
+			
 		}		
 		
 		private function initializePlayers()
@@ -96,7 +98,7 @@
 		{
 			trace("Squad: [", squad, "]");
 			trace("Will someone get left behind?");
-			if(Utils.getRandom(6, 1) >= GlobalState.leftBehindProbability)
+			if(Utils.getRandom(6, 1) <= GlobalState.leftBehindProbability)
 			{
 				trace("Who's the lucky man?");
 				var luckyMan:Player = squad[Utils.getRandom(squad.length - 1)];

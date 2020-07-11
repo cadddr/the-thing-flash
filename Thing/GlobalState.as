@@ -5,9 +5,14 @@
 
 		public static var DEBUG:Boolean = false;
 		//out of 6
-		public static var leftBehindProbability:Number = 5
+		public static var leftBehindProbability:Number = 2
 		public static var humanKillingProbability:Number = 2;
+		public static var humanInfectedRefusalProbability = 3;
+		
 		public static var thingKillingProbability:Number = 3;
+		public static var thingOpenAssimilationProbability:Number = 2;
+		
+		public static var thingCautiousnessLevel:Number = 3;
 		
 		public static var rooms:Array;
 		public static var things:Array = [];

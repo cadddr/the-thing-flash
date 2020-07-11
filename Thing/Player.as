@@ -81,11 +81,21 @@
 		{
 			if(!alreadyActed)
 			{
-				previousRoom = currentRoom;
+				if(this.isInfected)
+				{	
+					trace("Is", this, "going to refuse to execute the order?");
+					if(Utils.getRandom(6,1) <= GlobalState.humanInfectedRefusalProbability)
+						this.revealItself();
+				}
 				
-				highlightReachableRooms();
+				else
+				{
+					previousRoom = currentRoom;
 				
-				initializeAction();
+					highlightReachableRooms();
+				
+					initializeAction();
+				}
 			}
 		}
 		

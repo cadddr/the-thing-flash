@@ -9,6 +9,7 @@
 	public class Thing extends Character 
 	{		
 		private var isVisible:Boolean;
+		private var switchLightRetries = 2;
 		
 		public function set IsDead(value)
 		{
@@ -75,12 +76,17 @@
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 			policy = function()
-			{					
-				if (this.currentRoom is GenRoom && GlobalState.isLightOn)
+			{				
+				//so it wouldn't compete with players at switching the light
+				if (this.currentRoom is GenRoom && GlobalState.isLightOn && switchLightRetries > 0)
+				{
 					this.currentRoom.lightSwitch.switchPower(false);
+					switchLightRetries--;
+				}
 				else
 				{
-					var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+					switchLightRetries++;
+					var potentialVictims = currentRoom.Players;
 					if(potentialVictims.length > 0)
 					{
 						trace(this, "is choosing whom to assimilate")
@@ -91,12 +97,11 @@
 							assimilate(victim);
 						}					
 						//also a random chance of engaging in open fight
-						//has to do with player's killing probability
-						
+						//has to do with player's killing probability						
 						else 
 						{
 							trace(this, "is deciding on whether to engage in an open fight");
-							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * 2)						
+							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * GlobalState.thingCautiousnessLevel)						
 								attack(victim)
 							else												
 								goToAnotherRandomReachableRoom();					
@@ -151,6 +156,7 @@
 		{
 			isVisible = true;
 			alpha = 1;
+			this.mouseEnabled = true;
 		}
 		
 		public function goInvisible()
@@ -162,6 +168,8 @@
 					alpha = 0.3;
 				else
 					alpha = 0;
+					
+				this.mouseEnabled = false;
 			}
 		}
 		
@@ -183,13 +191,8 @@
 			//infection to be communicated to victim
 			var infection:Function = function()
 			{				
-				var checkNonInfectedPlayers:Function = function(item:*)
-				{
-					return item is Player && (!item.IsInfected)
-				}				
-				
-				var potentialVictims = this.currentRoom.characters.filter(checkNonInfectedPlayers);
-				trace("Infected in:", this.currentRoom, "potential victims:", potentialVictims.length)
+				var potentialVictims = this.currentRoom.Players;
+				trace("Infected", this, "in", this.currentRoom, "\n\tpotential victims:", potentialVictims.length)
 				
 				if(this.currentRoom.IsTakenOver)
 				{
@@ -207,8 +210,11 @@
 				
 			}
 			
-			trace(this, "has assimilated into", victim);
-			victim.getInfected(infection);
+			trace(this, "is trying to assimilate into", victim);
+			if(Utils.getRandom(6,1) <= GlobalState.thingOpenAssimilationProbability + int(this.currentRoom.IsTakenOver) * 6)
+			{
+				victim.getInfected(infection);
+			}
 		}
 		
 		override public function die()
@@ -233,6 +239,7 @@
 			ReachableRooms[randomRoom].putIn(this);
 		}
 		
+		//todo: has to see if there are players in reachable rooms
 		private function goToAnotherRandomReachableRoom()
 		{
 			trace(this, "is moving to a different room");

@@ -1,156 +1,42 @@
-﻿package  {
-	
-	import flash.display.MovieClip;
-	import flash.events.*; 
-	import Utils;
-	import flashx.textLayout.formats.BackgroundColor;
-	
-	public class ThingApp extends MovieClip 
-	{			
-		const maxPlayers = 5;
-		
-		
-		public function ThingApp() 
+﻿package 
+{
+	import Thing;
+	public class Policy 
+	{
+		public static function generateThingPolicy(forWhom:Thing)
 		{
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);		
-		}
-		
-		private function onAddedToStage(e:Event) : void 
-		{			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			
-			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
-			
-			
-			initializePlayers();
-			initializeThing();	
-		}		
-		
-		private function initializePlayers()
-		{
-			trace("Where do humans start?")
-			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-			
-			for (var i:int = 0; i < maxPlayers; i++)
-			{
-				var player = new Player();
-				GlobalState.players.push(player);
-				
-				GlobalState.rooms[initialRoom].putIn(player);
-				stage.addChild(player);					
-			}
-		}
-		
-		private function initializeThing()
-		{
-			var thing = new Thing();
-			GlobalState.things.push(thing);
-			
-			//needs refactoring
-			trace("Where does", thing, "start?");
-			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-			
-			if(!GlobalState.rooms[thingsInitialRoom].IsTakenOver)
-			{
-				trace(thing, "needs another room to start?");
-				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
-			}
-			
-			GlobalState.rooms[thingsInitialRoom].putIn(thing);
-			stage.addChild(thing);
-		}
-		
-		private function identifySquads()
-		{
-			var squads:Array = [];
-			var checkedSquadMembers:Array = [];
-			
-			for (var i:int = 0; i < GlobalState.players.length; i++)
-			{				
-				//identifying squads of players moving together
-				var checkSameSquad:Function = function(item:*)
+			return function()
+			{					
+				if (this.currentRoom is GenRoom && GlobalState.isLightOn)
+					this.currentRoom.lightSwitch.switchPower(false);
+				else
 				{
-					 return item.previousRoom == GlobalState.players[i].previousRoom
-						 && item.currentRoom == GlobalState.players[i].currentRoom
-						 && item.currentRoom != GlobalState.players[i].previousRoom
-						 && item.previousRoom != GlobalState.players[i].currentRoom
-						 && item.IsInactive;
+					var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
+					if(potentialVictims.length > 0)
+					{
+						trace(this, "is choosing whom to assimilate")
+						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
+						
+						if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
+						{					
+							assimilate(victim);
+						}					
+						//also a random chance of engaging in open fight
+						//has to do with player's killing probability						
+						else 
+						{
+							trace(this, "is deciding on whether to engage in an open fight");
+							if(Utils.getRandom(6, 1) > currentRoom.PlayerMargin * 2)						
+								attack(victim)
+							else												
+								goToAnotherRandomReachableRoom();					
+						}									
+					}				
+					else
+						goToRandomReachableRoom();
 				}
-				
-				if (!checkedSquadMembers.some(checkSameSquad)
-					&& GlobalState.players[i].IsInactive)
-				{
-					var squad:Array = GlobalState.players.filter(checkSameSquad);
-					
-					squads.push(squad);
-					//so we wouldn't consider members of the same squad twice
-					checkedSquadMembers.push(GlobalState.players[i]);
-				}
-			}			
-			
-			return squads.filter(function(squad:*) {return squad.length > 1});
-		}
-		
-		//return random players to their previous rooms
-		private function returnRandomSquadMember(squad:*)
-		{
-			trace("Squad: [", squad, "]");
-			trace("Will someone get left behind?");
-			if(Utils.getRandom(6, 1) >= GlobalState.leftBehindProbability)
-			{
-				trace("Who's the lucky man?");
-				var luckyMan:Player = squad[Utils.getRandom(squad.length - 1)];
-					luckyMan.previousRoom.putIn(luckyMan);
 			}
-		}
-		
-		private function onKeyPress(e:KeyboardEvent)
-		{
-			//space
-			if (e.keyCode == 32)
-				endTurn();
-			else if (String.fromCharCode(e.charCode) == "d")
-				GlobalState.DEBUG = !GlobalState.DEBUG;
-				//needs improvement
-				
-		}
-		
-		private function endTurn()
-		{			
-		
-			//test room gives out syringes
-			room5.enhancePlayers();	
-			
-			//room4 gives out bombs
-			room4.enhancePlayers();
-			
-			var squads = identifySquads();
-			squads.forEach(function(squad:*) {returnRandomSquadMember(squad)});
-			
-			GlobalState.players.forEach(function(item:*) {item.act()});
-			GlobalState.things.forEach(function(item:*) {item.act()});
-			
-			if(GlobalState.rooms.every(function(item:*) {return item.Players.length == 0}))
-			{
-				trace("HUMANS LOST");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
-		   
-			}
-			  
-			 if(GlobalState.rooms.every(function(item:*)
-										{return !item.characters.some(function(character:*)
-																	  {return character is Thing || character.IsInfected})
-										}))
-		   {
-				trace("HUMANS WON");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, endTurn);
-		   }
-		   
-		   //reset action flags
-		   GlobalState.players.forEach(function(item:*){item.IsInactive = false});
-			
 		}
 		
 	}
-	
 }

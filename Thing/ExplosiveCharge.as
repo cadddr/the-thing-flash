@@ -43,19 +43,21 @@
 			//explode
 			if(isCharged && GlobalState.draggableCharacter != null)
 			{
-				
 				GlobalState.draggableCharacter.currentRoom.putIn(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
 				
-				trace("Charge exploded in", currentRoom);
-				//cloning to avoid mutability problems
-				var tempChars = currentRoom.characters.concat();
-				tempChars.forEach(function(item:*) {item.die()});
-				gotoAndPlay(2);
-				
-				
+				explode();
 			}
 				
+		}
+		
+		private function explode()
+		{			
+			trace("Charge exploded in", currentRoom);
+			//cloning to avoid mutability problems
+			var tempChars = currentRoom.characters.concat();
+			tempChars.forEach(function(item:*) {item.die()});
+			gotoAndPlay(2);
 		}
 	}
 	
