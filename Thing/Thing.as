@@ -4,19 +4,20 @@
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
 	import GlobalState;
+	import Character;
 	
-	public class Thing extends MovieClip {
+	public class Thing extends Character 
+	{
 		
 		//todo: normalize
 		private const killProbability:Number = 3;
-		public var currentRoom:Room;
+		
 		
 		private var isDead:Boolean;
 		private var isVisible:Boolean;
 		
 		public function Thing() 
 		{			
-			currentRoom = null;
 			isDead = false;
 			goInvisible();
 			
@@ -92,10 +93,25 @@
 			}
 		}
 		
+		private function refreshVisibility()
+		{
+			if (currentRoom.IsTakenOver)
+			{
+				goInvisible();
+			}
+			else
+			{
+				goVisible();
+			}
+		}
+		
 		public function act()
 		{
 			if(!isDead)
 			{
+				refreshVisibility();
+				Utils.sleep(1000);
+				
 				var potentialVictims = currentRoom.characters.filter(function(item:*){return item is Player && (!item.IsInfected)});
 				if(potentialVictims.length > 0)
 				{
@@ -120,6 +136,8 @@
 				}				
 				else
 					goToRandomReachableRoom();
+					
+				refreshVisibility();
 			}
 		}
 		

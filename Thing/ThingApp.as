@@ -3,9 +3,9 @@
 	import flash.display.MovieClip;
 	import flash.events.*; 
 	import Utils;
-	public class ThingApp extends MovieClip {			
-								  
-		
+	
+	public class ThingApp extends MovieClip 
+	{			
 		const maxPlayers = 7;
 		
 		public function ThingApp() 
@@ -19,9 +19,7 @@
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];
 			
-		
 			initializeThing();	
-			
 			initializePlayers();
 		}		
 		

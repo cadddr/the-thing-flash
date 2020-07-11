@@ -5,8 +5,10 @@
     import flash.geom.Rectangle;
     import flash.geom.ColorTransform;
 	import GlobalState;
+	import Character;
 	
-	public class Player extends MovieClip {		
+	public class Player extends Character
+	{		
 		
 		//todo: normalize
 		public const killProbability:Number = 2
@@ -15,17 +17,12 @@
 		
 		public var isDead:Boolean;
 		
-		public var currentRoom:Room;
-		public var previousRoom:Room;
-		
 		private var isInfected:Boolean;
 		private var infection:Function;
 		
 		public function Player() 
 		{				
 			alreadyActed = false;
-			currentRoom = null;
-			previousRoom = null;
 			
 			infection = null;
 			isInfected = false;
