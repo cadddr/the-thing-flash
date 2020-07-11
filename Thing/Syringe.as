@@ -6,20 +6,20 @@
 	
 	public class Syringe extends MovieClip {
 		
-		private var owner:Player;
-		public function Syringe(owner:Player) 
+		public var owner:Player;
+		public function Syringe() 
 		{
-			this.owner = owner;
+			this.visible = false;
 			addEventListener(MouseEvent.CLICK , onClick);
 		}
 		
 		private function onClick(e:MouseEvent)
 		{
 			//todo: animation with delay
-			if(!owner.alreadyActed)
+			if(!owner.IsInactive)
 			{
 				owner.currentRoom.characters.forEach(function(item:*) {item.revealItself()});
-				owner.alreadyActed = true;
+				owner.finalizeAction();
 			}
 			//todo: disposable syringe
 		}

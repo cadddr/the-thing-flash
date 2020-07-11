@@ -100,13 +100,13 @@
 			
 			//to enhance players with syringes
 			var testRoom = GlobalState.rooms.filter(function(item:*) {return item is TestRoom})[0];
-			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.alreadyActed});
+			var eligiblePlayers = testRoom.Players.filter(function(item:*) {return !item.IsInactive});
 			
 			eligiblePlayers.forEach(function(item:*) 
 									{
-										var syringe = new Syringe(item);
-										item.Syringe = syringe; 
-										stage.addChild(syringe);
+										
+										item.equipSyringe(); 
+										//stage.addChild(syringe);
 									});
 			
 			

@@ -12,11 +12,11 @@
 		//todo: normalize
 		public const killProbability:Number = 2
 		
-		public var alreadyActed:Boolean = false;
+		private var alreadyActed:Boolean = false;
 		
 		private var isInfected:Boolean = false;
-		private var syringe:Syringe = null;
-		
+		//private var syringe:Syringe = null;
+		/*
 		override public function set x(n:Number):void
 		{
 			super.x = n;
@@ -32,6 +32,7 @@
 			if(this.syringe)
 				this.syringe.y = this.y;
 		}
+		*/
 		
 		public function get IsInfected()
 		{
@@ -53,14 +54,17 @@
 			return alreadyActed;
 		}
 		
-		public function set Syringe(syringe:Syringe)
+		public function equipSyringe()
 		{
-			if(!this.syringe)
+			trace("syringe:", this.mysyringe)
+			this.mysyringe.visible = true;
+			this.mysyringe.owner = this;
+			/*if(!this.syringe)
 			{
 				this.syringe = syringe;
 				this.syringe.x = this.x + 20;
 				this.syringe.y = this.y;
-			}
+			}*/
 		}
 		
 		
