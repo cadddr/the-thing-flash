@@ -9,7 +9,7 @@
 	
 	public class Thing extends Character 
 	{		
-		private var isVisible:Boolean;
+		public var isVisible:Boolean;
 		private var switchLightRetries = 2;
 		
 		public function set IsDead(value)

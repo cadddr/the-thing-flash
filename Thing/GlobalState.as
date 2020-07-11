@@ -3,7 +3,7 @@
 	import Room;
 	public class GlobalState {
 		
-		public static var DEBUG:Boolean = true;
+		public static var DEBUG:Boolean = false;
 		
 		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
 															[0, 1, 0, 0, 0, 0, 1, 0],

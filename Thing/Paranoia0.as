@@ -1,6 +1,7 @@
 ﻿package  {
 	import flash.utils.Dictionary;
 	import flash.display.MovieClip;
+	import flashx.textLayout.elements.ParagraphElement;
 	
 	public class Paranoia0 extends MovieClip
 	{
@@ -46,6 +47,13 @@
 			can manifest
 			can syringe
 		*/
+		public function considerEvidence(suspect:Player, isInfected:Boolean)
+		{
+			
+			suspects[suspect] = int(isInfected);
+			trace("Evidence", suspect,suspects[suspect]);
+		}
+		
 		public function updateProbabilities()
 		{
 			var numInitialThings:Number = 1;
@@ -56,16 +64,22 @@
 			
 			for(var victim:* in this.suspects)
 			{
+				var numPlayers = victim.Roommates.length + 1;
 				// consider closed thing's attack scenario
 				if(victim.Roommates.length < numThings)
 				{
-					var numPlayers = victim.Roommates.length + 1;
+					
 					var thingMargin = numThings - numPlayers;
 					futureSuspects[victim] +=  Math.pow(1 / numRooms, numThings) + thingMargin / numRooms;
 				}
 				
-				// consider roommate's attack
+				// if the light is off anyone can get infected
+				if(!GlobalState.isLightOn)
+				{
+					futureSuspects[victim] += numThings / (numRooms * numPlayers)
+				}
 				
+				// consider roommate's attack				
 				var nonInnocentSuspects = nonZeroValueKeys(victim.Roommates, this.suspects);
 				
 				if(nonInnocentSuspects.length > victim.Roommates.length - nonInnocentSuspects.length)
@@ -76,6 +90,13 @@
 					}
 				}	
 				
+				if(victim.SeenThings > 0)
+				{
+					var thingAssimilationProbability = 0.3;
+					futureSuspects[victim] += victim.SeenThings * thingAssimilationProbability / numPlayers;
+				}
+				
+				// normalize
 				if(futureSuspects[victim] > 1) 
 					futureSuspects[victim] = 1;
 			}

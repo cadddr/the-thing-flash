@@ -39,7 +39,8 @@
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
-				player.revelationCallback = function(isInfected:Boolean){paranoia.considerEvidence();}
+				player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
+				
 				GlobalState.players.push(player);
 				
 				GlobalState.rooms[initialRoom].putIn(player);
