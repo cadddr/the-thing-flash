@@ -13,6 +13,32 @@
 		const maxPlayers = 5;
 		var paranoia:Paranoia0;
 		
+		private function get Players()
+		{
+			var players = [];
+			GlobalState.rooms.forEach(function(room:*) 
+									  {
+										  room.Players.forEach(function(player:*)
+															   {
+																   players.push(player);
+															   });
+									  });									  
+			return players;
+		}
+		
+		private function get Things()
+		{
+			var things = []
+			GlobalState.rooms.forEach(function(room:*)
+									  {
+										  room.Things.forEach(function(thing:*)
+															  {
+																  things.push(thing);
+															  });
+									  });
+			return things;
+		}
+		
 		public function ThingApp() 
 		{
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);		
@@ -22,6 +48,10 @@
 		{			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			btn_endTurn.addEventListener(MouseEvent.CLICK, function(e:*){endTurn()});
+			room2.lightSwitch.addEventListener("lightSwitched", function(e:*)
+										 				  {
+															  Things.forEach(function(thing:*) {thing.refreshVisibility()});  
+														  });
 			
 			GlobalState.rooms = [room1, room2, room3, room4, room5, room6, room7, room8];			
 			
@@ -36,14 +66,12 @@
 		{
 			trace("Where do humans start?")
 			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-			
+		
 			for (var i:int = 0; i < maxPlayers; i++)
 			{
 				var player = new Player();
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
-				
-				GlobalState.players.push(player);
-				
+								
 				GlobalState.rooms[initialRoom].putIn(player);
 				stage.addChild(player);					
 			}
@@ -52,9 +80,8 @@
 		private function initializeThing()
 		{
 			var thing = new Thing();
-			GlobalState.things.push(thing);
 			
-			//needs refactoring
+			//todo: needs refactoring
 			trace("Where does", thing, "start?");
 			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
 			
@@ -73,26 +100,26 @@
 			var squads:Array = [];
 			var checkedSquadMembers:Array = [];
 			
-			for (var i:int = 0; i < GlobalState.players.length; i++)
+			for (var i:int = 0; i < Players.length; i++)
 			{				
 				//identifying squads of players moving together
 				var checkSameSquad:Function = function(item:*)
 				{
-					 return item.previousRoom == GlobalState.players[i].previousRoom
-						 && item.currentRoom == GlobalState.players[i].currentRoom
-						 && item.currentRoom != GlobalState.players[i].previousRoom
-						 && item.previousRoom != GlobalState.players[i].currentRoom
+					 return item.previousRoom == Players[i].previousRoom
+						 && item.currentRoom == Players[i].currentRoom
+						 && item.currentRoom != Players[i].previousRoom
+						 && item.previousRoom != Players[i].currentRoom
 						 && item.IsInactive;
 				}
 				
 				if (!checkedSquadMembers.some(checkSameSquad)
-					&& GlobalState.players[i].IsInactive)
+					&& Players[i].IsInactive)
 				{
-					var squad:Array = GlobalState.players.filter(checkSameSquad);
+					var squad:Array = Players.filter(checkSameSquad);
 					
 					squads.push(squad);
 					//so we wouldn't consider members of the same squad twice
-					checkedSquadMembers.push(GlobalState.players[i]);
+					checkedSquadMembers.push(Players[i]);
 				}
 			}			
 			
@@ -133,8 +160,8 @@
 			var squads = identifySquads();
 			squads.forEach(function(squad:*) {returnRandomSquadMember(squad)});
 			
-			GlobalState.players.forEach(function(item:*) {item.act()});
-			GlobalState.things.forEach(function(item:*) {item.act()});
+			Players.forEach(function(item:*) {item.act()});
+			Things.forEach(function(item:*) {item.act()});
 			
 			if(GlobalState.rooms.every(function(item:*) {return item.NonInfectedPlayers.length == 0}))
 			{
@@ -151,7 +178,7 @@
 		   }
 		   
 		   //reset action flags
-		   GlobalState.players.forEach(function(item:*){item.IsInactive = false});
+		   Players.forEach(function(item:*){item.IsInactive = false});
 			
 			//paranoia.updateProbabilities();
 			//trace(paranoia);

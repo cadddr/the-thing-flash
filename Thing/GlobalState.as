@@ -3,7 +3,7 @@
 	import Room;
 	public class GlobalState {
 		
-		public static var DEBUG:Boolean = false;
+		public static var DEBUG:Boolean = true;
 		
 		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
 															[0, 1, 0, 0, 0, 0, 1, 0],
@@ -34,8 +34,7 @@
 		public static var thingCautiousnessLevel:Number = 1;
 		
 		public static var rooms:Array;
-		public static var things:Array = [];
-		public static var players:Array = [];
+		
 		public static var draggableCharacter:Player;
 		public static var isLightOn:Boolean = true;
 		

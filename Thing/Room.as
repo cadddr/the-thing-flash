@@ -143,7 +143,7 @@
 			guests.push(character);
 			character.currentRoom = this;
 
-			GlobalState.things.forEach(function(item:*){item.refreshVisibility()});
+			Things.forEach(function(thing:*){thing.refreshVisibility()});
 			
 			positionInRoom(character, this);
 		}
@@ -152,6 +152,8 @@
 		{
 			var characterIndex = guests.indexOf(character);
 			guests.splice(characterIndex, 1);
+			
+			Things.forEach(function(thing:*){thing.refreshVisibility()});
 		}
 		
 		public function killGuests()

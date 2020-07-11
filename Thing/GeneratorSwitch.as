@@ -45,7 +45,7 @@
 			   GlobalState.isLightOn = switchOn;
 			   stage.color = int(switchOn) * 0xffffff;
 		
-			   GlobalState.things.forEach(function(item:*) {item.refreshVisibility()});  
+			   dispatchEvent(new Event("lightSwitched"));
 			   
 			   this.gotoAndStop(switchOn ? 1 : 2);
 			   this.myselection.gotoAndStop(1);

@@ -127,7 +127,7 @@
 			if (isInfected)
 			{
 				var revealedThing = new Thing();
-				GlobalState.things.push(revealedThing);
+				
 				stage.addChild(revealedThing);
 				
 				var tmpX = this.x;
@@ -160,8 +160,7 @@
 			gotoAndStop(24);
 			//for not acting anymore
 			alreadyActed = true;
-			
-			GlobalState.players.splice(GlobalState.players.indexOf(this), 1);			
+				
 		}
 		
 		private function initializeAction()
