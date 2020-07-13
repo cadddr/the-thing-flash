@@ -2,7 +2,7 @@
 {
 	import flash.utils.Dictionary;
 	import flash.display.MovieClip;
-	import flashx.textLayout.elements.ParagraphElement;
+	//import flashx.textLayout.elements.ParagraphElement;
 	import ThingModel;
 	
 	public class Paranoia0 extends MovieClip

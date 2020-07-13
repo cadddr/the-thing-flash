@@ -154,11 +154,9 @@
 
 		public function highlightReachableRooms(shouldHighlight:Boolean) 
 		{			
-			accessibleRooms.forEach(function(room:*) 
-									{
-										room.IsReachable = shouldHighlight;
-										
-									});
+			accessibleRooms.forEach(function(room:*) {
+				room.IsReachable = shouldHighlight;
+			});
 		}
 
 		public function putIn(character:Character)
