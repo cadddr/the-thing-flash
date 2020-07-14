@@ -2,15 +2,14 @@
 	
 	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
-	import levels.Level2;
+	import levels.Level3;
 	
 	
-	public class Level2Button extends SimpleButton {
+	public class Level3Button extends SimpleButton {
 		
-		
-		public function Level2Button() {
+		public function Level3Button() {
 			this.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-					stage.addChild(new Level2());
+					stage.addChild(new Level3());
 			});
 		}
 	}
