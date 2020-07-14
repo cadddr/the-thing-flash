@@ -5,21 +5,30 @@
 	import levels.LevelBase;
 	import GlobalState;
 	
-	public class Level1 extends LevelBase {
+	public class Level2 extends LevelBase {
 		
-		public function Level1() 
-		{
-			trace ("Level1");
-            maxPlayers = 2;	
-			playerReachabilityMap  = [[1, 0, 1],
-									  [0, 1, 1],
-									  [1, 1, 1]];
+		
+		public function Level2() {
+			maxPlayers = 3;	
+			playerReachabilityMap  = [[1, 1, 0, 0, 0, 0, 0, 1],
+									  [1, 1, 1, 0, 0, 0, 0, 0],
+									  [0, 1, 1, 1, 0, 0, 0, 0],
+									  [0, 0, 1, 1, 1, 0, 0, 0],
+									  [0, 0, 0, 1, 1, 1, 0, 0],
+									  [0, 0, 0, 0, 1, 1, 1, 0],
+			                          [0, 0, 0, 0, 0, 1, 1, 1],
+									  [1, 0, 0, 0, 0, 0, 1, 1]];
 													
-			thingReachabilityMap = [[1, 0, 1],
-								    [0, 1, 1],
-									[1, 1, 1]];
+			thingReachabilityMap = [[1, 1, 0, 0, 0, 0, 0, 1],
+									  [1, 1, 1, 0, 0, 0, 0, 0],
+									  [0, 1, 1, 1, 0, 0, 0, 0],
+									  [0, 0, 1, 1, 1, 0, 0, 0],
+									  [0, 0, 0, 1, 1, 1, 0, 0],
+									  [0, 0, 0, 0, 1, 1, 1, 0],
+			                          [0, 0, 0, 0, 0, 1, 1, 1],
+									  [1, 0, 0, 0, 0, 0, 1, 1]];
 			
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);		
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function onAddedToStage(e:Event) : void 
@@ -32,7 +41,7 @@
 				Things.forEach(function(thing:*) {thing.refreshVisibility();});  
 			});
 			
-			GlobalState.rooms = [room1, room2, room3];			
+			GlobalState.rooms = [room1, room3, room2, room4, room1_2, room3_2, room1_3, room4_2];			
 			reachabilityMaps2AdjacencyLists(GlobalState.rooms);
 			
 			initializePlayers();
@@ -42,6 +51,10 @@
 		override protected function endTurn()
 		{									
 			trace("endTurn");
+			//room4 gives out bombs
+			room4.enhancePlayers();
+			room4_2.enhancePlayers();
+			
 			var squads = identifySquads();
 			squads.forEach(function(squad:*) 
 						   {

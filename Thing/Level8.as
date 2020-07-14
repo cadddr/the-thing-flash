@@ -4,70 +4,39 @@
 	import flash.events.*; 
 	import Utils;
 	import Paranoia0;
+	import levels.LevelBase;
 	//import flashx.textLayout.formats.BackgroundColor;
 	
 	//todo: hovering players can be underneath other objects
 	//todo: players can plant bombs to the rooms there are not in
-	public class Level8 extends MovieClip 
+	public class Level8 extends LevelBase 
 	{			
-		protected const maxPlayers = 5;	
-		
-		public static const playerReachabilityMap : Array = [[1, 0, 0, 0, 0, 0, 1, 1],
-															[0, 1, 0, 0, 0, 0, 1, 0],
-															[0, 0, 1, 0, 0, 0, 1, 0],
-															[0, 0, 0, 1, 0, 0, 1, 0],
-															[0, 0, 0, 0, 1, 0, 0, 1],
-															[0, 0, 0, 0, 0, 1, 0, 1],
-															[1, 1, 1, 1, 0, 0, 1, 1],
-															[1, 0, 0, 0, 1, 1, 1, 1]];
-													
-		public static const thingReachabilityMap : Array = [[1, 1, 0, 0, 0, 0, 1, 1],
-														  [1, 1, 0, 0, 0, 0, 1, 1],
-														  [0, 0, 1, 1, 0, 1, 1, 1],
-														  [0, 0, 1, 1, 1, 0, 1, 1],
-														  [0, 0, 0, 1, 1, 1, 0, 1],
-														  [0, 0, 1, 0, 1, 1, 0, 1],
-														  [1, 1, 1, 1, 0, 0, 1, 1],
-														  [1, 1, 1, 1, 1, 1, 1, 1]];
-		
-		//out of 6
-		public static const leftBehindProbability:Number = 2
-		
-		public static const humanInfectedRefusalProbability = 2;
-		
-		
-		
 		var paranoia:Paranoia0;
-		
-		protected function get Players()
-		{
-			var players = [];
-			GlobalState.rooms.forEach(function(room:*) 
-									  {
-										  room.Players.forEach(function(player:*)
-															   {
-																   players.push(player);
-															   });
-									  });									  
-			return players;
-		}
-		
-		protected function get Things()
-		{
-			var things = []
-			GlobalState.rooms.forEach(function(room:*)
-									  {
-										  room.Things.forEach(function(thing:*)
-															  {
-																  things.push(thing);
-															  });
-									  });
-			return things;
-		}
 		
 		public function Level8() 
 		{
 			trace("Level8");
+			
+			maxPlayers = 5;	
+		
+			playerReachabilityMap = [[1, 0, 0, 0, 0, 0, 1, 1],
+									[0, 1, 0, 0, 0, 0, 1, 0],
+									[0, 0, 1, 0, 0, 0, 1, 0],
+									[0, 0, 0, 1, 0, 0, 1, 0],
+									[0, 0, 0, 0, 1, 0, 0, 1],
+									[0, 0, 0, 0, 0, 1, 0, 1],
+									[1, 1, 1, 1, 0, 0, 1, 1],
+									[1, 0, 0, 0, 1, 1, 1, 1]];
+													
+			thingReachabilityMap = [[1, 1, 0, 0, 0, 0, 1, 1],
+								  [1, 1, 0, 0, 0, 0, 1, 1],
+								  [0, 0, 1, 1, 0, 1, 1, 1],
+								  [0, 0, 1, 1, 1, 0, 1, 1],
+								  [0, 0, 0, 1, 1, 1, 0, 1],
+								  [0, 0, 1, 0, 1, 1, 0, 1],
+								  [1, 1, 1, 1, 0, 0, 1, 1],
+								  [1, 1, 1, 1, 1, 1, 1, 1]];
+								  
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);		
 		}
 		
@@ -97,113 +66,8 @@
 			
 		}		
 		
-		//todo: make look nicer
-		protected function reachabilityMaps2AdjacencyLists(rooms:Array)
-		{
-			for(var i:int = 0; i < rooms.length; i++)
-			{
-				for(var j:int = 0; j < playerReachabilityMap[i].length; j++)
-				{
-					if(playerReachabilityMap[i][j] == 1)
-					{
-						rooms[i].accessibleRooms.push(rooms[j]);
-					}
-					
-					if(thingReachabilityMap[i][j] == 1)
-					{
-						rooms[i].adjacentRooms.push(rooms[j]);
-					}
-				}
-			}
-		}
 		
-		protected function initializePlayers()
-		{
-			trace("Where do humans start?")
-			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-		
-			for (var i:int = 0; i < maxPlayers; i++)
-			{
-				var player = new Player(humanInfectedRefusalProbability);
-				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
-								
-				GlobalState.rooms[initialRoom].putIn(player);
-				stage.addChild(player);					
-			}
-		}
-		
-		protected function initializeThing()
-		{
-			var thing = new Thing();
-			
-			//todo: needs refactoring
-			trace("Where does", thing, "start?");
-			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
-			
-			if(!GlobalState.rooms[thingsInitialRoom].IsTakenOver)
-			{
-				trace(thing, "needs another room to start?");
-				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
-			}
-			
-			GlobalState.rooms[thingsInitialRoom].putIn(thing);
-			stage.addChild(thing);
-		}
-		
-		protected function identifySquads()
-		{
-			var squads:Array = [];
-			var checkedSquadMembers:Array = [];
-			
-			for (var i:int = 0; i < Players.length; i++)
-			{				
-				//identifying squads of players moving together
-				var checkSameSquad:Function = function(item:*)
-				{
-					 return item.previousRoom == Players[i].previousRoom
-						 && item.currentRoom == Players[i].currentRoom
-						 && item.currentRoom != Players[i].previousRoom
-						 && item.previousRoom != Players[i].currentRoom
-						 && item.IsInactive;
-				}
-				
-				if (!checkedSquadMembers.some(checkSameSquad)
-					&& Players[i].IsInactive)
-				{
-					var squad:Array = Players.filter(checkSameSquad);
-					
-					squads.push(squad);
-					//so we wouldn't consider members of the same squad twice
-					checkedSquadMembers.push(Players[i]);
-				}
-			}				
-			return squads.filter(function(squad:*) {return squad.length > 1});
-		}
-		
-		//return random players to their previous rooms
-		protected function returnRandomSquadMember(squad:*)
-		{
-			trace("Squad: [", squad, "]");
-			trace("Will someone get left behind?");
-			if(Utils.getRandom(6, 1) <= leftBehindProbability)
-			{
-				trace("Who's the lucky man?");
-				var luckyMan:Player = squad[Utils.getRandom(squad.length - 1)];
-					luckyMan.previousRoom.putIn(luckyMan);
-			}
-		}
-		
-		protected function onKeyPress(e:KeyboardEvent)
-		{
-			//space
-			if (e.keyCode == 32)
-				endTurn();
-			else if (String.fromCharCode(e.charCode) == "d")
-				GlobalState.DEBUG = !GlobalState.DEBUG;
-				//needs improvemen
-		}
-		
-		protected function endTurn()
+		override protected function endTurn()
 		{						
 			//test room gives out syringes
 			room5.enhancePlayers();	
