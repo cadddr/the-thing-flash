@@ -11,9 +11,6 @@
 		public function LevelScreen(level:LevelBase) {
 			var caller = this;
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
-				
-				testLabel.text = level.toString();
-				//testLabel.htmlText = "<p style=\"color:red;\">This is a paragraph.</p>";
 			
 				goBackButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
 						stage.addChild(new LevelSelectionScreen());
