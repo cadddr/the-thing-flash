@@ -22,6 +22,7 @@
 		protected var humanInfectedRefusalProbability = 2;
 
 		public var btn_endTurn: Button;
+		public var onGameOver: Function;
 
 		protected var lightRoom: Room;
 
@@ -171,6 +172,7 @@
 			})) {
 				trace("HUMANS LOST");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+				onGameOver();
 
 			}
 
@@ -179,6 +181,7 @@
 			})) {
 				trace("HUMANS WON");
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+				onGameOver();
 			}
 
 			//reset action flags

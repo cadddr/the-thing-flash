@@ -1,7 +1,7 @@
 ﻿package ui {
 	
 	import flash.display.MovieClip;
-	import flash.events.MouseEvent;
+	import flash.events.*;
 	import levels.*;
 	import ui.LevelScreen;
 	
@@ -9,20 +9,28 @@
 		
 		
 		public function LevelSelectionScreen() {
-			levelSelectionButton1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-					stage.addChild(new LevelScreen(new Level1()));
-			});
-			
-			levelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-					stage.addChild(new LevelScreen(new Level2()));
-			});
-			
-			levelSelectionButton3.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-					stage.addChild(new LevelScreen(new Level3()));
-			});
-			
-			levelSelectionButton8.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-					stage.addChild(new LevelScreen(new Level8()));
+			var caller = this;
+			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
+				stage.color = 0x1b1b2f;
+				levelSelectionButton1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new Level1()));
+						stage.removeChild(caller);
+				});
+				
+				levelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new Level2()));
+						stage.removeChild(caller);
+				});
+				
+				levelSelectionButton3.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new Level3()));
+						stage.removeChild(caller);
+				});
+				
+				levelSelectionButton8.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new Level8()));
+						stage.removeChild(caller);
+				});
 			});
 		}
 	}
