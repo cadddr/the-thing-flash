@@ -21,7 +21,7 @@
 
 		protected var humanInfectedRefusalProbability = 2;
 
-		private var btn_endTurn: Button;
+		public var btn_endTurn: Button;
 
 		protected var lightRoom: Room;
 
@@ -31,11 +31,9 @@
 
 		protected function onAddedToStage(e: Event): void {
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			btn_endTurn = new Button();
 			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent) {
 				endTurn();
 			});
-			stage.addChild(btn_endTurn);
 
 			lightRoom.lightSwitch.addEventListener("lightSwitched", function (e: * ) {
 				Things.forEach(function (thing: * ) {

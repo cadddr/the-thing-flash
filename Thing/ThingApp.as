@@ -1,7 +1,7 @@
 ﻿package  {
 
 	import flash.display.MovieClip;
-	import LevelSelectionScreen;
+	import ui.LevelSelectionScreen;
 	import flash.events.Event;
 
 	//todo: hovering players can be underneath other objects
