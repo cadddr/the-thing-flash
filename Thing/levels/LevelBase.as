@@ -31,16 +31,19 @@
 		}
 
 		protected function onAddedToStage(e: Event): void {
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			
 			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent) {
 				endTurn();
 			});
 
 			lightRoom.lightSwitch.addEventListener("lightSwitched", function (e: * ) {
 				Things.forEach(function (thing: * ) {
+					trace("lightSwitched");
 					thing.refreshVisibility();
 				});
 			});
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 
 			initializeRooms(GlobalState.rooms);
 			initializePlayers();
@@ -150,7 +153,12 @@
 			if (e.keyCode == 32)
 				endTurn();
 			else if (String.fromCharCode(e.charCode) == "d")
+				trace("Debug mode", GlobalState.DEBUG );
 				GlobalState.DEBUG = !GlobalState.DEBUG;
+				Things.forEach(function (thing: * ) {
+					trace("lightSwitched");
+					thing.refreshVisibility();
+				});
 			//needs improvemen
 		}
 		
@@ -171,7 +179,7 @@
 				return item.NonInfectedPlayers.length == 0
 			})) {
 				trace("HUMANS LOST");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+				//stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 				onGameOver();
 
 			}
@@ -180,7 +188,7 @@
 				return item.Things.length == 0 && item.InfectedPlayers.length == 0
 			})) {
 				trace("HUMANS WON");
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+				//stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 				onGameOver();
 			}
 

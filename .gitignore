@@ -1,2 +1,10 @@
 
 .DS_Store
+
+Thing/build/
+
+Thing/Thing.p12
+
+Thing/Thing-app.xml
+
+Thing/Thing.swf
