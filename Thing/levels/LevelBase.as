@@ -105,7 +105,7 @@
 			trace("Where does", thing, "start?");
 			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
 
-			if (!GlobalState.rooms[thingsInitialRoom].IsTakenOver) {
+			while (!GlobalState.rooms[thingsInitialRoom].IsTakenOver) {
 				trace(thing, "needs another room to start?");
 				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
 			}

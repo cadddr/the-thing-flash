@@ -8,7 +8,7 @@
 
 	public class Room extends MovieClip
 	{
-		protected var guests:Array = [];
+		public var guests:Array = [];
 		
 		public var accessibleRooms:Array = [];
 		public var adjacentRooms:Array = [];

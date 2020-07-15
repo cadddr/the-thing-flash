@@ -27,6 +27,11 @@
 						stage.removeChild(caller);
 				});
 				
+				levelSelectionButton4.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new Level4()));
+						stage.removeChild(caller);
+				});
+				
 				levelSelectionButton8.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
 						stage.addChild(new LevelScreen(new Level8()));
 						stage.removeChild(caller);
