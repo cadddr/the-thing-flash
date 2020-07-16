@@ -27,6 +27,7 @@
 		public var onGameOver: Function;
 
 		protected var lightRoom: Room;
+		protected var playerType = Player;
 
 		public function LevelBase() {
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -38,12 +39,14 @@
 				endTurn();
 			});
 
-			lightRoom.lightSwitch.addEventListener("lightSwitched", function (e: * ) {
-				Things.forEach(function (thing: * ) {
-					trace("lightSwitched");
-					thing.refreshVisibility();
+			if (lightRoom != null) {
+				lightRoom.lightSwitch.addEventListener("lightSwitched", function (e: * ) {
+					Things.forEach(function (thing: * ) {
+						trace("lightSwitched");
+						thing.refreshVisibility();
+					});
 				});
-			});
+			}
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 
@@ -92,7 +95,7 @@
 			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
 
 			for (var i: int = 0; i < maxPlayers; i++) {
-				var player = new Player(humanInfectedRefusalProbability);
+				var player = new playerType(humanInfectedRefusalProbability);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
 				GlobalState.rooms[initialRoom].putIn(player);

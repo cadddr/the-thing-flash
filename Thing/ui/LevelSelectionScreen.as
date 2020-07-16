@@ -2,11 +2,8 @@
 	
 	import flash.display.MovieClip;
 	import flash.events.*;
-	import levels.Level1;
-	import levels.Level2;
-	import levels.Level3;
-	import levels.Level4;
-	import levels.Level8;
+	import levels.*;
+
 	import ui.LevelScreen;
 	
 	public class LevelSelectionScreen extends MovieClip {
@@ -40,6 +37,11 @@
 				
 				levelSelectionButton8.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
 						stage.addChild(new LevelScreen(new Level8()));
+						stage.removeChild(caller);
+				});
+				
+				asciiLevelSelectionButton1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new AsciiLevel1()));
 						stage.removeChild(caller);
 				});
 			});
