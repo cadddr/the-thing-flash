@@ -1,16 +1,16 @@
-﻿package {
+﻿package levels {
 
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import Utils;
-	import Paranoia0;
+	//import Paranoia0;
 	import levels.LevelBase;
 	//import flashx.textLayout.formats.BackgroundColor;
 
 	//todo: hovering players can be underneath other objects
 	//todo: players can plant bombs to the rooms there are not in
 	public class Level8 extends LevelBase {
-		var paranoia: Paranoia0;
+		//var paranoia: Paranoia0;
 
 		public function Level8() {
 			maxPlayers = 5;

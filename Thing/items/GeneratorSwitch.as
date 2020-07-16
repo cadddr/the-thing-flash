@@ -1,10 +1,10 @@
-﻿package  {
+﻿package items {
 	
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import fl.motion.MotionEvent;
 	import GlobalState;
-	import GenRoom;
+	import rooms.GenRoom;
 	public class GeneratorSwitch extends MovieClip {
 		
 		

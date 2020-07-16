@@ -4,6 +4,7 @@
 	import flash.events.*;
 	import levels.LevelBase;
 	import GlobalState;
+	import characters.Player;
 	
 	
 	public class Level4 extends LevelBase {

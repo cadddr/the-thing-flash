@@ -1,6 +1,7 @@
-﻿package  {
+﻿package items {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import characters.Player;
 	
 	public class Item extends MovieClip{
 		

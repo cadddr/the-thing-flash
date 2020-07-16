@@ -1,11 +1,11 @@
-﻿package  {
+﻿package characters {
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
 	import GlobalState;
-	import Character;
-	import Room;
+	import characters.*;
+	import rooms.*;
 	import flash.events.Event;
 	//todo: inprove ai
 	public class Thing extends Character 

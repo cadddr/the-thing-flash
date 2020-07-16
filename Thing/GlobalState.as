@@ -1,6 +1,6 @@
 ﻿package  {
 	import flash.display.MovieClip;
-	import Room;
+	import characters.Player;
 	public class GlobalState {
 
 		public static var DEBUG:Boolean = false;

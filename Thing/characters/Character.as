@@ -1,6 +1,7 @@
-﻿package  {
+﻿package characters {
 	import flash.display.MovieClip;
 	import GlobalState;
+	import rooms.Room;
 	
 	public class Character extends MovieClip{
 		

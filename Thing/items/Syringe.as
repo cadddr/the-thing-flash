@@ -1,9 +1,9 @@
-﻿package  {
+﻿package items {
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import Player;
-	import Item;
+	import characters.Player;
+	import items.Item;
 	
 	public class Syringe extends Item {
 		

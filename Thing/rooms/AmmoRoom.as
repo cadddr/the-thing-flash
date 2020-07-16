@@ -1,13 +1,13 @@
-﻿package  {
+﻿package rooms {
 	
 	import flash.display.MovieClip;
-	import Room;
+	import rooms.Room;
+	import characters.Player;
 	
-	
-	public class TestRoom extends Room {
+	public class AmmoRoom extends Room {
 		
 		
-		public function TestRoom() {
+		public function AmmoRoom() {
 			// constructor code
 		}
 		
@@ -15,7 +15,7 @@
 		{			
 			var eligiblePlayers = this.guests.filter(function(item:*) {return item is Player && !item.IsInactive});
 			
-			eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});
+			eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
 		}
 	}
 	

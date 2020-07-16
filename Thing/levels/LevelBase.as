@@ -4,6 +4,8 @@
 	import flash.events.*;
 	import fl.controls.Button;
 	import Utils;
+	import rooms.Room;
+	import characters.*;
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
@@ -71,15 +73,15 @@
 		}
 
 		//todo: make look nicer
-		protected function initializeRooms(rooms: Array) {
-			for (var i: int = 0; i < rooms.length; i++) {
+		protected function initializeRooms(shrooms: Array) {
+			for (var i: int = 0; i < shrooms.length; i++) {
 				for (var j: int = 0; j < playerReachabilityMap[i].length; j++) {
 					if (playerReachabilityMap[i][j] == 1) {
-						rooms[i].accessibleRooms.push(rooms[j]);
+						shrooms[i].accessibleRooms.push(shrooms[j]);
 					}
 
 					if (thingReachabilityMap[i][j] == 1) {
-						rooms[i].adjacentRooms.push(rooms[j]);
+						shrooms[i].adjacentRooms.push(shrooms[j]);
 					}
 				}
 			}
