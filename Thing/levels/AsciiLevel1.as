@@ -4,7 +4,7 @@
 	import flash.events.Event;
 	import levels.LevelBase
 	import characters.AsciiPlayer;
-	import items.AsciiGeneratorSwitch;
+	import items.*;
 	
 	
 	public class AsciiLevel1 extends LevelBase {
@@ -35,10 +35,10 @@
 
 		override protected function onAddedToStage(e: Event): void {
 			GlobalState.rooms = [room1, room2, room3, room4];
-			room2.lightSwitch = new AsciiGeneratorSwitch();
-			stage.addChild(room2.lightSwitch);
+/*			room2.lightSwitch = new AsciiGeneratorSwitch();
+			stage.addChild(room2.lightSwitch);*/
 			
-			lightRoom = room2
+			//lightRoom = room2
 			
 			super.onAddedToStage(e);
 		}
