@@ -44,9 +44,9 @@
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
-				if (this.currentRoom is GenRoom && GlobalState.isLightOn && switchLightRetries > 0)
+				if (this.currentRoom is GeneratorRoomInterface && GlobalState.isLightOn && switchLightRetries > 0)
 				{
-					this.currentRoom.lightSwitch.switchPower(false);
+					this.currentRoom.getLightSwitch().switchPower(false);
 					switchLightRetries--;
 				}
 				else

@@ -6,6 +6,7 @@
 	import Utils;
 	import rooms.Room;
 	import characters.*;
+	import rooms.GeneratorRoomInterface;
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
@@ -26,7 +27,7 @@
 		public var btn_endTurn: Button;
 		public var onGameOver: Function;
 
-		protected var lightRoom: Room;
+		protected var lightRoom: GeneratorRoomInterface;
 		protected var playerType = Player;
 
 		public function LevelBase() {
@@ -40,7 +41,7 @@
 			});
 
 			if (lightRoom != null) {
-				lightRoom.lightSwitch.addEventListener("lightSwitched", function (e: * ) {
+				lightRoom.getLightSwitch().addEventListener("lightSwitched", function (e: * ) {
 					Things.forEach(function (thing: * ) {
 						trace("lightSwitched");
 						thing.refreshVisibility();

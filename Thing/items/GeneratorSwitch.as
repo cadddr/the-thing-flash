@@ -13,30 +13,34 @@
 			this.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
 			
 			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			myselection.visible = false;
-			myselection.gotoAndStop(1);
+			getSelection().visible = false;
+			getSelection().gotoAndStop(1);
+		}
+		
+		protected function getSelection(): MovieClip {
+			return myselection;
 		}
 		
 		private function highlight(e:MouseEvent)
 		{
 			if(GlobalState.draggableCharacter 
-			   && GlobalState.draggableCharacter.currentRoom is GenRoom)
+			   && GlobalState.draggableCharacter.currentRoom is GeneratorRoomInterface)
 				{
-					myselection.gotoAndPlay(1);
-					myselection.visible = true;
+					getSelection().gotoAndPlay(1);
+					getSelection().visible = true;
 				}
 		}
 		
 		private function unhighlight(e:MouseEvent)
 		{
-			myselection.gotoAndStop(1);
-			myselection.visible = false;
+			getSelection().gotoAndStop(1);
+			getSelection().visible = false;
 		}
 		
 		private function onMouseUp(e:MouseEvent)
 		{
 			if(GlobalState.draggableCharacter)
-				   if(GlobalState.draggableCharacter.currentRoom is GenRoom)
+				   if(GlobalState.draggableCharacter.currentRoom is GeneratorRoomInterface)
 				   {
 					   switchPower(true);
 					   GlobalState.draggableCharacter.finalizeAction();
@@ -53,8 +57,8 @@
 			   
 			   this.gotoAndStop(switchOn ? 1 : 2);
 			
-			   myselection.visible = false;
-			   myselection.gotoAndStop(1);
+			   getSelection().visible = false;
+			   getSelection().gotoAndStop(1);
 		}
 	}
 	
