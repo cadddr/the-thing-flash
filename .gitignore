@@ -10,3 +10,7 @@ Thing/Thing-app.xml
 Thing/Thing.swf
 
 *.zip
+
+.vscode/
+
+*.json

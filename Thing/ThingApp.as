@@ -8,7 +8,7 @@
 	//todo: players can plant bombs to the rooms there are not in
 	public class ThingApp extends MovieClip
 	{
-		public function ThingApp() {		
+		public function ThingApp() {	
 			stage.addChild(new LevelSelectionScreen());
 		}
 	}
