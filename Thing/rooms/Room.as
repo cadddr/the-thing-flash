@@ -174,6 +174,11 @@
 		}
 
 		protected function moveSmoothly(whom: MovieClip, destination: Array) {
+			trace("not moving smoothly");
+			whom.x = destination[0]
+			whom.y = destination[1]
+			return;
+			
 			var destinationX = destination[0];
 			var destinationY = destination[1];
 
