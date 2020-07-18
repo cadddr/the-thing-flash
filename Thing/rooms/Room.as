@@ -134,9 +134,6 @@
 
 		public function putIn(character: Character) {
 			register(character);
-
-
-
 			moveSmoothly(character, computePositionInRoom(character));
 		}
 

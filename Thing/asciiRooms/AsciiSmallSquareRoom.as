@@ -10,12 +10,20 @@
 	
 	
 	public class AsciiSmallSquareRoom extends Room {
+		var tileWidth = 25;
+		var tileHeight = 40.25;
 		
 		public function AsciiSmallSquareRoom() {
 		}
 		
 		override protected function computePositionInRoom(whom: Character): Array {
-			return [x + 25, y + 40.25];
+			if (whom.x - x < tileWidth || whom.y - y < tileHeight) {
+				whom.x = x + tileWidth + Math.floor(Math.random() * (width - 2 * tileWidth));
+				whom.y = y + tileHeight + Math.floor(Math.random() * (height - 2 * tileHeight));
+			}
+			
+			//this assumes room positions are snapped to tile grid
+			return [whom.x - whom.x % tileWidth, whom.y - whom.y % tileHeight];
 		}
 
 		override protected function interactOnMouseUp(event: MouseEvent): void {}
@@ -27,6 +35,8 @@
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
+					draggableCharacter.x = event.stageX
+					draggableCharacter.y = event.stageY;
 					putIn(draggableCharacter);
 
 				}
