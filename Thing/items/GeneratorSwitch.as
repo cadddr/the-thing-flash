@@ -3,41 +3,45 @@
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import rooms.*
+	import characters.Interactable;
 	
-	public class GeneratorSwitch extends MovieClip {
+	public class GeneratorSwitch extends Interactable {
 		
 		
 		public function GeneratorSwitch() 
 		{
-			this.addEventListener(MouseEvent.MOUSE_OVER, highlight);
-			this.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
-			
-			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			getSelection().visible = false;
-			getSelection().gotoAndStop(1);
+			unhighlightForInteraction();
 		}
 		
 		protected function getSelection(): MovieClip {
 			return myselection;
 		}
+
+		override protected function highlightForInteraction(): void {
+			getSelection().gotoAndPlay(1);
+			getSelection().visible = true;
+		}
+
+		override protected function unhighlightForInteraction(): void {
+			getSelection().visible = false;
+			getSelection().gotoAndStop(1);
+		}
 		
-		private function highlight(e:MouseEvent)
+		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
 			if(GlobalState.draggableCharacter 
 			   && GlobalState.draggableCharacter.currentRoom is GeneratorRoomInterface)
 				{
-					getSelection().gotoAndPlay(1);
-					getSelection().visible = true;
+					highlightForInteraction();
 				}
 		}
 		
-		private function unhighlight(e:MouseEvent)
+		override protected function interactOnMouseOut(e:MouseEvent): void
 		{
-			getSelection().gotoAndStop(1);
-			getSelection().visible = false;
+			unhighlightForInteraction();
 		}
 		
-		private function onMouseUp(e:MouseEvent)
+		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
 			if(GlobalState.draggableCharacter)
 				   if(GlobalState.draggableCharacter.currentRoom is GeneratorRoomInterface)
@@ -57,8 +61,7 @@
 			   
 			   this.gotoAndStop(switchOn ? 1 : 2);
 			
-			   getSelection().visible = false;
-			   getSelection().gotoAndStop(1);
+			   unhighlightForInteraction();
 		}
 	}
 	

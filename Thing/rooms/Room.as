@@ -4,8 +4,9 @@
 	import GlobalState;
 	import characters.*;
 	import flash.utils.*;
+	import characters.Interactable;
 
-	public class Room extends MovieClip {
+	public class Room extends Interactable {
 		public var guests: Array = [];
 
 		public var accessibleRooms: Array = [];
@@ -25,6 +26,10 @@
 			} else {
 				unhighlight();
 			}
+		}
+
+		public function Room() {		
+			
 		}
 
 		public function get Things(): Array {
@@ -72,20 +77,9 @@
 			});
 		}
 
-		public function Room() {
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		}
+		
 
-		protected function onAddedToStage(e: Event) {
-			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
-
-			//for putting draggable players into rooms
-			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-		}
-
-		private function onMouseOver(e: MouseEvent) {
+		override protected function interactOnMouseOver(e: MouseEvent): void {
 			if (!GlobalState.draggableCharacter || IsReachable) {
 				highlightSelected();
 			} else {
@@ -93,7 +87,7 @@
 			}
 		}
 
-		private function onMouseOut(e: MouseEvent) {
+		override protected function interactOnMouseOut(e: MouseEvent): void {
 			if (IsReachable) {
 				highlightReachable();
 			} else {
@@ -102,7 +96,7 @@
 		}
 
 		//undrags the player and puts it into the room
-		private function onMouseUp(event: MouseEvent) {
+		override protected function interactOnMouseUp(event: MouseEvent): void {
 			if (IsReachable) {
 				var draggableCharacter = GlobalState.draggableCharacter;
 

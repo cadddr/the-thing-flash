@@ -8,12 +8,18 @@
 	import characters.Character;
 
 	public class Player extends Character {
-		private var infectedRefusalProbability;
+		protected var infectedRefusalProbability;
 
-		private var alreadyActed: Boolean = false;
-		private var isInfected: Boolean = false;
+		protected var alreadyActed: Boolean = false;
+		protected var isInfected: Boolean = false;
 
 		//public var revelationCallback:Function = null;
+
+		public function Player(infectedRefusalProbability) {
+			this.infectedRefusalProbability = infectedRefusalProbability;
+
+			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+		}
 
 		public function get IsInfected() {
 			return isInfected;
@@ -40,18 +46,7 @@
 			return currentRoom.VisibleThings.length;
 		}
 
-		public function Player(infectedRefusalProbability) {
-			this.infectedRefusalProbability = infectedRefusalProbability;
-			//dragging
-			addEventListener(MouseEvent.MOUSE_DOWN, drag);
-			// mouse up handled by stage
-
-			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, highlight);
-			addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
-
-			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
-		}
+		
 
 		public function equipSyringe() {
 			trace(this, "has equipped syringe")
@@ -65,17 +60,34 @@
 			this.mycharge.owner = this;
 		}
 
-		private function highlight(e: MouseEvent) {
-			if (!alreadyActed)
-				gotoAndPlay(2);
+		override protected function highlightForInteraction(): void {
+			gotoAndPlay(2);
 		}
 
-		private function unhighlight(e: MouseEvent) {
-			if (!alreadyActed)
-				gotoAndPlay(1);
+		override protected function unhighlightForInteraction(): void {
+			gotoAndPlay(1);
 		}
 
-		private function drag(e: MouseEvent) {
+		override protected function interactOnMouseOver(e: MouseEvent): void {
+			if (!alreadyActed) {
+				highlightForInteraction();
+			}
+				
+		}
+
+		override protected function interactOnMouseOut(e: MouseEvent): void {
+			if (!alreadyActed) {
+				unhighlightForInteraction();
+			}				
+		}
+
+		
+
+
+
+		// start drag
+		// mouse up handled by stage
+		override protected function interactOnMouseDown(e: MouseEvent): void {
 			if (!alreadyActed) {
 				if (this.isInfected) {
 					trace("Is", this, "going to refuse to execute the order?");
@@ -138,7 +150,7 @@
 
 		}
 
-		private function initializeAction() {
+		protected function initializeAction() {
 			currentRoom.highlightReachableRooms(true);
 			stage.setChildIndex(this, stage.numChildren - 1);
 			GlobalState.draggableCharacter = this;

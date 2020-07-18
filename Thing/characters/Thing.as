@@ -12,34 +12,10 @@
 	{		
 		public var isVisible:Boolean;
 		private var switchLightRetries = 2;
-		
-		public function set IsDead(value)
-		{
-			if (value)
-			{
-				gotoAndStop(23);
-				isDead = true;
-				mouseEnabled = false;
-				this.goVisible();
-			}
-		}
-		
-		override protected function get ReachableRooms():Array
-		{
-			return currentRoom.adjacentRooms;
-		}
-		
+
 		public function Thing() 
 		{			
 			trace("One more", this);
-			
-			//highlighting
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);			
-			
-			//for getting attacked by the dragged player
-			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			
 			
 			policy = function()
 			{				
@@ -85,21 +61,39 @@
 			goInvisible();
 		}
 		
-		private function onMouseOver(e:MouseEvent)
+		public function set IsDead(value)
+		{
+			if (value)
+			{
+				gotoAndStop(23);
+				isDead = true;
+				mouseEnabled = false;
+				this.goVisible();
+			}
+		}
+		
+		override protected function get ReachableRooms():Array
+		{
+			return currentRoom.adjacentRooms;
+		}
+		
+		
+		//highlighting
+		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
 			if(!isDead)
 				if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
 					gotoAndPlay(2);
 		}
 		
-		private function onMouseOut(e:MouseEvent)
+		override protected function interactOnMouseOut(e:MouseEvent): void
 		{
 			if(!isDead)
 				gotoAndStop(1);
 		}
-		
+		//for getting attacked by the dragged player
 		//gets attacked by a dragger
-		private function onMouseUp(e:MouseEvent)
+		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
 			if(!isDead)
 				if(GlobalState.draggableCharacter)

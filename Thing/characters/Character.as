@@ -2,8 +2,9 @@
 	import flash.display.MovieClip;
 	import GlobalState;
 	import rooms.Room;
+	import characters.Interactable;
 	
-	public class Character extends MovieClip{
+	public class Character extends Interactable {
 		
 		public var policy:Function = null;
 		public var currentRoom:Room = null;

@@ -5,24 +5,27 @@
 	public class Interactable extends MovieClip {
 
 		public function Interactable() {
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+			addEventListener(MouseEvent.MOUSE_OVER, interactOnMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, interactOnMouseOut);
 			
-			addEventListener(MouseEvent.CLICK, onMouseClick);
-			addEventListener(MouseEvent.RIGHT_CLICK, onMouseRightClick);
+			addEventListener(MouseEvent.CLICK, interactOnMouseClick);
+			addEventListener(MouseEvent.RIGHT_CLICK, interactOnMouseRightClick);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			addEventListener(MouseEvent.MOUSE_DOWN, interactOnMouseDown);
+			addEventListener(MouseEvent.MOUSE_UP, interactOnMouseUp);
 		}
 		
-		protected function onMouseOver(e:MouseEvent) {}
-		protected function onMouseOut(e:MouseEvent) {}
+		protected function interactOnMouseOver(e:MouseEvent): void {}
+		protected function interactOnMouseOut(e:MouseEvent): void {}
 		
-		protected function onMouseClick(e:MouseEvent) {}
-		protected function onMouseRightClick(e:MouseEvent) {}
+		protected function interactOnMouseClick(e:MouseEvent): void {}
+		protected function interactOnMouseRightClick(e:MouseEvent): void {}
 		
-		protected function onMouseDown(e:MouseEvent) {}
-		protected function onMouseUp(e:MouseEvent) {}
+		protected function interactOnMouseDown(e:MouseEvent): void {}
+		protected function interactOnMouseUp(e:MouseEvent): void {}
+
+		protected function highlightForInteraction(): void {}
+		protected function unhighlightForInteraction(): void {}
 
 	}	
 }

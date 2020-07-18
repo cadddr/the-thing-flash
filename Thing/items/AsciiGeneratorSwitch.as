@@ -14,8 +14,6 @@
 		
 		override protected function getSelection(): MovieClip {
 			return asciiSelection;
-		}
-		
+		}	
 	}
-	
 }
