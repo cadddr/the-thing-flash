@@ -30,6 +30,7 @@
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
+			trace("on mouse click", this);
 			if (IsReachable) {
 				var draggableCharacter = GlobalState.draggableCharacter;
 

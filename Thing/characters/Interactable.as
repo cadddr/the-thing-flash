@@ -27,5 +27,16 @@
 		protected function highlightForInteraction(): void {}
 		protected function unhighlightForInteraction(): void {}
 
+		public function disableAllInteraction(): void {
+			removeEventListener(MouseEvent.MOUSE_OVER, interactOnMouseOver);
+			removeEventListener(MouseEvent.MOUSE_OUT, interactOnMouseOut);
+			
+			removeEventListener(MouseEvent.CLICK, interactOnMouseClick);
+			removeEventListener(MouseEvent.RIGHT_CLICK, interactOnMouseRightClick);
+			
+			removeEventListener(MouseEvent.MOUSE_DOWN, interactOnMouseDown);
+			removeEventListener(MouseEvent.MOUSE_UP, interactOnMouseUp);
+		}
+
 	}	
 }

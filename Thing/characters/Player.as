@@ -140,11 +140,15 @@
 		}
 
 
+		override protected function dieAnimation() {
+			gotoAndStop(24);
+		}
+
 		override public function die() {
 			trace(this, "died");
 
 			super.die()
-			gotoAndStop(24);
+			dieAnimation();
 			//for not acting anymore
 			alreadyActed = true;
 

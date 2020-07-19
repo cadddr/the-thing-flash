@@ -20,6 +20,8 @@
 				alpha = 0.3;
 		}
 		
+		protected function dieAnimation() {
+		}
 		
 		protected function get ReachableRooms():Array
 		{

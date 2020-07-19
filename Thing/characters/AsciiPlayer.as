@@ -3,6 +3,7 @@
 	import characters.Player
 	import flash.events.MouseEvent;
 	import flash.display.MovieClip;
+	import flash.geom.ColorTransform;
 	
 	
 	public class AsciiPlayer extends Player {
@@ -54,6 +55,10 @@
 			IsInactive = true;
 
 			unhighlightForInteraction();
+		}
+
+		override protected function dieAnimation() {
+			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
 		}
 	}
 }

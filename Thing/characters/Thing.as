@@ -45,14 +45,16 @@
 							trace(this, "is deciding on whether to engage in an open fight");
 							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * GlobalState.thingCautiousnessLevel)						
 								attack(victim)
-							else												
+							else	{											
 								goToAnotherRandomReachableRoom();		
 								//goToLeastPopulatedRoom();
+							}
 						}									
 					}				
-					else
-						//goToLeastPopulatedRoom()
-						goToAnotherRandomReachableRoom();
+					else {
+						goToLeastPopulatedRoom()
+						// goToAnotherRandomReachableRoom();
+					}
 				}
 			}
 			/////////////////////////
@@ -60,12 +62,16 @@
 			
 			goInvisible();
 		}
+
+		override protected function dieAnimation() {
+			gotoAndStop(23);
+		}
 		
 		public function set IsDead(value)
 		{
 			if (value)
 			{
-				gotoAndStop(23);
+				dieAnimation();
 				isDead = true;
 				mouseEnabled = false;
 				this.goVisible();
