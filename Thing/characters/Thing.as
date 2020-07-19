@@ -52,8 +52,8 @@
 						}									
 					}				
 					else {
-						goToLeastPopulatedRoom()
-						// goToAnotherRandomReachableRoom();
+						// goToLeastPopulatedRoom()
+						goToAnotherRandomReachableRoom();
 					}
 				}
 			}
@@ -82,20 +82,32 @@
 		{
 			return currentRoom.adjacentRooms;
 		}
+
+		override protected function highlightForInteraction(): void {
+			gotoAndPlay(2);
+		}
+
+		override protected function unhighlightForInteraction(): void {
+			gotoAndStop(1);
+		}
 		
 		
 		//highlighting
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
-			if(!isDead)
+			if(!isDead) {
 				if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
-					gotoAndPlay(2);
+				{
+					highlightForInteraction();
+				}
+			}
 		}
 		
 		override protected function interactOnMouseOut(e:MouseEvent): void
 		{
-			if(!isDead)
-				gotoAndStop(1);
+			if(!isDead) {
+				unhighlightForInteraction();
+			}	
 		}
 		//for getting attacked by the dragged player
 		//gets attacked by a dragger
@@ -123,6 +135,7 @@
 		
 		public function goVisible()
 		{
+			trace(this, "is revealed")
 			isVisible = true;
 			alpha = 1;
 			this.mouseEnabled = true;
@@ -134,6 +147,7 @@
 		{
 			if(!isDead)
 			{
+				trace(this, "disappears");
 				isVisible = false;
 				if(GlobalState.DEBUG)
 					alpha = 0.3;
@@ -216,6 +230,9 @@
 			trace(this, "is moving to a different room");
 			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
+			//invalidate, so that its location is regenerated
+			x=0;
+			y=0;
 			ReachableRooms[randomRoom].putIn(this);
 		}
 		

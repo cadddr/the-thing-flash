@@ -3,7 +3,7 @@
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import levels.LevelBase
-	import characters.AsciiPlayer;
+	import characters.*;
 	import items.*;
 	
 	
@@ -12,6 +12,7 @@
 		
 		public function AsciiLevel1() {
 			playerType = AsciiPlayer;
+			thingType = AsciiThing;
 			
 			maxPlayers = 2;
 			

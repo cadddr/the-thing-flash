@@ -29,6 +29,7 @@
 
 		protected var lightRoom: GeneratorRoomInterface;
 		protected var playerType = Player;
+		protected var thingType = Thing;
 
 		public function LevelBase() {
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -105,7 +106,7 @@
 		}
 
 		protected function initializeThing() {
-			var thing = new Thing();
+			var thing = new thingType();
 
 			//todo: needs refactoring
 			trace("Where does", thing, "start?");

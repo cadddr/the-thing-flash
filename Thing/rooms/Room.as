@@ -133,8 +133,12 @@
 		}
 
 		public function putIn(character: Character) {
+			trace (character, "enters", this, "@", x, y);
 			register(character);
-			moveSmoothly(character, computePositionInRoom(character));
+			var destination = computePositionInRoom(character);
+			trace ('position in room', destination);
+			character.x = destination[0]
+			character.y = destination[1]
 		}
 
 		public function register(character: Character) {
@@ -162,38 +166,6 @@
 			var destinationY = y + offset_y + correction_y;
 
 			return [destinationX, destinationY];
-		}
-
-		protected function moveSmoothly(whom: MovieClip, destination: Array) {
-			trace("not moving smoothly");
-			whom.x = destination[0]
-			whom.y = destination[1]
-			return;
-			
-			var destinationX = destination[0];
-			var destinationY = destination[1];
-
-			var numSteps = 10;
-			var stepX = (destinationX - whom.x) / numSteps;
-			var stepY = (destinationY - whom.y) / numSteps;
-			const epsilon = 10;
-
-			var motionInterval = setInterval(function (whom: * ) {
-					if (Math.abs(whom.x - destinationX) > epsilon) {
-						whom.x += stepX;
-					}
-
-					if (Math.abs(whom.y - destinationY) > epsilon) {
-						whom.y += stepY
-					}
-
-					if (Math.abs(whom.x - destinationX) <= epsilon && Math.abs(whom.y - destinationY) <= epsilon) {
-						clearInterval(motionInterval);
-					}
-
-				}, 10,
-				whom);
-
 		}
 
 		public function getOut(character: Character) {
