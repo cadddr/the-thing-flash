@@ -10,7 +10,7 @@
 		public function Syringe() 
 		{
 			super();
-			this.addFrameScript(29, dispose);
+			this.addFrameScript(29, dieAnimation);
 		}
 		
 		override protected function interactOnMouseClick(e:MouseEvent): void
@@ -24,7 +24,7 @@
 			}
 		}
 		
-		private function dispose()
+		private function dieAnimation()
 		{
 			this.gotoAndStop(1);
 			this.visible = false;

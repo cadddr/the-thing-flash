@@ -114,7 +114,7 @@
 
 		public function revealItself() {
 			if (isInfected) {
-				var revealedThing = new Thing();
+				var revealedThing = new GlobalState.thingType();
 
 				stage.addChild(revealedThing);
 

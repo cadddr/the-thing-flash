@@ -1,6 +1,6 @@
 ﻿package  {
 	import flash.display.MovieClip;
-	import characters.Player;
+	import characters.*;
 	public class GlobalState {
 
 		public static var DEBUG:Boolean = false;
@@ -16,6 +16,9 @@
 		public static var isLightOn:Boolean = true;
 
 		public static var plantedCharges:Array = [];
+
+
+		public static var thingType = Thing;
 
 
 	}
