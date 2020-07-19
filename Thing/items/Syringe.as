@@ -13,7 +13,7 @@
 			this.addFrameScript(29, dispose);
 		}
 		
-		override protected function onClick(e:MouseEvent)
+		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
 			if(!owner.IsInactive)
 			{

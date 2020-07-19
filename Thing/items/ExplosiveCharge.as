@@ -11,33 +11,46 @@
 		
 		var currentRoom:Room;
 		var isCharged:Boolean = false;
-		public function ExplosiveCharge() 
-		{		
-			super();
-			
-			mycharge.myselection.visible = false;
-			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			this.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+
+		public function ExplosiveCharge() {		
+			unhighlightForInteraction();
+		}
+
+		protected function getSelection(): MovieClip {
+			return mycharge.myselection;
+		}
+
+		override protected function highlightForInteraction(): void {
+			getSelection().gotoAndPlay(1);
+			getSelection().visible = true;
+		}
+
+		override protected function unhighlightForInteraction(): void {
+			getSelection().gotoAndStop(1);
+			getSelection().visible = false;
+		}
+
+		protected function dieAnimation() {
+			gotoAndPlay(2);
 		}
 		
-		private function onMouseOver(e:MouseEvent)
+		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
+			trace ("charge on mouse over");
 			if(GlobalState.draggableCharacter 
 				&& currentRoom)
 			{	
-				mycharge.myselection.gotoAndPlay(1);
-				mycharge.myselection.visible = true;
+				trace ("passes");
+				highlightForInteraction();
 			}
 		}
 		
-		private function onMouseOut(e:MouseEvent)
+		override protected function interactOnMouseOut(e:MouseEvent): void
 		{
-			mycharge.myselection.gotoAndStop(1);
-			mycharge.myselection.visible = false;
+			unhighlightForInteraction();
 		}
 		
-		override protected function onClick(e:MouseEvent)
+		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
 			if(!owner.IsInactive)
 			{
@@ -58,7 +71,7 @@
 			}
 		}
 		
-		private function onMouseUp(e:MouseEvent)
+		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
 			//explode
 			if(isCharged && GlobalState.draggableCharacter != null)
@@ -72,12 +85,12 @@
 				
 		}
 		
-		private function explode()
+		protected function explode()
 		{			
 			trace("Charge exploded in", currentRoom);
 			
 			currentRoom.killGuests();
-			gotoAndPlay(2);
+			dieAnimation();
 		}
 	}
 	

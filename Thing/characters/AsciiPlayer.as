@@ -12,6 +12,7 @@
 		public function AsciiPlayer(infectedRefusalProbability) {
 			super(infectedRefusalProbability);
 			unhighlightForInteraction();
+			asciiCharge.visible = false;
 		}
 
 		protected function getSelection(): MovieClip {
@@ -59,6 +60,12 @@
 
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+		}
+
+		override public function equipExplosiveCharge() {
+			trace(this, "has equipped explosive charge")
+			this.asciiCharge.visible = true;
+			this.asciiCharge.owner = this;
 		}
 	}
 }

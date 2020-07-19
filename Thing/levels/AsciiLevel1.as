@@ -36,12 +36,14 @@
 
 		override protected function onAddedToStage(e: Event): void {
 			GlobalState.rooms = [room1, room2, room3, room4];
-/*			room2.lightSwitch = new AsciiGeneratorSwitch();
-			stage.addChild(room2.lightSwitch);*/
-			
-			//lightRoom = room2
 			
 			super.onAddedToStage(e);
+		}
+
+		override protected function endTurn() {
+			room4.enhancePlayers();
+
+			super.endTurn();
 		}
 	}
 	
