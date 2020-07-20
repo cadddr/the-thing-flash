@@ -13,6 +13,7 @@
 			super(infectedRefusalProbability);
 			unhighlightForInteraction();
 			asciiCharge.visible = false;
+			asciiMarker.visible = true;
 		}
 
 		protected function getSelection(): MovieClip {
@@ -29,6 +30,14 @@
 				getSelection().gotoAndStop(1);
 				getSelection().visible = false;
 			}
+		}
+
+		override protected function markInactive(): void {
+			asciiMarker.visible = false
+		}
+
+		override protected function markReady(): void {
+			asciiMarker.visible = true
 		}
 
 		override protected function interactOnMouseDown(e: MouseEvent): void {}

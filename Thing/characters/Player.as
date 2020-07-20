@@ -25,11 +25,13 @@
 			return isInfected;
 		}
 
+
+
 		public function set IsInactive(value) {
 			if (value)
-				gotoAndStop(23);
+				markInactive();
 			else
-				gotoAndStop(1);
+				markReady();
 
 			alreadyActed = value;
 		}
@@ -66,6 +68,14 @@
 
 		override protected function unhighlightForInteraction(): void {
 			gotoAndPlay(1);
+		}
+
+		protected function markReady(): void {
+			gotoAndPlay(1);
+		}
+
+		protected function markInactive(): void {
+			gotoAndStop(23);
 		}
 
 		override protected function interactOnMouseOver(e: MouseEvent): void {

@@ -23,7 +23,6 @@
 		override protected function interactOnMouseUp(e:MouseEvent): void {}
 
 		override protected function highlightForInteraction(): void {
-			trace ("ascii charge on mouse over");
 			getSelection().visible = true;
 		}
 

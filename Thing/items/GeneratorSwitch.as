@@ -55,7 +55,7 @@
 		{			
 			   trace("Light has been switched to", switchOn ? "on": "off");
 			   GlobalState.isLightOn = switchOn;
-			   stage.color = int(switchOn) * 0xffffff;
+			   stage.color = int(switchOn) * 0x1b1b2f;
 		
 			   dispatchEvent(new Event("lightSwitched"));
 			   
