@@ -19,7 +19,7 @@
 			{
 				trace(owner, "has used syringe");
 				owner.currentRoom.revealInfectedPlayers();
-				gotoAndPlay(1);
+				dieAnimation();
 				owner.finalizeAction();
 			}
 		}

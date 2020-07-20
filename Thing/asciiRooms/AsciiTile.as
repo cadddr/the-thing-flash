@@ -3,6 +3,8 @@ package asciiRooms
     import flash.display.MovieClip;
     import characters.Interactable;
     import flash.events.*;
+    import flash.events.MouseEvent;
+    import flash.geom.ColorTransform;
 
     class AsciiTile extends Interactable {
 
@@ -10,6 +12,7 @@ package asciiRooms
         {
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
                 unhighlightForInteraction();
+                
             });
         }
 

@@ -6,7 +6,6 @@
 	import characters.*;
 	import items.*;
 	
-	
 	public class AsciiLevel1 extends LevelBase {
 		
 		
@@ -40,6 +39,7 @@
 			GlobalState.rooms = [room1, room2, room3, room4];
 			
 			super.onAddedToStage(e);
+			
 		}
 
 		override protected function endTurn() {

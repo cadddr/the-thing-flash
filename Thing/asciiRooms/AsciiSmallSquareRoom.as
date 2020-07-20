@@ -7,6 +7,8 @@
 	import items.AsciiGeneratorSwitch;
 	import flash.geom.ColorTransform;
 	import GlobalState;
+	import asciiRooms.AsciiTile;
+	import flash.events.MouseEvent;
 	
 	
 	public class AsciiSmallSquareRoom extends Room {
@@ -14,6 +16,32 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiSmallSquareRoom() {
+			var caller = this;
+			addEventListener(MouseEvent.MOUSE_MOVE, function(e:MouseEvent) {
+				trace("children")
+				for(var i:int = 0; i < caller.numChildren; i++) {
+					if (caller.getChildAt(i) is AsciiWallTile) {
+						trace (caller.getChildAt(i).name, caller.getChildAt(i).toString(), caller.getChildAt(i)) 
+						diffuse(caller.getChildAt(i), e);
+					}
+				}
+			});
+		}
+
+		private function diffuse(child:MovieClip, e:MouseEvent) {
+			trace("tile on mouseMove");
+            var kd = 1;//0.0025
+            var diffuse = 0.;
+            var x = child.x - e.stageX;
+            var y = child.y - e.stageY;
+            var dist = Math.sqrt(x*x + y*y);
+			trace ("dist", dist);
+            diffuse += Math.cos(Math.atan(dist));
+			diffuse *= 10;
+			trace("diffuse", diffuse);
+            child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 
+			diffuse*255,diffuse*255,diffuse*255);
+        
 		}
 		
 		override protected function computePositionInRoom(whom: Character): Array {
@@ -57,19 +85,19 @@
 		}
 
 		override public function unhighlight() {
-			asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104);
+			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104);
 		}
 
 		override public function highlightSelected() {
-			asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 255, 255, 255);
+			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 255, 255, 255);
 		}
 
 		override public function highlightReachable() {
-			asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 242, 175, 101);
+			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 242, 175, 101);
 		}
 
 		override public function highlightRestricted() {
-			asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 228, 63, 90);
+			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 228, 63, 90);
 		}
 	}
 }
