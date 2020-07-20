@@ -16,32 +16,23 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiSmallSquareRoom() {
-			var caller = this;
-			addEventListener(MouseEvent.MOUSE_MOVE, function(e:MouseEvent) {
-				trace("children")
-				for(var i:int = 0; i < caller.numChildren; i++) {
-					if (caller.getChildAt(i) is AsciiWallTile) {
-						trace (caller.getChildAt(i).name, caller.getChildAt(i).toString(), caller.getChildAt(i)) 
-						diffuse(caller.getChildAt(i), e);
-					}
-				}
-			});
+
+			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove);
 		}
 
-		private function diffuse(child:MovieClip, e:MouseEvent) {
-			trace("tile on mouseMove");
-            var kd = 1;//0.0025
-            var diffuse = 0.;
-            var x = child.x - e.stageX;
-            var y = child.y - e.stageY;
-            var dist = Math.sqrt(x*x + y*y);
-			trace ("dist", dist);
-            diffuse += Math.cos(Math.atan(dist));
-			diffuse *= 10;
-			trace("diffuse", diffuse);
-            child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 
-			diffuse*255,diffuse*255,diffuse*255);
-        
+		protected function interactOnMouseMove(e:MouseEvent) {
+			for(var i:int = 0; i < numChildren; i++) {
+				var child = getChildAt(i);
+				if (child is AsciiWallTile) {
+					child.applyLighting(e.stageX, e.stageY);
+				}
+			}
+			for(var i:int = 0; i < asciiFloor.numChildren; i++) {
+				var child = asciiFloor.getChildAt(i);
+				if (child is AsciiFloorTile) {
+					child.applyLighting(e.stageX, e.stageY);
+				}
+			}
 		}
 		
 		override protected function computePositionInRoom(whom: Character): Array {

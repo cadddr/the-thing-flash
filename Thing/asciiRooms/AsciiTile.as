@@ -5,6 +5,7 @@ package asciiRooms
     import flash.events.*;
     import flash.events.MouseEvent;
     import flash.geom.ColorTransform;
+    import flash.geom.Point;
 
     class AsciiTile extends Interactable {
 
@@ -34,6 +35,17 @@ package asciiRooms
         override protected function unhighlightForInteraction(): void {
             getSelection().visible = false;
         }
+
+        public function applyLighting(sourceX, sourceY) {
+            var kd = 1;//0.0025
+            var global = localToGlobal(new Point(this.x, this.y));
+            var x = global.x - sourceX;
+            var y = global.y - sourceY;
+            var dist = Math.sqrt(x*x + y*y) / 25;
+            var diffuse = Math.cos(Math.atan(dist));
+            this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 
+			diffuse*255,diffuse*255,diffuse*255);
+		}
 
     }
 }

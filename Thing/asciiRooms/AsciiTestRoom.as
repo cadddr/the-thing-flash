@@ -3,6 +3,7 @@
 	import flash.display.MovieClip;
 	import rooms.*
 	import characters.*
+	import flash.events.MouseEvent;
 	
 	
 	public class AsciiTestRoom extends AsciiSmallSquareRoom {
