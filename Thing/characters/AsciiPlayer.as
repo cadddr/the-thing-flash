@@ -4,6 +4,7 @@
 	import flash.events.MouseEvent;
 	import flash.display.MovieClip;
 	import flash.geom.ColorTransform;
+	import items.AsciiSyringe;
 	
 	
 	public class AsciiPlayer extends Player {
@@ -12,6 +13,7 @@
 		public function AsciiPlayer(infectedRefusalProbability) {
 			super(infectedRefusalProbability);
 			unhighlightForInteraction();
+			asciiSyringe.visible = false;
 			asciiCharge.visible = false;
 			asciiMarker.visible = true;
 		}
@@ -74,12 +76,14 @@
 		override public function equipExplosiveCharge() {
 			trace(this, "has equipped explosive charge")
 			this.asciiCharge.visible = true;
+			this.asciiCharge.mouseEnabled = true;
 			this.asciiCharge.owner = this;
 		}
 
 		override public function equipSyringe() {
 			trace(this, "has equipped test syringe")
 			this.asciiSyringe.visible = true;
+			this.asciiSyringe.mouseEnabled = true;
 			this.asciiSyringe.owner = this;
 		}
 	}

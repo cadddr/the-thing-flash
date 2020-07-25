@@ -135,6 +135,13 @@
 		public function putIn(character: Character, stageX: Number=0, stageY: Number=0) {
 			trace (character, "enters", this, "@", x, y);
 			register(character);
+
+			// if (stageX == 0 && stageY == 0) {
+			// 	trace('resetting position');
+			// 	stageX = character.x;
+			// 	stageY = character.y;
+			// }
+
 			var destination = computePositionInRoom(stageX, stageY, character.width, character.height);
 			trace ('position in room', destination);
 

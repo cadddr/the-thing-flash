@@ -10,6 +10,7 @@
 		
 		public function AsciiSyringe() {
 			unhighlightForInteraction();
+			mouseEnabled = false;
 		}
 
 		protected function getSelection(): MovieClip {
@@ -37,6 +38,7 @@
 		protected function dieAnimation()
 		{
 			this.visible = false;
+			mouseEnabled = false;
 		}
 
 	}
