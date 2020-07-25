@@ -10,7 +10,7 @@
 		public function GameOverScreen() {
 			var caller = this;
 			goBackButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-						stage.addChild(new LevelSelectionScreen());
+						stage.addChild(new LevelSelectionScreen(null));
 						stage.removeChild(caller);
 			});
 		}
