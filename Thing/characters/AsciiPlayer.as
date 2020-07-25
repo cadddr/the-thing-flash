@@ -82,9 +82,7 @@
 
 		override public function equipSyringe() {
 			trace(this, "has equipped test syringe")
-			this.asciiSyringe.visible = true;
-			this.asciiSyringe.mouseEnabled = true;
-			this.asciiSyringe.owner = this;
+			this.asciiSyringe.equip(this)
 		}
 	}
 }

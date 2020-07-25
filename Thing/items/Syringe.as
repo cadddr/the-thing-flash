@@ -11,6 +11,7 @@
 		{
 			super();
 			this.addFrameScript(29, dieAnimation);
+			removeEventListener(MouseEvent.CLICK, interactOnMouseClick);
 		}
 		
 		override protected function interactOnMouseClick(e:MouseEvent): void
@@ -28,6 +29,13 @@
 		{
 			this.gotoAndStop(1);
 			this.visible = false;
+			removeEventListener(MouseEvent.CLICK, interactOnMouseClick);
+		}
+
+		public function equip(owner: Player): void {
+			visible = true;
+			addEventListener(MouseEvent.CLICK, interactOnMouseClick);
+			this.owner = owner;
 		}
 	}
 	

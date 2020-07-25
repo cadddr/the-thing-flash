@@ -3,6 +3,7 @@
 	import items.*;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import characters.*;
 	
 	
 	public class AsciiSyringe extends Syringe {
@@ -10,7 +11,7 @@
 		
 		public function AsciiSyringe() {
 			unhighlightForInteraction();
-			mouseEnabled = false;
+			visible = false;
 		}
 
 		protected function getSelection(): MovieClip {
@@ -38,7 +39,6 @@
 		protected function dieAnimation()
 		{
 			this.visible = false;
-			mouseEnabled = false;
 		}
 
 	}
