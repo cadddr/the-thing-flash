@@ -132,13 +132,16 @@
 			});
 		}
 
-		public function putIn(character: Character) {
+		public function putIn(character: Character, stageX: Number=0, stageY: Number=0) {
 			trace (character, "enters", this, "@", x, y);
 			register(character);
-			var destination = computePositionInRoom(character);
+			var destination = computePositionInRoom(stageX, stageY, character.width, character.height);
 			trace ('position in room', destination);
-			character.x = destination[0]
-			character.y = destination[1]
+
+			// character.x = destination[0]
+			// character.y = destination[1]
+
+			character.moveTo(destination[0], destination[1]);
 		}
 
 		public function register(character: Character) {
@@ -156,13 +159,13 @@
 		}
 
 		// puts a character at a random location within a room
-		protected function computePositionInRoom(whom: Character): Array {
+		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
 			var offset_x = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * width / 2;
-			var correction_x = offset_x < 0 ? whom.width / 2 : -whom.width / 2;
+			var correction_x = offset_x < 0 ? whomW / 2 : -whomW / 2;
 			var destinationX = x + offset_x + correction_x;
 
 			var offset_y = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * height / 2;
-			var correction_y = offset_y < 0 ? whom.height / 2 : -whom.height / 2;
+			var correction_y = offset_y < 0 ? whomH / 2 : -whomH / 2;
 			var destinationY = y + offset_y + correction_y;
 
 			return [destinationX, destinationY];

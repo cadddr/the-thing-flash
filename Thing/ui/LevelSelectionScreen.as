@@ -13,7 +13,7 @@
 			var caller = this;
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
-				// stage.color = 0x1b1b2f;
+				stage.color = 0x1b1b2f;
 				
 				levelSelectionButton1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
 						stage.addChild(new LevelScreen(new Level1()));

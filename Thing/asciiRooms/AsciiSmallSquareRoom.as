@@ -35,14 +35,14 @@
 			}
 		}
 		
-		override protected function computePositionInRoom(whom: Character): Array {
-			if (whom.x - x < tileWidth || whom.y - y < tileHeight) {
-				whom.x = x + tileWidth + Math.floor(Math.random() * (width - 2 * tileWidth));
-				whom.y = y + tileHeight + Math.floor(Math.random() * (height - 2 * tileHeight));
+		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
+			if (whomX - this.x < tileWidth || whomY - this.y < tileHeight) {
+				whomX = this.x + tileWidth + Math.floor(Math.random() * (this.width - 2 * tileWidth));
+				whomY = this.y + tileHeight + Math.floor(Math.random() * (this.height - 2 * tileHeight));
 			}
 			
 			//this assumes room positions are snapped to tile grid
-			return [whom.x - whom.x % tileWidth, whom.y - whom.y % tileHeight];
+			return [whomX - whomX % tileWidth, whomY - whomY % tileHeight];
 		}
 
 		override protected function interactOnMouseUp(event: MouseEvent): void {}
@@ -55,9 +55,9 @@
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
-					draggableCharacter.x = event.stageX
-					draggableCharacter.y = event.stageY;
-					putIn(draggableCharacter);
+					// draggableCharacter.x = event.stageX
+					// draggableCharacter.y = ;
+					putIn(draggableCharacter, event.stageX, event.stageY);
 
 				}
 

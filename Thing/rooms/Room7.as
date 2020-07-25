@@ -10,7 +10,7 @@
 			super();
 		}
 		
-		override protected function computePositionInRoom(whom:Character):Array	
+		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number):Array	
 		{
 			const wideness = 39.25;
 			var offset_x = 0;
