@@ -44,6 +44,11 @@
 						stage.addChild(new LevelScreen(new AsciiLevel1()));
 						stage.removeChild(caller);
 				});
+
+				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						stage.addChild(new LevelScreen(new AsciiLevel2()));
+						stage.removeChild(caller);
+				});
 			});
 		}
 	}
