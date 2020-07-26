@@ -8,6 +8,8 @@
 	import characters.*;
 	import rooms.GeneratorRoomInterface;
 	import fl.VirtualCamera;
+	import flash.html.__HTMLScriptArray;
+	import asciiRooms.AsciiRoomBase;
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
@@ -64,6 +66,14 @@
 		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
 			this.camera = camera;
 			this.cameraLayer = cameraLayer;
+		}
+
+		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
+			for each(var room:Room in GlobalState.rooms)
+			{
+				AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
+				return
+			}
 		}
 
 		protected function get Players() {

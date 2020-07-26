@@ -12,7 +12,7 @@
 	
 	public class LevelScreen extends MovieClip {
 		
-		public function LevelScreen(level: LevelBase, camera: VirtualCamera=null, cameraLayer: MovieClip=null) {
+		public function LevelScreen(level: LevelBase, camera: VirtualCamera=null, cameraLayer: MovieClip=null, cameraLayer2: MovieClip=null) {
 			var caller: LevelScreen = this;
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
 			
@@ -30,9 +30,10 @@
 				}
 				level.setCameraAndLayer(camera, cameraLayer);
 				cameraLayer.addChild(level);
+				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent): void {
-					trace('key', e.keyCode);
+
 					camera.moveBy(e.keyCode == 37 ? 50 : 0, 0);
 					camera.moveBy(e.keyCode == 39 ? -50 : 0, 0);
 					camera.moveBy(0, e.keyCode == 38 ? 50 : 0);

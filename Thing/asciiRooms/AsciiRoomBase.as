@@ -9,6 +9,8 @@ package asciiRooms {
 	import GlobalState;
 	import asciiRooms.AsciiTile;
 	import flash.events.MouseEvent;
+	import fl.Layer;
+	import flash.display.DisplayObject;
 	
 	
 	public class AsciiRoomBase extends Room {
@@ -18,6 +20,21 @@ package asciiRooms {
 		public function AsciiRoomBase() {
 
 			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove);
+		}
+
+		public function allocateChildrenToLayers(container: MovieClip, cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
+			var children = new Array();
+			for(var i:int = 0; i < container.numChildren; i++) {
+				var child = container.getChildAt(i);
+				if (child is AsciiWallTile ) {
+					children.push(child);
+				}
+			}
+			for each(var child:DisplayObject in children)
+			{
+				trace('adding child', child, child.name, cameraLayer2, cameraLayer2.name, child.parent, child.parent.name)
+				cameraLayer2.addChild(child);
+			}
 		}
 
         protected function getFloor(): MovieClip {

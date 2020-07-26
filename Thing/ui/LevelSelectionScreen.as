@@ -10,7 +10,7 @@
 	public class LevelSelectionScreen extends MovieClip {
 		
 		
-		public function LevelSelectionScreen(camera:VirtualCamera=null, cameraLayer: MovieClip=null) {
+		public function LevelSelectionScreen(camera:VirtualCamera=null, cameraLayer: MovieClip=null, cameraLayer2: MovieClip = null) {
 			var caller = this;
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
@@ -47,7 +47,7 @@
 				});
 
 				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-						stage.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer));
+						stage.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
 						stage.removeChild(caller);
 				});
 			});
