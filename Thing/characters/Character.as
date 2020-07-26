@@ -6,6 +6,7 @@
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
     import fl.transitions.easing.*;
+	import asciiRooms.AsciiRoomBase;
 	
 	public class Character extends Interactable {
 		
@@ -33,6 +34,9 @@
 			
 			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
 			var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, this.y, y, 24);
+
+			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);})
+
 
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
 				tweenY.stop();

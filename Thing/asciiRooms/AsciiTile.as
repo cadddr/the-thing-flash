@@ -53,5 +53,9 @@ package asciiRooms
             // this.transform.colorTransform = new ColorTransform(diffuse,diffuse,diffuse,1,
             // colorTransform.redOffset, colorTransform.greenOffset, colorTransform.blueOffset);
 		}
+
+        public function unapplyLighting() {
+            this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1);
+        }
     }
 }

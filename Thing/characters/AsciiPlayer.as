@@ -5,6 +5,7 @@
 	import flash.display.MovieClip;
 	import flash.geom.ColorTransform;
 	import items.AsciiSyringe;
+	import asciiRooms.AsciiRoomBase;
 	
 	
 	public class AsciiPlayer extends Player {
@@ -25,12 +26,16 @@
 		override protected function highlightForInteraction(): void {
 			getSelection().visible = true;
 			getSelection().gotoAndPlay(1);
+			if (currentRoom != null)
+			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
 		}
 
 		override protected function unhighlightForInteraction(): void {
 			if (GlobalState.draggableCharacter != this) {
 				getSelection().gotoAndStop(1);
 				getSelection().visible = false;
+				if (currentRoom != null)
+				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y, false);}
 			}
 		}
 

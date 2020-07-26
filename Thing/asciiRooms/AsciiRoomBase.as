@@ -24,19 +24,29 @@ package asciiRooms {
             return null;
         }
 
-		protected function interactOnMouseMove(e:MouseEvent) {
-			for(var i:int = 0; i < numChildren; i++) {
-				var child = getChildAt(i);
-				if (child is AsciiWallTile) {
-					child.applyLighting(e.stageX, e.stageY);
+		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number, on: Boolean = true): void {
+			for(var i:int = 0; i < container.numChildren; i++) {
+				var child = container.getChildAt(i);
+				if (child is AsciiTile) {
+					if (on == true) {
+						child.applyLighting(x, y);
+					}
+					else {
+						child.unapplyLighting();
+					}
+				}
+				else if (child is MovieClip) {
+					applyTileLightingFromSource(child, x, y, on);
 				}
 			}
-			for(var i:int = 0; i < getFloor().numChildren; i++) {
-				var child = getFloor().getChildAt(i);
-				if (child is AsciiFloorTile) {
-					child.applyLighting(e.stageX, e.stageY);
-				}
-			}
+		}
+
+		protected function interactOnMouseMove(e:MouseEvent): void {
+			applyTileLightingFromSource(this, e.stageX, e.stageY);
+		}
+
+		override protected function interactOnMouseOut(e:MouseEvent): void {
+			applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 		}
 		
 		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
@@ -59,8 +69,6 @@ package asciiRooms {
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
-					// draggableCharacter.x = event.stageX
-					// draggableCharacter.y = ;
 					putIn(draggableCharacter, event.stageX, event.stageY);
 
 				}
@@ -80,19 +88,19 @@ package asciiRooms {
 		}
 
 		override public function unhighlight() {
-			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104);
+			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104);
 		}
 
 		override public function highlightSelected() {
-			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 255, 255, 255);
+			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 255, 255, 255);
 		}
 
 		override public function highlightReachable() {
-			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 242, 175, 101);
+			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 242, 175, 101);
 		}
 
 		override public function highlightRestricted() {
-			// asciiFloor.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 228, 63, 90);
+			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 228, 63, 90);
 		}
 	}
 }

@@ -32,6 +32,7 @@
 				cameraLayer.addChild(level);
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent): void {
+					trace('key', e.keyCode);
 					camera.moveBy(e.keyCode == 37 ? 50 : 0, 0);
 					camera.moveBy(e.keyCode == 39 ? -50 : 0, 0);
 					camera.moveBy(0, e.keyCode == 38 ? 50 : 0);
