@@ -158,14 +158,14 @@
 		protected function onKeyPress(e: KeyboardEvent) {
 			//space
 			if (e.keyCode == 32)
-				endTurn();
+				{endTurn();}
 			else if (String.fromCharCode(e.charCode) == "d")
-				trace("Debug mode", GlobalState.DEBUG );
+				{trace("Debug mode", GlobalState.DEBUG );
 				GlobalState.DEBUG = !GlobalState.DEBUG;
 				Things.forEach(function (thing: * ) {
 					trace("lightSwitched");
 					thing.refreshVisibility();
-				});
+				});}
 			//needs improvemen
 		}
 		
