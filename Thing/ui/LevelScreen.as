@@ -28,12 +28,10 @@
 					stage.removeChild(level);
 					stage.removeChild(caller);
 				}
-				
+				level.setCameraAndLayer(camera, cameraLayer);
 				cameraLayer.addChild(level);
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent): void {
-					trace('on key down', e.keyCode);
-
 					camera.moveBy(e.keyCode == 37 ? 50 : 0, 0);
 					camera.moveBy(e.keyCode == 39 ? -50 : 0, 0);
 					camera.moveBy(0, e.keyCode == 38 ? 50 : 0);
@@ -41,8 +39,6 @@
 
 					camera.zoomBy(e.keyCode == 187 ? 110 : 100);
 					camera.zoomBy(e.keyCode == 189 ? 90 : 100);
-
-
 				});	
 			});
 

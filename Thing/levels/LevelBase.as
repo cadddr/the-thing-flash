@@ -7,6 +7,7 @@
 	import rooms.Room;
 	import characters.*;
 	import rooms.GeneratorRoomInterface;
+	import fl.VirtualCamera;
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
@@ -31,18 +32,20 @@
 		protected var playerType = Player;
 		protected var thingType = Thing;
 
+		var camera: VirtualCamera;
+		var cameraLayer: MovieClip;
+
 		public function LevelBase() {
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
 		protected function onAddedToStage(e: Event): void {
-			
-			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent) {
+			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent): void {
 				endTurn();
 			});
 
 			if (lightRoom != null) {
-				lightRoom.getLightSwitch().addEventListener("lightSwitched", function (e: * ) {
+				lightRoom.getLightSwitch().addEventListener("lightSwitched", function (e: * ): void {
 					Things.forEach(function (thing: * ) {
 						trace("lightSwitched");
 						thing.refreshVisibility();
@@ -55,6 +58,12 @@
 			initializeRooms(GlobalState.rooms);
 			initializePlayers();
 			initializeThing();
+
+		}
+
+		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
+			this.camera = camera;
+			this.cameraLayer = cameraLayer;
 		}
 
 		protected function get Players() {
@@ -101,7 +110,7 @@
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
 				GlobalState.rooms[initialRoom].putIn(player);
-				stage.addChild(player);
+				cameraLayer.addChild(player);
 			}
 		}
 
@@ -118,7 +127,7 @@
 			}
 
 			GlobalState.rooms[thingsInitialRoom].putIn(thing);
-			stage.addChild(thing);
+			cameraLayer.addChild(thing);
 		}
 
 		protected function identifySquads() {
@@ -166,6 +175,18 @@
 					trace("lightSwitched");
 					thing.refreshVisibility();
 				});}
+			else if (e.keyCode == 9) {
+				var i = 0;
+				if (GlobalState.draggableCharacter != null) {
+					i = Players.indexOf(GlobalState.draggableCharacter)
+				}
+				Players[(i + 1) % Players.length].selectAsActiveCharacter();
+				camera.unpinCamera();
+				camera.pinCameraToObject(GlobalState.draggableCharacter);
+				camera.setPosition(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+				Players[i].unselectAsActiveCharacter();
+
+			}
 			//needs improvemen
 		}
 		

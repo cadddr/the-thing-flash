@@ -57,6 +57,15 @@
 			}
 		}
 
+		public function selectAsActiveCharacter(): void {
+			highlightForInteraction();
+			initializeAction();
+		}
+
+		public function unselectAsActiveCharacter(): void {
+			unhighlightForInteraction();
+		}
+
 		override protected function initializeAction() {
 			currentRoom.highlightReachableRooms(true);
 			GlobalState.draggableCharacter = this;
