@@ -61,6 +61,7 @@
 			initializePlayers();
 			initializeThing();
 
+			selectActiveCharacter();
 		}
 
 		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
@@ -186,7 +187,14 @@
 					thing.refreshVisibility();
 				});}
 			else if (e.keyCode == 9) {
-				var i = 0;
+				selectActiveCharacter();
+
+			}
+			//needs improvemen
+		}
+
+		protected function selectActiveCharacter() {
+			var i = 0;
 				if (GlobalState.draggableCharacter != null) {
 					i = Players.indexOf(GlobalState.draggableCharacter)
 				}
@@ -195,9 +203,6 @@
 				camera.pinCameraToObject(GlobalState.draggableCharacter);
 				camera.setPosition(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
 				Players[i].unselectAsActiveCharacter();
-
-			}
-			//needs improvemen
 		}
 		
 		protected function endTurn() {

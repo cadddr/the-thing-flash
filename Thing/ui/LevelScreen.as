@@ -28,11 +28,16 @@
 					stage.removeChild(level);
 					stage.removeChild(caller);
 				}
+
 				level.setCameraAndLayer(camera, cameraLayer);
 				cameraLayer.addChild(level);
 				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent): void {
+					if (new Array([37, 38, 39, 40, 187, 189]).indexOf(e.keyCode) != 0) {
+						camera.unpinCamera();
+					}
+					
 
 					camera.moveBy(e.keyCode == 37 ? 50 : 0, 0);
 					camera.moveBy(e.keyCode == 39 ? -50 : 0, 0);
