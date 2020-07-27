@@ -39,10 +39,10 @@
 					}
 					
 
-					camera.moveBy(e.keyCode == 37 ? 50 : 0, 0);
-					camera.moveBy(e.keyCode == 39 ? -50 : 0, 0);
-					camera.moveBy(0, e.keyCode == 38 ? 50 : 0);
-					camera.moveBy(0, e.keyCode == 40 ? -50 : 0);
+					camera.moveBy(e.keyCode == 37 ? 5 : 0, 0);
+					camera.moveBy(e.keyCode == 39 ? -5 : 0, 0);
+					camera.moveBy(0, e.keyCode == 38 ? 5 : 0);
+					camera.moveBy(0, e.keyCode == 40 ? -5 : 0);
 
 					camera.zoomBy(e.keyCode == 187 ? 110 : 100);
 					camera.zoomBy(e.keyCode == 189 ? 90 : 100);

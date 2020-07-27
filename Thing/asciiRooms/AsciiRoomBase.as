@@ -11,6 +11,7 @@ package asciiRooms {
 	import flash.events.MouseEvent;
 	import fl.Layer;
 	import flash.display.DisplayObject;
+	import flash.geom.Point;
 	
 	
 	public class AsciiRoomBase extends Room {
@@ -32,8 +33,10 @@ package asciiRooms {
 			}
 			for each(var child:DisplayObject in children)
 			{
-				trace('adding child', child, child.name, cameraLayer2, cameraLayer2.name, child.parent, child.parent.name)
 				cameraLayer2.addChild(child);
+				//offset by room position
+				child.x += x;
+				child.y += y;
 			}
 		}
 

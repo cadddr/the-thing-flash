@@ -20,7 +20,6 @@ package asciiRooms
         }
 
         protected function getSelection(): MovieClip {
-            trace ("shouldn't get here");
 			return null;
 		}
 
