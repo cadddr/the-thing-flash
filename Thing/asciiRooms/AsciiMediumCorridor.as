@@ -9,10 +9,6 @@
 		public function AsciiMediumCorridor() {
 			// constructor code
 		}
-
-		override protected function getFloor(): MovieClip {
-            return asciiFloor;
-    }
 	}
 	
 }

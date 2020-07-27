@@ -9,10 +9,6 @@
 		public function AsciiMediumRectangularRoom() {
 			// constructor code
 		}
-
-		override protected function getFloor(): MovieClip {
-            return asciiFloor;
-    }
 	}
 	
 }

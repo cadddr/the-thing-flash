@@ -7,7 +7,7 @@
 	public class AsciiGeneratorRoom extends AsciiSmallSquareRoom implements GeneratorRoomInterface {
 		
 		public function AsciiGeneratorRoom() {
-			asciiFloor = room.asciiFloor;
+			// asciiFloor = room.asciiFloor;
 			room.disableAllInteraction();
 		}
 		

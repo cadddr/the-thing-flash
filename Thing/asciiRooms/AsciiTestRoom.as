@@ -10,7 +10,7 @@
 		
 		
 		public function AsciiTestRoom() {
-			asciiFloor = room.asciiFloor;
+			// asciiFloor = room.asciiFloor;
 			room.disableAllInteraction();
 		}
 

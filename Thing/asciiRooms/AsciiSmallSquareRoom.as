@@ -12,8 +12,8 @@
 	
 	
 	public class AsciiSmallSquareRoom extends AsciiRoomBase {
-		override protected function getFloor(): MovieClip {
-            return asciiFloor;
-    	}
+		// override protected function getFloor(): MovieClip {
+        //     return asciiFloor;
+    	// }
 	}
 }

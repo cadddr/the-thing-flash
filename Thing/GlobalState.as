@@ -20,6 +20,16 @@
 
 		public static var thingType = Thing;
 
+		public const DARK_PURPLE: uint = 0x1b1b2f;
+		public const BRIGHT_RED: uint = 0xe43f5a;
+		public const DARK_BLUE: uint = 0x162447;
+		public const LIGHTER_BLUE: uint = 0x1f4068;
+
+		public const DARK_GREY: uint = 0x222831;
+		public const LIGHTER_GREY: uint = 0x30475e;
+		public const BRIGHT_ORANGE: uint = 0xf2a365;
+		public const OFF_WHITE: uint = 0xececec;
+
 
 	}
 

@@ -105,19 +105,28 @@ package asciiRooms {
 		}
 
 		override public function unhighlight() {
-			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104);
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
 		}
 
 		override public function highlightSelected() {
-			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 255, 255, 255);
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
 		}
 
 		override public function highlightReachable() {
-			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 242, 175, 101);
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
 		}
 
 		override public function highlightRestricted() {
-			// getFloor().transform.colorTransform = new ColorTransform(0, 0, 0, 1, 228, 63, 90);
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
+		}
+
+		protected function setFloorColorTransform(colorTransform: ColorTransform) {
+			for(var i:int = 0; i < numChildren; i++) {
+				var child = getChildAt(i);
+				if (child is AsciiFloorTile ) {
+					child.transform.colorTransform = colorTransform;
+				}
+			}
 		}
 	}
 }

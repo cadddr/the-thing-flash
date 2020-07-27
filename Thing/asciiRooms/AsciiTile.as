@@ -32,10 +32,12 @@ package asciiRooms
         }
 
         override protected function highlightForInteraction(): void {
-            getSelection().visible = true;
+            if (getSelection() != null)
+            {getSelection().visible = true;}
         }
         override protected function unhighlightForInteraction(): void {
-            getSelection().visible = false;
+            if (getSelection() != null)
+            {getSelection().visible = false;}
         }
 
         public function applyLighting(sourceX, sourceY) {
