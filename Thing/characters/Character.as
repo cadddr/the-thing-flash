@@ -28,10 +28,8 @@
 		}
 
 		public function moveTo(x:Number, y:Number) {
-			// this.x = x;
-			// this.y = y;
+			gotoAndPlay(1);
 
-			
 			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
 			var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, this.y, y, 24);
 
@@ -41,10 +39,13 @@
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
 				tweenY.stop();
 				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {tweenY.start()});
+				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
+
 			}
 			else {
 				tweenX.stop();
 				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {tweenX.start()});
+				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
 			}
 		}
 		
