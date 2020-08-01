@@ -70,26 +70,26 @@ package asciiRooms {
 		}
 		
 		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
-			if (whomX - this.x < tileWidth || whomY - this.y < tileHeight) {
-				whomX = this.x + tileWidth + Math.floor(Math.random() * (this.width - 2 * tileWidth));
-				whomY = this.y + tileHeight + Math.floor(Math.random() * (this.height - 2 * tileHeight));
-			}
+			// if (whomX - this.x < tileWidth || whomY - this.y < tileHeight) {
+			// 	whomX = this.x + tileWidth + Math.floor(Math.random() * (this.width - 2 * tileWidth));
+			// 	whomY = this.y + tileHeight + Math.floor(Math.random() * (this.height - 2 * tileHeight));
+			// }
 			
 			//this assumes room positions are snapped to tile grid
-			return [whomX - whomX % tileWidth, whomY - whomY % tileHeight];
+			// return [whomX - whomX % tileWidth, whomY - whomY % tileHeight];
+			return [this.x + whomX - whomX % tileWidth, this.y + whomY - whomY % tileHeight];
 		}
 
 		override protected function interactOnMouseUp(event: MouseEvent): void {}
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
-			trace("on mouse click", this);
 			if (IsReachable) {
 				var draggableCharacter = GlobalState.draggableCharacter;
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
-					putIn(draggableCharacter, event.stageX, event.stageY);
+					putIn(draggableCharacter, mouseX, mouseY);
 
 				}
 

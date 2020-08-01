@@ -167,6 +167,7 @@
 
 		// puts a character at a random location within a room
 		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
+			throw ""
 			var offset_x = Math.pow(-1, Math.round(Math.random() + 1)) * Math.random() * width / 2;
 			var correction_x = offset_x < 0 ? whomW / 2 : -whomW / 2;
 			var destinationX = x + offset_x + correction_x;
