@@ -203,9 +203,7 @@
 				i = Players.indexOf(GlobalState.draggableCharacter)
 			}
 			Players[(i + 1) % Players.length].selectAsActiveCharacter();
-			// camera.unpinCamera();	
-			// camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
-			// camera.setPosition(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
 			Players[i].unselectAsActiveCharacter();
 		}
 		

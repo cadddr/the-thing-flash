@@ -36,6 +36,10 @@
 		}
 
 		public function moveTo(x:Number, y:Number) {
+			if (camera != null) {
+				camera.pinCameraToObject(this);
+			}
+			
 			gotoAndPlay(1);
 
 			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
@@ -43,22 +47,10 @@
 
 			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
 				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
-				
-				if (camera != null) 
-				{
-					trace("camera position", camera.getPosition().x, camera.getPosition().y, 'x=', e.position)
-					camera.setPosition(-e.position + 400, camera.getPosition().y);
-				}
 			})
 
 			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
 				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
-				
-				if (camera != null) 
-				{
-					trace("camera position", camera.getPosition().x, camera.getPosition().y, "y=", e.position);
-					camera.setPosition(camera.getPosition().x, -e.position+300);
-				}
 			})
 
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
