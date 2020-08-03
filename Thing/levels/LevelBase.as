@@ -10,6 +10,8 @@
 	import fl.VirtualCamera;
 	import flash.html.__HTMLScriptArray;
 	import asciiRooms.AsciiRoomBase;
+	import flash.utils.describeType;
+
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
@@ -119,6 +121,7 @@
 
 			for (var i: int = 0; i < maxPlayers; i++) {
 				var player = new playerType(humanInfectedRefusalProbability);
+				player.setCamera(this.camera);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
 				GlobalState.rooms[initialRoom].putIn(player);
@@ -196,14 +199,14 @@
 
 		protected function selectActiveCharacter() {
 			var i = 0;
-				if (GlobalState.draggableCharacter != null) {
-					i = Players.indexOf(GlobalState.draggableCharacter)
-				}
-				Players[(i + 1) % Players.length].selectAsActiveCharacter();
-				camera.unpinCamera();
-				camera.pinCameraToObject(GlobalState.draggableCharacter);
-				camera.setPosition(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
-				Players[i].unselectAsActiveCharacter();
+			if (GlobalState.draggableCharacter != null) {
+				i = Players.indexOf(GlobalState.draggableCharacter)
+			}
+			Players[(i + 1) % Players.length].selectAsActiveCharacter();
+			// camera.unpinCamera();	
+			// camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
+			// camera.setPosition(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+			Players[i].unselectAsActiveCharacter();
 		}
 		
 		protected function endTurn() {

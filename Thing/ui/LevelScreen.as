@@ -46,6 +46,9 @@
 
 					camera.zoomBy(e.keyCode == 187 ? 110 : 100);
 					camera.zoomBy(e.keyCode == 189 ? 90 : 100);
+
+								
+					trace("camera position", camera.getPosition().x, camera.getPosition().y);
 				});	
 			});
 

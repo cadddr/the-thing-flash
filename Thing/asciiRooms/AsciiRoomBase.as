@@ -89,6 +89,7 @@ package asciiRooms {
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
+					//mouse pos is relative to room on camera layer
 					putIn(draggableCharacter, mouseX, mouseY);
 
 				}

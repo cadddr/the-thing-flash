@@ -7,6 +7,8 @@
 	import fl.transitions.TweenEvent;
     import fl.transitions.easing.*;
 	import asciiRooms.AsciiRoomBase;
+	import fl.VirtualCamera;
+	import flash.geom.Point;
 	
 	public class Character extends Interactable {
 		
@@ -15,6 +17,12 @@
 		public var previousRoom:Room = null;
 		
 		public var isDead:Boolean = false;
+
+		private var camera: VirtualCamera;
+
+		public function setCamera(camera: VirtualCamera): void {
+			this.camera = camera;
+		}
 		
 		public function set IsVisible(value:Boolean)
 		{
@@ -33,12 +41,32 @@
 			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
 			var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, this.y, y, 24);
 
-			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);})
+			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
+				
+				if (camera != null) 
+				{
+					trace("camera position", camera.getPosition().x, camera.getPosition().y, 'x=', e.position)
+					camera.setPosition(-e.position + 400, camera.getPosition().y);
+				}
+			})
 
+			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
+				
+				if (camera != null) 
+				{
+					trace("camera position", camera.getPosition().x, camera.getPosition().y, "y=", e.position);
+					camera.setPosition(camera.getPosition().x, -e.position+300);
+				}
+			})
 
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
 				tweenY.stop();
-				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {tweenY.start()});
+				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {
+					tweenY.start()
+				});
+				
 				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
 
 			}
@@ -47,6 +75,7 @@
 				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {tweenX.start()});
 				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
 			}
+
 		}
 		
 		protected function get ReachableRooms():Array
