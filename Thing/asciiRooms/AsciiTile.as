@@ -14,8 +14,6 @@ package asciiRooms
 
         public function AsciiTile()
         {
-            // this.transform.colorTransform = new ColorTransform(0,0,0,1,27, 27, 47);
-            // colorTransform.concat(this.transform.colorTransform);
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
             });
@@ -24,9 +22,11 @@ package asciiRooms
                 if (GlobalState.draggableCharacter != null) {
                     var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
                     
-                    if (dist > 400) {alpha=0;}
+                    if (dist > 400) {
+                        alpha=0;
+                    } 
                     else {
-                    alpha = 200 / dist;
+                        alpha = 1 -  dist / 800;
                     }
                 }
             });
