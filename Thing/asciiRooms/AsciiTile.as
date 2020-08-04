@@ -6,6 +6,8 @@ package asciiRooms
     import flash.events.MouseEvent;
     import flash.geom.ColorTransform;
     import flash.geom.Point;
+    import flash.events.Event;
+    import rooms.Room;
 
     public class AsciiTile extends Interactable {
         private var colorTransform: ColorTransform = new ColorTransform();
@@ -16,6 +18,17 @@ package asciiRooms
             // colorTransform.concat(this.transform.colorTransform);
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
+            });
+
+            addEventListener(Event.ENTER_FRAME, function(e:Event): void {
+                if (GlobalState.draggableCharacter != null) {
+                    var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+                    
+                    if (dist > 400) {alpha=0;}
+                    else {
+                    alpha = 200 / dist;
+                    }
+                }
             });
         }
 
@@ -39,25 +52,25 @@ package asciiRooms
             {getSelection().visible = false;}
         }
 
-        public function applyLighting(sourceX, sourceY) {            
-            var kd = 1;//0.0025
+        private function getDistanceFrom(sourceX, sourceY) {
             var global = localToGlobal(new Point(this.x, this.y));
             var x = parent.x + this.x - sourceX;
             var y = parent.y + this.y - sourceY;
             var dist = Math.sqrt(x*x + y*y);
-            var diffuse = Math.cos(Math.atan(dist));
-            trace(this.name, "source", sourceX, sourceY, "this", this.x, this.y, "global", global.x, global.y, "dist", dist);
+            return dist;
+        }
 
-            this.transform.colorTransform = new ColorTransform(0,0,0,1,255*diffuse,255*diffuse,255*diffuse,1);
-            
-            // this.transform.colorTransform = new ColorTransform(1,1,1,1,(255-27)*diffuse,(255-27)*diffuse,(255-47)*diffuse,1);
-            // // this.transform.colorTransform = new ColorTransform(1,1,1,2*diffuse);
-            // this.transform.colorTransform = new ColorTransform(diffuse,diffuse,diffuse,1,
-            // colorTransform.redOffset, colorTransform.greenOffset, colorTransform.blueOffset);
+
+        public function applyLighting(sourceX, sourceY) {            
+            var kd = 1;//0.0025
+            var dist = getDistanceFrom(sourceX, sourceY);
+            var diffuse = Math.cos(Math.atan(dist + 5));
+
+            this.transform.colorTransform = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1);
 		}
 
         public function unapplyLighting() {
-            this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1);
+            // this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1);
         }
     }
 }

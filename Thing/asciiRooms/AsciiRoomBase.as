@@ -47,7 +47,7 @@ package asciiRooms {
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number, on: Boolean = true): void {
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
-				if (child is AsciiTile) {
+				if (child is AsciiFloorTile) {
 					if (on == true) {
 						child.applyLighting(x, y);
 					}
@@ -75,6 +75,13 @@ package asciiRooms {
 			// 	whomX = this.x + tileWidth + Math.floor(Math.random() * (this.width - 2 * tileWidth));
 			// 	whomY = this.y + tileHeight + Math.floor(Math.random() * (this.height - 2 * tileHeight));
 			// }
+			if (whomX < tileWidth) {
+				whomX = tileWidth
+			}
+
+			if (whomY < tileHeight) {
+				whomY = tileHeight
+			}
 			
 			//this assumes room positions are snapped to tile grid
 			// return [whomX - whomX % tileWidth, whomY - whomY % tileHeight];
@@ -131,7 +138,7 @@ package asciiRooms {
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
-					child.transform.colorTransform = colorTransform;
+					child.asciiTileText.transform.colorTransform = colorTransform;
 				}
 			}
 		}
