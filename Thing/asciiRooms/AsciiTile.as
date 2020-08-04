@@ -7,14 +7,14 @@ package asciiRooms
     import flash.geom.ColorTransform;
     import flash.geom.Point;
 
-    class AsciiTile extends Interactable {
-        var colorTransform: ColorTransform = new ColorTransform();
+    public class AsciiTile extends Interactable {
+        private var colorTransform: ColorTransform = new ColorTransform();
 
         public function AsciiTile()
         {
             // this.transform.colorTransform = new ColorTransform(0,0,0,1,27, 27, 47);
             // colorTransform.concat(this.transform.colorTransform);
-            addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
+            addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
             });
         }
@@ -39,13 +39,14 @@ package asciiRooms
             {getSelection().visible = false;}
         }
 
-        public function applyLighting(sourceX, sourceY) {
+        public function applyLighting(sourceX, sourceY) {            
             var kd = 1;//0.0025
             var global = localToGlobal(new Point(this.x, this.y));
-            var x = global.x - sourceX;
-            var y = global.y - sourceY;
-            var dist = Math.sqrt(x*x + y*y) / 25;
+            var x = parent.x + this.x - sourceX;
+            var y = parent.y + this.y - sourceY;
+            var dist = Math.sqrt(x*x + y*y);
             var diffuse = Math.cos(Math.atan(dist));
+            trace(this.name, "source", sourceX, sourceY, "this", this.x, this.y, "global", global.x, global.y, "dist", dist);
 
             this.transform.colorTransform = new ColorTransform(0,0,0,1,255*diffuse,255*diffuse,255*diffuse,1);
             

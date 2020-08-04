@@ -37,12 +37,14 @@
 					if (new Array([37, 38, 39, 40, 187, 189]).indexOf(e.keyCode) != 0) {
 						camera.unpinCamera();
 					}
+
+					var cameraPanAmount: Number = 10;
 					
 
-					camera.moveBy(e.keyCode == 37 ? 5 : 0, 0);
-					camera.moveBy(e.keyCode == 39 ? -5 : 0, 0);
-					camera.moveBy(0, e.keyCode == 38 ? 5 : 0);
-					camera.moveBy(0, e.keyCode == 40 ? -5 : 0);
+					camera.moveBy(e.keyCode == 37 ? cameraPanAmount : 0, 0);
+					camera.moveBy(e.keyCode == 39 ? -cameraPanAmount : 0, 0);
+					camera.moveBy(0, e.keyCode == 38 ? cameraPanAmount : 0);
+					camera.moveBy(0, e.keyCode == 40 ? -cameraPanAmount : 0);
 
 					camera.zoomBy(e.keyCode == 187 ? 110 : 100);
 					camera.zoomBy(e.keyCode == 189 ? 90 : 100);

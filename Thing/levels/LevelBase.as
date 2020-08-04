@@ -74,7 +74,6 @@
 		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
 			for each(var room:Room in GlobalState.rooms)
 			{
-				trace("reallocating room", room.name)
 				AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
 				// return
 			}

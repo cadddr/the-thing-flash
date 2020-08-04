@@ -62,11 +62,12 @@ package asciiRooms {
 		}
 
 		protected function interactOnMouseMove(e:MouseEvent): void {
-			applyTileLightingFromSource(this, e.stageX, e.stageY);
+			// applyTileLightingFromSource(this, e.stageX, e.stageY);
+			// applyTileLightingFromSource(this, mouseX, mouseY);
 		}
 
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-			applyTileLightingFromSource(this, e.stageX, e.stageY, false);
+			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 		}
 		
 		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
@@ -80,7 +81,9 @@ package asciiRooms {
 			return [this.x + whomX - whomX % tileWidth, this.y + whomY - whomY % tileHeight];
 		}
 
-		override protected function interactOnMouseUp(event: MouseEvent): void {}
+		override protected function interactOnMouseUp(event: MouseEvent): void {
+
+		}
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
@@ -109,19 +112,19 @@ package asciiRooms {
 		}
 
 		override public function unhighlight() {
-			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
+			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
 		}
 
 		override public function highlightSelected() {
-			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
+			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
 		}
 
 		override public function highlightReachable() {
-			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
+			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
 		}
 
 		override public function highlightRestricted() {
-			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
+			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
 		}
 
 		protected function setFloorColorTransform(colorTransform: ColorTransform) {
