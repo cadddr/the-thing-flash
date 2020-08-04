@@ -10,7 +10,7 @@
 	public class ExplosiveCharge extends Item {
 		
 		var currentRoom:Room;
-		var isCharged:Boolean = false;
+		
 
 		public function ExplosiveCharge() {		
 			unhighlightForInteraction();

@@ -1,6 +1,6 @@
 ﻿package  {
 	import flash.display.MovieClip;
-	import characters.*;
+	// import characters.*;
 	public class GlobalState {
 
 		public static var DEBUG:Boolean = false;
@@ -10,15 +10,13 @@
 		public static const humanKillingProbability:Number = 2;
 		public static var thingCautiousnessLevel:Number = 1;
 
-		public static var rooms:Array;
-
-		public static var draggableCharacter:Player;
+		// public static var draggableCharacter:Player;
 		public static var isLightOn:Boolean = true;
 
 		public static var plantedCharges:Array = [];
 
 
-		public static var thingType = Thing;
+		// public static var thingType = Thing;
 
 		public static const DARK_PURPLE: uint = 0x1b1b2f;
 		public static const BRIGHT_RED: uint = 0xe43f5a;

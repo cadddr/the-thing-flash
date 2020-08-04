@@ -7,8 +7,6 @@
 	import characters.Interactable;
 
 	public class Room extends Interactable {
-		public var guests: Array = [];
-
 		public var accessibleRooms: Array = [];
 		public var adjacentRooms: Array = [];
 

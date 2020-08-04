@@ -10,8 +10,7 @@
 	public class Player extends Character {
 		protected var infectedRefusalProbability;
 
-		protected var alreadyActed: Boolean = false;
-		protected var isInfected: Boolean = false;
+		
 
 		//public var revelationCallback:Function = null;
 
