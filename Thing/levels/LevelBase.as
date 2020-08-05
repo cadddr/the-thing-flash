@@ -16,7 +16,13 @@
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
 
+		protected var playerReachabilityMap: Array = [
+ 			[]
+ 		];
 
+ 		protected var thingReachabilityMap: Array = [
+ 			[]
+ 		];
 
 		//out of 6
 		protected var leftBehindProbability: Number = 2
