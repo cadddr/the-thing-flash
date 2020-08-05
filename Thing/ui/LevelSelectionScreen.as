@@ -4,8 +4,6 @@
 	import flash.events.*;
 	import levels.*;
 	import fl.VirtualCamera;
-
-	import ui.LevelScreen;
 	
 	public class LevelSelectionScreen extends MovieClip {
 		
@@ -49,6 +47,15 @@
 				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
 						stage.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
 						stage.removeChild(caller);
+				});
+
+				testLevelSelectionButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent): void {
+						import ui.LevelScreen;
+						import model.levels.TestLevel;
+						import view.TestLevelView;
+
+						var levelController: LevelController  = new LevelController();
+						levelController.createLevel(new TestLevel(), new TestLevelView(), cameraLayer);
 				});
 			});
 		}
