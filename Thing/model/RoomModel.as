@@ -4,7 +4,7 @@ package model
     import characters.Player;
 
     public class RoomModel {
-        private var guests: Array = [];
+        public var guests: Array = [];
         private var usables: Array = [];
 
 
@@ -14,13 +14,13 @@ package model
 
         public function get Things(): Array {
 			return guests.filter(function (item: * ) {
-				return item is Thing
+				return item is ThingModel
 			});
 		}
 
 		public function get Players(): Array {
 			return guests.filter(function (item: * ) {
-				return item is Player
+				return item is PlayerModel
 			});
 		}
 

@@ -2,7 +2,7 @@ package model
 {
     public class LevelModel {
         protected var maxPlayers: int;
-        protected var rooms: Array;
+        public var rooms: Array;
         
 
         protected var playerReachabilityMap: Array = [

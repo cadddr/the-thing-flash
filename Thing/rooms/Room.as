@@ -30,17 +30,7 @@
 			
 		}
 
-		public function get Things(): Array {
-			return guests.filter(function (item: * ) {
-				return item is Thing
-			});
-		}
-
-		public function get Players(): Array {
-			return guests.filter(function (item: * ) {
-				return item is Player
-			});
-		}
+		
 
 		public function get InfectedPlayers(): Array {
 			return Players.filter(function (item: * ) {
