@@ -45,10 +45,6 @@ package asciiRooms {
 			}
 		}
 
-        protected function getFloor(): MovieClip {
-            return null;
-        }
-
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number, on: Boolean = true): void {
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
@@ -75,14 +71,14 @@ package asciiRooms {
 			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 		}
 
-		public function putIn(character: Character, stageX: Number=0, stageY: Number=0) {
-			var destination = computePositionInRoom(stageX, stageY, character.width, character.height);
-			trace ('position in room', destination);
+		public function putIn(character: Character): void {
+			var position: Point = computePositionInRoom(mouseX, mouseY, character.width, character.height);
+			trace ('position in room', position);
 
-			character.moveTo(destination[0], destination[1]);
+			character.moveTo(position.x, position.y);
 		}
 		
-		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
+		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
 			if (whomX < tileWidth) {
 				whomX = tileWidth
 			}
@@ -90,8 +86,17 @@ package asciiRooms {
 			if (whomY < tileHeight) {
 				whomY = tileHeight
 			}
+
+			if (whomX / tileWidth > width / tileWidth) {
+				whomX = tileWidth
+			}
 			
-			return [this.x + whomX - whomX % tileWidth, this.y + whomY - whomY % tileHeight];
+			if (whomY / tileHeight > height / tileHeight) {
+				whomY = tileHeight
+			}
+
+			return new Point(this.x + whomX - whomX % tileWidth, 
+							 this.y + whomY - whomY % tileHeight);
 		}
 
 		override protected function interactOnMouseUp(event: MouseEvent): void {
