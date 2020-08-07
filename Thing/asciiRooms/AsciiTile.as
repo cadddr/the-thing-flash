@@ -66,11 +66,11 @@ package asciiRooms
             var dist = getDistanceFrom(sourceX, sourceY);
             var diffuse = Math.cos(Math.atan(dist + 5));
 
-            this.transform.colorTransform = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1);
+            AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1).color;
 		}
 
         public function unapplyLighting() {
-            // this.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1);
+            // AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1).color;
         }
     }
 }

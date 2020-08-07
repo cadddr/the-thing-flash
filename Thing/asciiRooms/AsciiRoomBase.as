@@ -124,26 +124,26 @@ package asciiRooms {
 		}
 
 		public function unhighlight() {
-			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
 		}
 
 		public function highlightSelected() {
-			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
 		}
 
 		public function highlightReachable() {
-			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
 		}
 
 		public function highlightRestricted() {
-			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
 		}
 
 		protected function setFloorColorTransform(colorTransform: ColorTransform) {
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
-					child.asciiTileText.transform.colorTransform = colorTransform;
+					child.asciiTileText.textColor = colorTransform.color;
 				}
 			}
 		}

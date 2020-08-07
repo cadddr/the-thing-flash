@@ -54,21 +54,15 @@
 				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
 			})
 
-			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
-				tweenY.stop();
-				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {
-					tweenY.start()
-				});
-				
-				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
+			var helper: Function = function (first: Tween, second: Tween): void {
+				second.stop();
+				first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {second.start();});
 
-			}
-			else {
-				tweenX.stop();
-				tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {tweenX.start()});
-				tweenX.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
+				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
 			}
 
+			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {helper(tweenX, tweenY);}
+			else {helper(tweenY, tweenX);}
 		}
 		
 		protected function get ReachableRooms():Array
