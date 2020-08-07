@@ -4,9 +4,14 @@ package model
 
     public class CharacterModel {
         //TODO: Action points
-        protected var alreadyActed: int = 0;
+        public var alreadyActed: int = 0;
         //TODO: Hit points
         public var isDead: int = 0;
+
+        public function get id():Object
+        {
+            return 0;
+        }
 
     }
 }

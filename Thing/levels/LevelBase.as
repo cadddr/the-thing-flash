@@ -11,6 +11,7 @@
 	import flash.html.__HTMLScriptArray;
 	import asciiRooms.AsciiRoomBase;
 	import flash.utils.describeType;
+	import rooms.RoomBase;
 
 
 	public class LevelBase extends MovieClip {
@@ -72,7 +73,7 @@
 		}
 
 		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
-			for each(var room:Room in GlobalState.rooms)
+			for each(var room:RoomBase in GlobalState.rooms)
 			{
 				AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
 				// return
@@ -81,6 +82,7 @@
 
 		protected function get Players() {
 			var players = [];
+
 			GlobalState.rooms.forEach(function (room: * ) {
 				room.Players.forEach(function (player: * ) {
 					players.push(player);
@@ -123,7 +125,7 @@
 				player.setCamera(this.camera);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
-				GlobalState.rooms[initialRoom].putIn(player);
+				GlobalState.rooms[initialRoom].register(player);
 				cameraLayer.addChild(player);
 			}
 		}
@@ -140,7 +142,7 @@
 				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
 			}
 
-			GlobalState.rooms[thingsInitialRoom].putIn(thing);
+			GlobalState.rooms[thingsInitialRoom].register(thing);
 			cameraLayer.addChild(thing);
 		}
 
@@ -174,7 +176,7 @@
 			if (Utils.getRandom(6, 1) <= leftBehindProbability) {
 				trace("Who's the lucky man?");
 				var luckyMan: Player = squad[Utils.getRandom(squad.length - 1)];
-				luckyMan.previousRoom.putIn(luckyMan);
+				luckyMan.previousRoom.register(luckyMan);
 			}
 		}
 
@@ -201,6 +203,7 @@
 			if (GlobalState.draggableCharacter != null) {
 				i = Players.indexOf(GlobalState.draggableCharacter)
 			}
+			
 			Players[(i + 1) % Players.length].selectAsActiveCharacter();
 			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
 			Players[i].unselectAsActiveCharacter();

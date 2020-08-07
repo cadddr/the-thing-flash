@@ -72,11 +72,16 @@
 		}
 
 		override protected function initializeAction() {
-			currentRoom.highlightReachableRooms(true);
+			if (previousRoom) {
+				previousRoom.setAccessibleRoomsReachability(false);
+			}
+			currentRoom.setAccessibleRoomsReachability(true);
 			GlobalState.draggableCharacter = this;
 		}
 
 		override public function finalizeAction() {
+			previousRoom.setAccessibleRoomsReachability(false);
+			currentRoom.setAccessibleRoomsReachability(false);
 			GlobalState.draggableCharacter = null;
 			IsInactive = true;
 

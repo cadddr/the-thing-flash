@@ -44,7 +44,7 @@
 							unhighlightForInteraction();
 							
 					// so he would knock off
-					currentRoom.putIn(GlobalState.draggableCharacter as Player);
+					currentRoom.register(GlobalState.draggableCharacter as Player);
 					GlobalState.draggableCharacter.finalizeAction();
 			}
 		}

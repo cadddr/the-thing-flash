@@ -6,78 +6,8 @@
 	import flash.utils.*;
 	import characters.Interactable;
 
-	public class Room extends Interactable {
-		public var guests: Array = [];
-
-		public var accessibleRooms: Array = [];
-		public var adjacentRooms: Array = [];
-
-		protected var isReachable: Boolean = false;
-
-		public function get IsReachable(): Boolean {
-			return isReachable;
-		}
-
-		public function set IsReachable(value: Boolean) {
-			isReachable = value;
-
-			if (value) {
-				highlightReachable();
-			} else {
-				unhighlight();
-			}
-		}
-
-		public function Room() {		
-			
-		}
-
-		public function get Things(): Array {
- 			return guests.filter(function (item: * ) {
- 				return item is Thing
- 			});
- 		}
-
- 		public function get Players(): Array {
- 			return guests.filter(function (item: * ) {
- 				return item is Player
- 			});
- 		}
-
-		public function get InfectedPlayers(): Array {
-			return Players.filter(function (item: * ) {
-				return item.IsInfected
-			});
-		}
-
-		public function get NonInfectedPlayers() {
-			return Players.filter(function (item: * ) {
-				return !item.IsInfected
-			});
-		}
-
-		//tells how much the things are outnumbered by non-things
-		public function get NonInfectedPlayerMargin(): int {
-			return NonInfectedPlayers.length - Things.length - InfectedPlayers.length;
-		}
-
-		public function getRoommates(player: Player) {
-			return Players.filter(function (item: * ) {
-				return item != player
-			});
-		}
-
-		public function get IsTakenOver(): Boolean {
-			return NonInfectedPlayerMargin <= 0;
-		}
-
-		public function get VisibleThings() {
-			return Things.filter(function (item: * ) {
-				return item.isVisible
-			});
-		}
-
-		
+	public class Room extends RoomBase {
+		// Appearance and interactions
 
 		override protected function interactOnMouseOver(e: MouseEvent): void {
 			if (!GlobalState.draggableCharacter || IsReachable) {
@@ -102,11 +32,11 @@
 
 				if (draggableCharacter != null) {
 					draggableCharacter.finalizeAction();
-					putIn(draggableCharacter);
+					register(draggableCharacter);
 
 				}
 
-				highlightReachableRooms(false);
+				setAccessibleRoomsReachability(false);
 			}
 		}
 
@@ -126,45 +56,6 @@
 			gotoAndStop(4);
 		}
 
-		public function highlightReachableRooms(shouldHighlight: Boolean) {
-			accessibleRooms.forEach(function (room: * ) {
-				room.IsReachable = shouldHighlight;
-			});
-		}
-
-		public function putIn(character: Character, stageX: Number=0, stageY: Number=0) {
-			trace (character, "enters", this, "@", x, y);
-			register(character);
-
-			// if (stageX == 0 && stageY == 0) {
-			// 	trace('resetting position');
-			// 	stageX = character.x;
-			// 	stageY = character.y;
-			// }
-
-			var destination = computePositionInRoom(stageX, stageY, character.width, character.height);
-			trace ('position in room', destination);
-
-			// character.x = destination[0]
-			// character.y = destination[1]
-
-			character.moveTo(destination[0], destination[1]);
-		}
-
-		public function register(character: Character) {
-			highlightReachableRooms(false);
-
-			//leave previous room
-			character.leaveRoom();
-
-			guests.push(character);
-			character.currentRoom = this;
-
-			Things.forEach(function (thing: * ) {
-				thing.refreshVisibility()
-			});
-		}
-
 		// puts a character at a random location within a room
 		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
 			throw ""
@@ -178,30 +69,5 @@
 
 			return [destinationX, destinationY];
 		}
-
-		public function getOut(character: Character) {
-			var characterIndex = guests.indexOf(character);
-			guests.splice(characterIndex, 1);
-
-			Things.forEach(function (thing: * ) {
-				thing.refreshVisibility()
-			});
-		}
-
-		public function killGuests() {
-			//cloning to avoid mutability problems
-			var tempChars = guests.concat();
-			tempChars.forEach(function (item: * ) {
-				item.die()
-			});
-		}
-
-		public function revealInfectedPlayers() {
-			guests.forEach(function (item: * ) {
-				if (item is Player) item.revealItself()
-			});
-		}
-
-
 	}
 }

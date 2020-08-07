@@ -49,36 +49,36 @@
 				var player = new Player(humanInfectedRefusalProbability);
 				
 				if (room1.guests.length==0){
-						room1.putIn(player);
+						room1.register(player);
 						stage.addChild(player);
 						continue;
 				}
 				
 				if (room1_2.guests.length==0){
-						room1_2.putIn(player);
+						room1_2.register(player);
 					stage.addChild(player);
 						continue;
 				}
 				
 				if (room2.guests.length==0){
-						room2.putIn(player);
+						room2.register(player);
 					stage.addChild(player);
 						continue;
 				}
 				
 				if (room5.guests.length==0){
-						room5.putIn(player);
+						room5.register(player);
 					stage.addChild(player);
 						continue;
 				}
 				
 				if (i % 2 == 0) {
-					room3_2.putIn(player);
+					room3_2.register(player);
 				}
 				
 
 				if (i % 2 != 0) {
-					room3_4.putIn(player);
+					room3_4.register(player);
 				}
 				
 				

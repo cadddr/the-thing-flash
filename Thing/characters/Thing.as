@@ -128,7 +128,7 @@
 							gotoAndStop(1);
 							
 					// so he would knock off
-					currentRoom.putIn(GlobalState.draggableCharacter as Player);
+					currentRoom.register(GlobalState.draggableCharacter as Player);
 					GlobalState.draggableCharacter.finalizeAction();
 			}
 		}
@@ -160,6 +160,7 @@
 		
 		public function refreshVisibility()
 		{
+			trace ("currentRoom", currentRoom)
 			if (currentRoom.IsTakenOver || !GlobalState.isLightOn)
 			{
 				goInvisible();
@@ -221,7 +222,7 @@
 		{
 			trace(this, "is moving to a random reachable room");
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
-			ReachableRooms[randomRoom].putIn(this);
+			ReachableRooms[randomRoom].register(this);
 		}
 		
 		//todo: has to see if there are players in reachable rooms
@@ -233,7 +234,7 @@
 			//invalidate, so that its location is regenerated
 			x=0;
 			y=0;
-			ReachableRooms[randomRoom].putIn(this);
+			ReachableRooms[randomRoom].register(this);
 		}
 		
 		private function goToLeastPopulatedRoom()
@@ -247,7 +248,7 @@
 					leastPopulatedRoom = ReachableRooms[i];
 			}
 			
-			leastPopulatedRoom.putIn(this);
+			leastPopulatedRoom.register(this);
 		}
 		
 		

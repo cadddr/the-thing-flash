@@ -10,7 +10,11 @@ package
     import view.PlayerView;
     import view.RoomView;
     import flash.events.MouseEvent;
-    import characters.Interactable;
+    import view.InteractableView;
+    import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+    import fl.transitions.easing.*;
+    import flash.html.__HTMLScriptArray;
 
     public class LevelController {
 
@@ -18,7 +22,7 @@ package
         private var levelView: LevelView;
         private var playerViews: Array = [];
         private var cameraLayer: MovieClip;
-        private var selectedInteractable: Interactable;
+        private var selectedInteractable: InteractableView;
 
         public function createLevel(levelModel: LevelModel, levelView: LevelView, cameraLayer: MovieClip): void {
             this.levelModel = levelModel;
@@ -26,29 +30,14 @@ package
             this.levelView.addEventListener(Event.ADDED_TO_STAGE, onLevelViewAddedToStage);
             this.cameraLayer = cameraLayer;
             
-            initializeCharacters();
+            levelModel.initializeCharacterModels();
+            initializeCharacterViews();
+            initializeRoomViews();
 
             this.cameraLayer.addChild(this.levelView);
         }
 
-        private function initializeCharacters(): void {
-            var initialRoom: int = Math.round(Math.random() * (levelModel.numRooms - 1));
-
-            for (var i: int = 0; i < levelModel.numMaxPlayers; i++) {
-                var playerModel: PlayerModel = new PlayerModel();
-
-                levelModel.putCharInRoom(playerModel, initialRoom);
-            }
-
-            var thingsInitialRoom: int = Math.round(Math.random() * (levelModel.numRooms - 1));
-            if (thingsInitialRoom == initialRoom) {
-                thingsInitialRoom = (thingsInitialRoom + 1) % levelModel.numRooms;
-            }
-
-            var thingModel: ThingModel = new ThingModel();
-
-            levelModel.putCharInRoom(thingModel, thingsInitialRoom);
-        }
+        
 
         private function initializeCharacterViews(): void {
             for (var i: int = 0; i < levelModel.numMaxPlayers; i++) {
@@ -65,22 +54,15 @@ package
             }
         }
 
-        protected function interactOnMouseOver(e:MouseEvent): void {}
-		protected function interactOnMouseOut(e:MouseEvent): void {}
-		
-		protected function interactOnMouseClick(e:MouseEvent): void {
-            if (selectedInteractable != null) {
-                selectedInteractable.highlightForInteraction();
+        private function initializeRoomViews(): void {
+            for each(var roomView:RoomView in levelView.rooms)
+            {
+                roomView.addEventListener(MouseEvent.RIGHT_CLICK, interactOnMouseRightClick);   
             }
-            selectedInteractable = Interactable(e.target);
-            selectedInteractable.unhighlightForInteraction();
         }
-		protected function interactOnMouseRightClick(e:MouseEvent): void {}
-
-
 
         private function onLevelViewAddedToStage(e:Event): void {
-            
+            var currentPlayerIndex: int = 0;
             for(var i:int = 0; i < levelModel.numRooms; i++)
             {
                 var roomModel: RoomModel = levelModel.rooms[i];
@@ -89,17 +71,102 @@ package
                 {
                     var roomView: RoomView = levelView.rooms[i];
                     
-
-                    var destination: Array = roomView.computePositionInRoom(playerViews.x, playerView.y, playerView.width, playerView.height);
+                    var playerView: PlayerView = playerViews[currentPlayerIndex++];        
+                              
+                    var destination: Array = roomView.computePositionInRoom(playerView.x, 
+                                                                            playerView.y, 
+                                                                            playerView.width, 
+                                                                            playerView.height);
 
 			        playerView.x = destination[0], 
                     playerView.y = destination[1];
 
                     cameraLayer.addChild(playerView);
-
-                    
                 }
             }
+        }
+
+        protected function interactOnMouseOver(e:MouseEvent): void {
+            InteractableView(e.currentTarget).highlightForInteraction();
+        }
+		protected function interactOnMouseOut(e:MouseEvent): void {
+            if (e.currentTarget != selectedInteractable) {
+                InteractableView(e.currentTarget).unhighlightForInteraction();
+            }
+        }
+		
+		protected function interactOnMouseClick(e:MouseEvent): void {
+            trace("left mouse", e.currentTarget);
+            if (selectedInteractable != null) {
+                selectedInteractable = null;
+            }
+            var interactionTarget: InteractableView = InteractableView(e.currentTarget);
+            if (checkSelectable(interactionTarget)) {
+                selectedInteractable = interactionTarget;   
+            }
+        }
+
+        private function checkSelectable(interactable: InteractableView): Boolean {
+            if (interactable is PlayerView) {
+                var i: int = playerViews.indexOf(interactable);
+                return levelModel.players[i].alreadyActed == 0;
+            }
+
+            return false;
+        }
+
+		protected function interactOnMouseRightClick(e:MouseEvent): void {
+            trace("right mouse", e.currentTarget)
+            if (selectedInteractable != null) {
+                if (selectedInteractable is PlayerView) {
+                    var interactionTarget: InteractableView = InteractableView(e.currentTarget);
+                    if (interactionTarget is RoomView) {
+                        var roomId: int = levelView.rooms.indexOf(interactionTarget);
+                        var playerId: int = playerViews.indexOf(selectedInteractable); 
+                        var result: Boolean = levelModel.moveCharToRoom(playerId, roomId);
+
+                        if (result) {
+                            movePlayerToRoom(playerViews[playerId], RoomView(interactionTarget), cameraLayer.mouseX, cameraLayer.mouseY);
+                        }
+                    }
+                }
+            }
+        }
+
+        private function movePlayerToRoom(playerView: PlayerView, roomView: RoomView, x: Number, y: Number):void
+        {
+            // if (camera != null) {
+			// 	camera.pinCameraToObject(this);
+			// }
+			
+			// gotoAndPlay(1);
+
+			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, playerView.x, x, 24);
+			var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, playerView.y, y, 24);
+
+			// tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+			// 	AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
+			// })
+
+			// tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+			// 	AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
+			// })
+
+            var helper: Function = function (first: Tween, second: Tween): void {
+                second.stop();
+				first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {
+					second.start()
+				});
+                // tweenY.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();})
+            }
+
+			if (Math.abs(x - playerView.x) > Math.abs(y - playerView.y)) {
+				helper(tweenX, tweenY);
+			}
+			else {
+				helper(tweenY, tweenX);
+			}
+            
         }
     }
 }

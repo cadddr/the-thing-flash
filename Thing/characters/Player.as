@@ -165,7 +165,7 @@
 		}
 
 		protected function initializeAction() {
-			currentRoom.highlightReachableRooms(true);
+			currentRoom.setAccessibleRoomsReachability(true);
 			stage.setChildIndex(this, stage.numChildren - 1);
 			GlobalState.draggableCharacter = this;
 			startDrag();

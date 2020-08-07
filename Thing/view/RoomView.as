@@ -2,7 +2,7 @@ package view
 {
     import flash.display.MovieClip;
 
-    public class RoomView extends MovieClip {
+    public class RoomView extends InteractableView {
         private var tileWidth:Number = 25;
 		private var tileHeight:Number = 40.25;
 

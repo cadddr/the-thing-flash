@@ -9,12 +9,13 @@
 	import asciiRooms.AsciiRoomBase;
 	import fl.VirtualCamera;
 	import flash.geom.Point;
+	import rooms.RoomBase;
 	
 	public class Character extends Interactable {
 		
 		public var policy:Function = null;
-		public var currentRoom:Room = null;
-		public var previousRoom:Room = null;
+		public var currentRoom:RoomBase = null;
+		public var previousRoom:RoomBase = null;
 		
 		public var isDead:Boolean = false;
 
@@ -98,16 +99,19 @@
 			leaveRoom();
 		}
 		
-		public function leaveRoom()
-		{
-			if (currentRoom)
+		public function enterRoom(room: RoomBase) {
+            this.currentRoom = room;
+            room.admitCharacter(this);
+        }
+
+        public function leaveRoom() {
+            //leave previous room & refresh visibility
+			if (this.currentRoom)
 			{
-				currentRoom.highlightReachableRooms(false);
-				previousRoom = currentRoom;
-				
-				currentRoom.getOut(this);				
+				this.previousRoom = this.currentRoom;		
+				this.currentRoom.releaseCharacter(this)
+                this.currentRoom = null;
 			}
-		}
+        }
 	}
-	
 }

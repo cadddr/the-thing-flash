@@ -12,15 +12,20 @@ package asciiRooms {
 	import fl.Layer;
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
+	import rooms.RoomBase;
+	import flash.events.Event;
+	import events.CharacterEvent;
 	
 	
-	public class AsciiRoomBase extends Room {
+	public class AsciiRoomBase extends RoomBase {
 		var tileWidth = 25;
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-
 			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove);
+			addEventListener(GlobalState.ROOM_BECAME_REACHABLE, function(e:Event): void {highlightReachable();});
+			addEventListener(GlobalState.ROOM_BECAME_UNREACHABLE, function(e:Event): void {unhighlight();});
+			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {putIn(e.character);});
 		}
 
 		public function allocateChildrenToLayers(container: MovieClip, cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
@@ -69,12 +74,15 @@ package asciiRooms {
 		override protected function interactOnMouseOut(e:MouseEvent): void {
 			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 		}
+
+		public function putIn(character: Character, stageX: Number=0, stageY: Number=0) {
+			var destination = computePositionInRoom(stageX, stageY, character.width, character.height);
+			trace ('position in room', destination);
+
+			character.moveTo(destination[0], destination[1]);
+		}
 		
-		override protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
-			// if (whomX - this.x < tileWidth || whomY - this.y < tileHeight) {
-			// 	whomX = this.x + tileWidth + Math.floor(Math.random() * (this.width - 2 * tileWidth));
-			// 	whomY = this.y + tileHeight + Math.floor(Math.random() * (this.height - 2 * tileHeight));
-			// }
+		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Array {
 			if (whomX < tileWidth) {
 				whomX = tileWidth
 			}
@@ -83,8 +91,6 @@ package asciiRooms {
 				whomY = tileHeight
 			}
 			
-			//this assumes room positions are snapped to tile grid
-			// return [whomX - whomX % tileWidth, whomY - whomY % tileHeight];
 			return [this.x + whomX - whomX % tileWidth, this.y + whomY - whomY % tileHeight];
 		}
 
@@ -95,16 +101,15 @@ package asciiRooms {
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
 			if (IsReachable) {
-				var draggableCharacter = GlobalState.draggableCharacter;
-
-				if (draggableCharacter != null) {
-					draggableCharacter.finalizeAction();
+				if (GlobalState.draggableCharacter != null) {
+					//room logic
+					register(GlobalState.draggableCharacter);
+					//room view
 					//mouse pos is relative to room on camera layer
-					putIn(draggableCharacter, mouseX, mouseY);
-
+					// putIn(GlobalState.draggableCharacter, mouseX, mouseY);
+					//character logic & view
+					GlobalState.draggableCharacter.finalizeAction();
 				}
-
-				highlightReachableRooms(false);
 			}
 		}
 
@@ -118,19 +123,19 @@ package asciiRooms {
 			}
 		}
 
-		override public function unhighlight() {
+		public function unhighlight() {
 			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
 		}
 
-		override public function highlightSelected() {
+		public function highlightSelected() {
 			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
 		}
 
-		override public function highlightReachable() {
+		public function highlightReachable() {
 			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 242, 175, 101));
 		}
 
-		override public function highlightRestricted() {
+		public function highlightRestricted() {
 			// setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
 		}
 

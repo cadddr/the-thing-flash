@@ -31,6 +31,12 @@
 		public static const OFF_WHITE: uint = 0xececec;
 
 
+		public static const ROOM_BECAME_REACHABLE = "roomBecameReachable";
+		public static const ROOM_BECAME_UNREACHABLE = "roomBecameUnreachable";
+
+		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
+
+
 	}
 
 }
