@@ -94,7 +94,7 @@ package rooms
             setAccessibleRoomsReachability(false);
 
             Things.forEach(function (thing: * ) {
-                    thing.refreshVisibility()
+                thing.refreshVisibility()
             });
         }
 

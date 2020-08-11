@@ -50,9 +50,9 @@
 			});
 
 			if (lightRoom != null) {
-				lightRoom.getLightSwitch().addEventListener("lightSwitched", function (e: * ): void {
+				lightRoom.getLightSwitch().addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
+					trace("lightSwitched");
 					Things.forEach(function (thing: * ) {
-						trace("lightSwitched");
 						thing.refreshVisibility();
 					});
 				});
@@ -106,6 +106,7 @@
 			for (var i: int = 0; i < shrooms.length; i++) {
 				for (var j: int = 0; j < playerReachabilityMap[i].length; j++) {
 					if (playerReachabilityMap[i][j] == 1) {
+						trace("shrooms", i, j, shrooms[i], shrooms[j])
 						shrooms[i].accessibleRooms.push(shrooms[j]);
 					}
 

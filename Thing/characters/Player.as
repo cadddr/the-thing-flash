@@ -91,10 +91,6 @@
 			}				
 		}
 
-		
-
-
-
 		// start drag
 		// mouse up handled by stage
 		override protected function interactOnMouseDown(e: MouseEvent): void {

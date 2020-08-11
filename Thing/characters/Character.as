@@ -14,8 +14,8 @@
 	public class Character extends Interactable {
 		
 		public var policy:Function = null;
-		public var currentRoom:RoomBase = null;
-		public var previousRoom:RoomBase = null;
+		public var currentRoom: RoomBase = null;
+		public var previousRoom: RoomBase = null;
 		
 		public var isDead:Boolean = false;
 
@@ -24,7 +24,7 @@
 		public function setCamera(camera: VirtualCamera): void {
 			this.camera = camera;
 		}
-		
+
 		public function set IsVisible(value:Boolean)
 		{
 			if(value)
@@ -32,8 +32,23 @@
 			else if(GlobalState.DEBUG)
 				alpha = 0.3;
 		}
+
+		protected function get ReachableRooms():Array
+		{
+			return currentRoom.accessibleRooms;
+		}
 		
-		protected function dieAnimation() {
+		protected function dieAnimation() {}	
+		
+		public function act()
+		{
+			if (!isDead)
+			{
+				if(policy != null)
+					{
+						policy();
+					}
+			}
 		}
 
 		public function moveTo(x:Number, y:Number) {
@@ -63,35 +78,7 @@
 
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {helper(tweenX, tweenY);}
 			else {helper(tweenY, tweenX);}
-		}
-		
-		protected function get ReachableRooms():Array
-		{
-			return currentRoom.accessibleRooms;
-		}
-		
-		
-		public function Character()
-		{
-			scaleX = 1;
-			scaleY = 1;
-		}
-		
-		public function act()
-		{
-			if (!isDead)
-			{
-				if(policy != null)
-					{
-						policy();
-					}
-			}
-		}
-		
-		public function die()
-		{
-			leaveRoom();
-		}
+		}	
 		
 		public function enterRoom(room: RoomBase) {
             this.currentRoom = room;
@@ -107,5 +94,10 @@
                 this.currentRoom = null;
 			}
         }
+
+		public function die()
+		{
+			leaveRoom();
+		}
 	}
 }

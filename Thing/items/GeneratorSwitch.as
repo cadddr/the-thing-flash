@@ -57,7 +57,7 @@
 			   GlobalState.isLightOn = switchOn;
 			   stage.color = int(switchOn) * 0x1b1b2f;
 		
-			   dispatchEvent(new Event("lightSwitched"));
+			   dispatchEvent(new Event(GlobalState.LIGHT_SWITCHED));
 			   
 			   this.gotoAndStop(switchOn ? 1 : 2);
 			

@@ -36,6 +36,8 @@
 
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 
+		public static const LIGHT_SWITCHED = "lightSwitched";
+
 
 	}
 
