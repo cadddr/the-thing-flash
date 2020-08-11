@@ -6,10 +6,11 @@
 	import characters.*;
 	import flash.events.MouseEvent;
 	import fl.motion.MotionEvent;
+	import rooms.RoomBase;
 	
 	public class ExplosiveCharge extends Item {
 		
-		var currentRoom:Room;
+		var currentRoom:RoomBase;
 		var isCharged:Boolean = false;
 
 		public function ExplosiveCharge() {		
