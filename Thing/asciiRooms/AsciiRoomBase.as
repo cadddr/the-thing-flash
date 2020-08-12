@@ -72,31 +72,18 @@ package asciiRooms {
 		}
 
 		public function putIn(character: Character): void {
-			var position: Point = computePositionInRoom(mouseX, mouseY, character.width, character.height);
+			var position: Point = computePositionInRoom(character.x != 0 ? mouseX : 0, 
+														character.y != 0 ? mouseY : 0, 
+														character.width, 
+														character.height);
 			trace ('position in room', position);
 
 			character.moveTo(position.x, position.y);
 		}
 		
 		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
-			if (whomX < tileWidth) {
-				whomX = tileWidth
-			}
-
-			if (whomY < tileHeight) {
-				whomY = tileHeight
-			}
-
-			if (whomX / tileWidth > width / tileWidth) {
-				whomX = tileWidth
-			}
-			
-			if (whomY / tileHeight > height / tileHeight) {
-				whomY = tileHeight
-			}
-
-			return new Point(this.x + whomX - whomX % tileWidth, 
-							 this.y + whomY - whomY % tileHeight);
+			return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
+							 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
 		}
 
 		override protected function interactOnMouseUp(event: MouseEvent): void {

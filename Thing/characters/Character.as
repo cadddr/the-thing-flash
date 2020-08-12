@@ -55,29 +55,32 @@
 			if (camera != null) {
 				camera.pinCameraToObject(this);
 			}
+
+			this.x=x;
+			this.y=y;
 			
-			gotoAndPlay(1);
+			// gotoAndPlay(1);
 
-			var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
-			var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, this.y, y, 24);
+			// var tweenX: Tween = new Tween(this, "x", Strong.easeInOut, this.x, x, 24);
+			// var tweenY: Tween = new Tween(this, "y", Strong.easeInOut, this.y, y, 24);
 
-			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
-			})
+			// tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+			// 	AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
+			// })
 
-			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
-			})
+			// tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+			// 	AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
+			// })
 
-			var helper: Function = function (first: Tween, second: Tween): void {
-				second.stop();
-				first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {second.start();});
+			// var helper: Function = function (first: Tween, second: Tween): void {
+			// 	second.stop();
+			// 	first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {second.start();});
 
-				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
-			}
+			// 	second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
+			// }
 
-			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {helper(tweenX, tweenY);}
-			else {helper(tweenY, tweenX);}
+			// if (Math.abs(x - this.x) > Math.abs(y - this.y)) {helper(tweenX, tweenY);}
+			// else {helper(tweenY, tweenX);}
 		}	
 		
 		public function enterRoom(room: RoomBase) {
