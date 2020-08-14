@@ -15,8 +15,6 @@ package rooms
 		public var accessibleRooms: Array = [];
 		public var adjacentRooms: Array = [];
 
-
-
 		var asciiLightSwitch: MovieClip;
 
 		public function setLightSwitch(lightSwitch: MovieClip): void {
@@ -26,6 +24,14 @@ package rooms
 		public function getLightSwitch(): MovieClip {
 			return asciiLightSwitch;
 		}
+
+		public var passiveAbility: Function;
+		public function enhancePlayers() {
+			if (passiveAbility != null) {
+				passiveAbility(this);
+			}
+		}
+
 		public function get IsGeneratorRoom():Boolean
 		{
 			return false;

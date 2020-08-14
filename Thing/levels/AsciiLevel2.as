@@ -7,6 +7,7 @@
 	import items.*;
 	import asciiRooms.AsciiSmallSquareRoom;
 	import items.AsciiGeneratorSwitch;
+	import rooms.RoomBase;
 	
 	
 	public class AsciiLevel2 extends LevelBase {
@@ -65,6 +66,25 @@
 					thing.refreshVisibility();
 				});
 			};
+
+
+			room1.passiveAbility = function (room:RoomBase):void
+			{			
+				var eligiblePlayers = room.guests.filter(function(item:*) {
+					return item is Player && !item.IsInactive
+				});
+				
+				eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
+			}
+
+			room5.passiveAbility = function (room:RoomBase):void
+			{			
+				var eligiblePlayers = room.guests.filter(function(item:*) {
+					return item is Player && !item.IsInactive
+				});
+				
+				eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});
+			}
 
 			room9.spawnLightSwitch(cameraLayer, callback); 
 			room13.spawnLightSwitch(cameraLayer, callback); 

@@ -11,7 +11,7 @@
 			// constructor code
 		}
 		
-		public function enhancePlayers()
+		override public function enhancePlayers()
 		{			
 			var eligiblePlayers = this.guests.filter(function(item:*) {return item is Player && !item.IsInactive});
 			
