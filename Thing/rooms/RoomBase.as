@@ -6,6 +6,7 @@ package rooms
     import characters.Thing;
     import characters.Player;
     import events.CharacterEvent;
+    import flash.display.MovieClip;
 
     public class RoomBase extends Interactable {
         // Bookkeeping and game logic only
@@ -13,6 +14,27 @@ package rooms
         public var guests: Array = [];
 		public var accessibleRooms: Array = [];
 		public var adjacentRooms: Array = [];
+
+
+
+		var asciiLightSwitch: MovieClip;
+
+		public function setLightSwitch(lightSwitch: MovieClip): void {
+			this.asciiLightSwitch = lightSwitch;
+		}
+
+		public function getLightSwitch(): MovieClip {
+			return asciiLightSwitch;
+		}
+		public function get IsGeneratorRoom():Boolean
+		{
+			return false;
+		}
+
+		public function get IsDispenserRoom():Boolean
+		{
+			return false;
+		}
 
 		protected var isReachable: Boolean = false;
 

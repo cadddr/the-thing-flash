@@ -28,6 +28,18 @@ package asciiRooms {
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {putIn(e.character);});
 		}
 
+		public function spawnLightSwitch(cameraLayer: MovieClip, callback: Function): void {
+			var lightSwitch: MovieClip = new AsciiGeneratorSwitch();
+			
+			lightSwitch.addEventListener(GlobalState.LIGHT_SWITCHED, callback);
+
+			this.setLightSwitch(lightSwitch);
+
+			lightSwitch.x = this.x + this.width / 2;
+			lightSwitch.y = this.y + this.height / 2;
+			cameraLayer.addChild(lightSwitch)
+		}
+
 		public function allocateChildrenToLayers(container: MovieClip, cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
 			var children = new Array();
 			for(var i:int = 0; i < container.numChildren; i++) {

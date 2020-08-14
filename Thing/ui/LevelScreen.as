@@ -50,7 +50,7 @@
 					camera.zoomBy(e.keyCode == 189 ? 90 : 100);
 
 								
-					trace("camera position", camera.getPosition().x, camera.getPosition().y);
+					// trace("camera position", camera.getPosition().x, camera.getPosition().y);
 				});	
 			});
 

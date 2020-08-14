@@ -39,7 +39,7 @@
 		
 		override protected function onAddedToStage(e: Event): void {
 			GlobalState.rooms = [room1, room1_2, room3, room3_2, room3_3, room3_4, room2, room5];
-			lightRoom = room2;
+			// lightRoom = room2;
 			
 			super.onAddedToStage(e);
 		}

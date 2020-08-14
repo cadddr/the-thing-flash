@@ -6,6 +6,7 @@
 	import characters.*;
 	import items.*;
 	import asciiRooms.AsciiSmallSquareRoom;
+	import items.AsciiGeneratorSwitch;
 	
 	
 	public class AsciiLevel2 extends LevelBase {
@@ -58,9 +59,16 @@
 			GlobalState.rooms = [room1, room2, room3, room4, room5,
 			                     room6, room7, room8, room9,
 								 room10, room11, room12, room13];
-
-			lightRoom = room13;
 			
+			var callback = function (e: * ): void {
+				Things.forEach(function (thing: * ) {
+					thing.refreshVisibility();
+				});
+			};
+
+			room9.spawnLightSwitch(cameraLayer, callback); 
+			room13.spawnLightSwitch(cameraLayer, callback); 
+
 			super.onAddedToStage(e);
 			
 		}

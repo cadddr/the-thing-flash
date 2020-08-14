@@ -18,18 +18,18 @@ package asciiRooms
                 unhighlightForInteraction();
             });
 
-            addEventListener(Event.ENTER_FRAME, function(e:Event): void {
-                if (GlobalState.draggableCharacter != null) {
-                    var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+            // addEventListener(Event.ENTER_FRAME, function(e:Event): void {
+            //     if (GlobalState.draggableCharacter != null) {
+            //         var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
                     
-                    if (dist > 400) {
-                        alpha=0;
-                    } 
-                    else {
-                        alpha = 1 -  dist / 800;
-                    }
-                }
-            });
+            //         if (dist > 400) {
+            //             alpha=0;
+            //         } 
+            //         else {
+            //             alpha = 1 -  dist / 800;
+            //         }
+            //     }
+            // });
         }
 
         protected function getSelection(): MovieClip {

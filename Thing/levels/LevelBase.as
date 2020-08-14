@@ -33,7 +33,6 @@
 		public var btn_endTurn: Button;
 		public var onGameOver: Function;
 
-		protected var lightRoom: GeneratorRoomInterface;
 		protected var playerType = Player;
 		protected var thingType = Thing;
 
@@ -48,15 +47,6 @@
 			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent): void {
 				endTurn();
 			});
-
-			if (lightRoom != null) {
-				lightRoom.getLightSwitch().addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
-					trace("lightSwitched");
-					Things.forEach(function (thing: * ) {
-						thing.refreshVisibility();
-					});
-				});
-			}
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 
