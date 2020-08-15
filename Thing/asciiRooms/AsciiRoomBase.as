@@ -74,15 +74,6 @@ package asciiRooms {
 			}
 		}
 
-		protected function interactOnMouseMove(e:MouseEvent): void {
-			// applyTileLightingFromSource(this, e.stageX, e.stageY);
-			// applyTileLightingFromSource(this, mouseX, mouseY);
-		}
-
-		override protected function interactOnMouseOut(e:MouseEvent): void {
-			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
-		}
-
 		public function putIn(character: Character): void {
 			var position: Point = computePositionInRoom(character.x != 0 ? mouseX : 0, 
 														character.y != 0 ? mouseY : 0, 
@@ -127,12 +118,28 @@ package asciiRooms {
 			}
 		}
 
+		protected function interactOnMouseMove(e:MouseEvent): void {
+			// applyTileLightingFromSource(this, e.stageX, e.stageY);
+			// applyTileLightingFromSource(this, mouseX, mouseY);
+		}
+
+		override protected function interactOnMouseOut(e:MouseEvent): void {
+			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
+			if (GlobalState.draggableCharacter) {
+				if (IsReachable) {
+					highlightReachable();
+				} else {
+					unhighlight();
+				}
+			}
+		}
+
 		public function unhighlight() {
 			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 31, 64, 104));
 		}
 
 		public function highlightSelected() {
-			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 255, 255, 255));
+			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 81, 152, 114));
 		}
 
 		public function highlightReachable() {
