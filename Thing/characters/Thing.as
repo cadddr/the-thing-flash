@@ -7,6 +7,8 @@
 	import characters.*;
 	import rooms.*;
 	import flash.events.Event;
+	import rooms.RoomBase;
+	import items.GeneratorSwitch;
 	//todo: inprove ai
 	public class Thing extends Character 
 	{		
@@ -20,9 +22,9 @@
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
-				if (this.currentRoom.getLightSwitch() != null && GlobalState.isLightOn && switchLightRetries > 0)
+				if (findLightSwitchInRoom(currentRoom) != null && GlobalState.isLightOn && switchLightRetries > 0)
 				{
-					this.currentRoom.getLightSwitch().switchPower(false);
+					findLightSwitchInRoom(currentRoom).switchPower(false);
 					switchLightRetries--;
 				}
 				else
@@ -61,6 +63,14 @@
 			
 			
 			goInvisible();
+		}
+
+		protected function findLightSwitchInRoom(room: RoomBase): GeneratorSwitch {
+			var foundItems: Array = room.interactables.filter(function(x:Interactable):Boolean {return x is GeneratorSwitch});
+			if (foundItems.length == 0) {
+				return null;
+			}
+			return foundItems[0];
 		}
 
 		override protected function dieAnimation() {

@@ -15,9 +15,11 @@ package asciiRooms {
 	import rooms.RoomBase;
 	import flash.events.Event;
 	import events.CharacterEvent;
+	import characters.Interactable;
 	
 	
 	public class AsciiRoomBase extends RoomBase {
+		//display/UI-specific functionality
 		var tileWidth = 25;
 		var tileHeight = 40.25;
 		
@@ -28,16 +30,13 @@ package asciiRooms {
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {putIn(e.character);});
 		}
 
-		public function spawnLightSwitch(cameraLayer: MovieClip, callback: Function): void {
-			var lightSwitch: MovieClip = new AsciiGeneratorSwitch();
-			
-			lightSwitch.addEventListener(GlobalState.LIGHT_SWITCHED, callback);
+		public function spawnInteractable(interactable: Interactable, cameraLayer: MovieClip): void {
+			interactables.push(interactable);
 
-			this.setLightSwitch(lightSwitch);
-
-			lightSwitch.x = this.x + this.width / 2;
-			lightSwitch.y = this.y + this.height / 2;
-			cameraLayer.addChild(lightSwitch)
+			var point = computePositionInRoom(Math.random() * width, Math.random() * height * tileHeight,0,0);
+			interactable.x = point.x;//this.x + this.width / 2;
+			interactable.y = point.y; //this.y + this.height / 2;
+			cameraLayer.addChild(interactable)
 		}
 
 		public function allocateChildrenToLayers(container: MovieClip, cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {

@@ -50,6 +50,13 @@
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 
+			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
+				Things.forEach(function (thing: * ): void {
+					thing.refreshVisibility();
+				});
+			});
+
+						
 			initializeRooms(GlobalState.rooms);
 			initializePlayers();
 			initializeThing();

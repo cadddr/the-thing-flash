@@ -38,5 +38,8 @@
 			removeEventListener(MouseEvent.MOUSE_UP, interactOnMouseUp);
 		}
 
+		protected function canInteract(): Boolean {
+			return false;
+		}
 	}	
 }

@@ -15,15 +15,7 @@ package rooms
 		public var accessibleRooms: Array = [];
 		public var adjacentRooms: Array = [];
 
-		var asciiLightSwitch: MovieClip;
-
-		public function setLightSwitch(lightSwitch: MovieClip): void {
-			this.asciiLightSwitch = lightSwitch;
-		}
-
-		public function getLightSwitch(): MovieClip {
-			return asciiLightSwitch;
-		}
+		public var interactables: Array = [];
 
 		public var passiveAbility: Function;
 		public function enhancePlayers() {
@@ -32,14 +24,22 @@ package rooms
 			}
 		}
 
-		public function get IsGeneratorRoom():Boolean
-		{
-			return false;
+		public static var PASSIVE_ABILITY_DISPENSE_EXPLOSIVES = function (room:RoomBase):void
+		{			
+			var eligiblePlayers = room.guests.filter(function(item:*) {
+				return item is Player && !item.IsInactive
+			});
+			
+			eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
 		}
 
-		public function get IsDispenserRoom():Boolean
-		{
-			return false;
+		public static var PASSIVE_ABILITY_DISPENSE_SYRINGES = function (room:RoomBase):void
+		{			
+			var eligiblePlayers = room.guests.filter(function(item:*) {
+				return item is Player && !item.IsInactive
+			});
+			
+			eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});
 		}
 
 		protected var isReachable: Boolean = false;

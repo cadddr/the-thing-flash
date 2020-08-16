@@ -30,7 +30,7 @@
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
 			if(GlobalState.draggableCharacter 
-			   && GlobalState.draggableCharacter.currentRoom.getLightSwitch() != null)
+			   && GlobalState.draggableCharacter.currentRoom.interactables.indexOf(this) != -1)
 				{
 					highlightForInteraction();
 				}
@@ -44,7 +44,7 @@
 		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
 			if(GlobalState.draggableCharacter)
-				   if(GlobalState.draggableCharacter.currentRoom.getLightSwitch() != null)
+				   if(GlobalState.draggableCharacter.currentRoom.interactables.indexOf(this) != -1)
 				   {
 					   switchPower(true);
 					   GlobalState.draggableCharacter.finalizeAction();

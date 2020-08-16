@@ -61,15 +61,12 @@
 				this.visible = false;
 				//todo: detach from owner rather than creating new instance
 				var plantedCharge = new AsciiExplosiveCharge();
-				// var global = localToGlobal(new Point(owner.currentRoom.x, owner.currentRoom.y))
-				var point = AsciiRoomBase(owner.currentRoom).computePositionInRoom(0,0,0,0);
-				plantedCharge.x = point.x;
-				plantedCharge.y = point.y;
 				plantedCharge.visible = true;
 				plantedCharge.isCharged = true;
 				plantedCharge.currentRoom = owner.currentRoom;
 				
-				owner.cameraLayer.addChild(plantedCharge);
+				AsciiRoomBase(owner.currentRoom).spawnInteractable(plantedCharge, owner.cameraLayer)
+				
 				GlobalState.plantedCharges.push(plantedCharge);
 			
 				owner.finalizeAction();

@@ -61,36 +61,14 @@
 			GlobalState.rooms = [room1, room2, room3, room4, room5,
 			                     room6, room7, room8, room9,
 								 room10, room11, room12, room13];
-			
-			var callback = function (e: * ): void {
-				Things.forEach(function (thing: * ) {
-					thing.refreshVisibility();
-				});
-			};
 
-			room1.passiveAbility = function (room:RoomBase):void
-			{			
-				var eligiblePlayers = room.guests.filter(function(item:*) {
-					return item is Player && !item.IsInactive
-				});
-				
-				eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
-			}
+			room1.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_EXPLOSIVES
+			room5.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_SYRINGES
 
-			room5.passiveAbility = function (room:RoomBase):void
-			{			
-				var eligiblePlayers = room.guests.filter(function(item:*) {
-					return item is Player && !item.IsInactive
-				});
-				
-				eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});
-			}
-
-			room9.spawnLightSwitch(cameraLayer, callback); 
-			room13.spawnLightSwitch(cameraLayer, callback); 
+			room9.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
+			room13.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
 
 			super.onAddedToStage(e);
-			
 		}
 
 		override protected function endTurn() {

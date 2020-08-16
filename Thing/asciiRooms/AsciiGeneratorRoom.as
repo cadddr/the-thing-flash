@@ -11,7 +11,7 @@
 			room.disableAllInteraction();
 		}
 		
-		override public function getLightSwitch(): MovieClip {
+		public function getLightSwitch(): MovieClip {
 			return asciiLightSwitch;
 		}
 	}

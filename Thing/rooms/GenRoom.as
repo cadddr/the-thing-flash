@@ -11,7 +11,7 @@
 			// constructor code
 		}
 		
-		override public function getLightSwitch(): MovieClip {
+		public function getLightSwitch(): MovieClip {
 			return lightSwitch;
 		}
 	}
