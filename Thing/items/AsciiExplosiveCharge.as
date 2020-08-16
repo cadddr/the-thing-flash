@@ -55,8 +55,8 @@
 				this.visible = false;
 				//todo: detach from owner rather than creating new instance
 				var plantedCharge = new AsciiExplosiveCharge();
-				plantedCharge.x = owner.x;
-				plantedCharge.y = owner.y;
+				plantedCharge.x = owner.currentRoom.x;
+				plantedCharge.y = owner.currentRoom.y;
 				plantedCharge.visible = true;
 				plantedCharge.isCharged = true;
 				plantedCharge.currentRoom = owner.currentRoom;

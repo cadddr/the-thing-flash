@@ -8,6 +8,7 @@
 	import asciiRooms.AsciiSmallSquareRoom;
 	import items.AsciiGeneratorSwitch;
 	import rooms.RoomBase;
+	import effects.AsciiParticleSystem;
 	
 	
 	public class AsciiLevel2 extends LevelBase {
@@ -67,6 +68,7 @@
 				});
 			};
 
+			stage.addChild(new AsciiParticleSystem(100));
 
 			room1.passiveAbility = function (room:RoomBase):void
 			{			
