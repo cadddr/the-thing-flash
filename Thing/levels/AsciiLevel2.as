@@ -68,8 +68,6 @@
 				});
 			};
 
-			stage.addChild(new AsciiParticleSystem(100));
-
 			room1.passiveAbility = function (room:RoomBase):void
 			{			
 				var eligiblePlayers = room.guests.filter(function(item:*) {

@@ -112,7 +112,7 @@
 
 			for (var i: int = 0; i < maxPlayers; i++) {
 				var player = new playerType(humanInfectedRefusalProbability);
-				player.setCamera(this.camera);
+				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
 				GlobalState.rooms[initialRoom].register(player);

@@ -84,7 +84,7 @@ package asciiRooms {
 			character.moveTo(position.x, position.y);
 		}
 		
-		protected function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
+		public function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
 			return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
 							 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
 		}

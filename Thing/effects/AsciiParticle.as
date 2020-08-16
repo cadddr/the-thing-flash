@@ -18,15 +18,16 @@ package effects
         
         public function AsciiParticle(heading: Point, ttl: int)
         {
-            text = "*";
+            text = ".";
+            selectable = false;
             textColor = 0xffff00;
             background = false;
 
             this.heading = heading;
             this.ttl = ttl;
         //    addEventListener(Event.ENTER_FRAME, function(e:Event): void {
-            x=400;
-            y=300;
+            // x=400;
+            // y=300;
 
         //    })
 

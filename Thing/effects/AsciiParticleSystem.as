@@ -6,7 +6,7 @@ package effects
 
     public class AsciiParticleSystem extends MovieClip {
         
-        public function AsciiParticleSystem(n:int)
+        public function AsciiParticleSystem(n:int, continuous:Boolean)
         {
             var particles:Array = [];
             addEventListener(Event.ADDED_TO_STAGE, function (e:Event): void {
@@ -18,8 +18,8 @@ package effects
                 }
             })
 
-            
-            addEventListener(Event.ENTER_FRAME, function(e:Event):void {  
+            if (continuous)
+            {addEventListener(Event.ENTER_FRAME, function(e:Event):void {  
                 for(var index:int = 0; index < n; index++) {
                     if (particles[0].ttl == 0) {
                         stage.removeChild(particles[0])
@@ -41,7 +41,7 @@ package effects
                 //         stage.addChild(p);
                 //     }
                 // }
-            })
+            })}
         }
     }
 }

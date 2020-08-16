@@ -6,6 +6,9 @@
 	import flash.events.MouseEvent;
 	import GlobalState;
 	import characters.*;
+	import effects.AsciiParticleSystem;
+	import flash.geom.Point;
+	import asciiRooms.AsciiRoomBase;
 	
 	
 	public class AsciiExplosiveCharge extends ExplosiveCharge {
@@ -36,6 +39,9 @@
 				highlightForInteraction();
 		}
 		
+
+		var cameraLayer;
+
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
 			//explode
@@ -55,21 +61,29 @@
 				this.visible = false;
 				//todo: detach from owner rather than creating new instance
 				var plantedCharge = new AsciiExplosiveCharge();
-				plantedCharge.x = owner.currentRoom.x;
-				plantedCharge.y = owner.currentRoom.y;
+				// var global = localToGlobal(new Point(owner.currentRoom.x, owner.currentRoom.y))
+				var point = AsciiRoomBase(owner.currentRoom).computePositionInRoom(0,0,0,0);
+				plantedCharge.x = point.x;
+				plantedCharge.y = point.y;
 				plantedCharge.visible = true;
 				plantedCharge.isCharged = true;
 				plantedCharge.currentRoom = owner.currentRoom;
 				
-				stage.addChild(plantedCharge);
+				owner.cameraLayer.addChild(plantedCharge);
 				GlobalState.plantedCharges.push(plantedCharge);
 			
 				owner.finalizeAction();
 			}
 		}
 
+		
+
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+			var p = new AsciiParticleSystem(100, false)
+			p.x = this.x;
+			p.y = this.y;
+			stage.addChild(p);
 		}
 	}
 	

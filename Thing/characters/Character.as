@@ -20,9 +20,11 @@
 		public var isDead:Boolean = false;
 
 		private var camera: VirtualCamera;
+		public var cameraLayer: MovieClip;
 
-		public function setCamera(camera: VirtualCamera): void {
+		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
 			this.camera = camera;
+			this.cameraLayer = cameraLayer;
 		}
 
 		public function set IsVisible(value:Boolean)
@@ -66,12 +68,15 @@
 
 			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
 				// trace("x", e.position);
-				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);
+				if (currentRoom)
+				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);}
 			})
 
 			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
+
 				// trace("y", e.position)
-				AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);
+				if (currentRoom)
+				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);}
 			})
 
 			var helper: Function = function (first: Tween, second: Tween): void {
