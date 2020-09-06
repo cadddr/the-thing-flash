@@ -66,11 +66,20 @@
 		}
 
 		protected function findLightSwitchInRoom(room: RoomBase): GeneratorSwitch {
-			var foundItems: Array = room.interactables.filter(function(x:Interactable):Boolean {return x is GeneratorSwitch});
-			if (foundItems.length == 0) {
-				return null;
+			for each(var item:Interactable in room.interactables)
+			{
+				if (item is GeneratorSwitch) {
+					return GeneratorSwitch(item);
+				}
 			}
-			return foundItems[0];
+			// var foundItems: Array = room.interactables.filter(function(x:Interactable):Boolean {
+			// 	return x is GeneratorSwitch
+			// });
+			// if (foundItems.length == 0) {
+			// 	return null;
+			// }
+			// return foundItems[0];
+			return null;
 		}
 
 		override protected function dieAnimation() {

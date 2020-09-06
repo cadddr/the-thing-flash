@@ -9,6 +9,7 @@
 	import effects.AsciiParticleSystem;
 	import flash.geom.Point;
 	import asciiRooms.AsciiRoomBase;
+	import flash.events.Event;
 	
 	
 	public class AsciiExplosiveCharge extends ExplosiveCharge {
@@ -16,6 +17,7 @@
 		
 		public function AsciiExplosiveCharge() {
 			// constructor code
+			// stop();
 		}
 
 		override protected function getSelection(): MovieClip {
@@ -40,7 +42,7 @@
 		}
 		
 
-		var cameraLayer;
+		public var cameraLayer;
 
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
@@ -64,7 +66,9 @@
 				plantedCharge.visible = true;
 				plantedCharge.isCharged = true;
 				plantedCharge.currentRoom = owner.currentRoom;
+				plantedCharge.gotoAndPlay(5);
 				
+				plantedCharge.cameraLayer = owner.cameraLayer;
 				AsciiRoomBase(owner.currentRoom).spawnInteractable(plantedCharge, owner.cameraLayer)
 				
 				GlobalState.plantedCharges.push(plantedCharge);
@@ -77,10 +81,11 @@
 
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
-			var p = new AsciiParticleSystem(100, false)
-			p.x = this.x;
-			p.y = this.y;
-			stage.addChild(p);
+			var p = new AsciiParticleSystem(100, false, cameraLayer);
+			p.x = this.x + 25+ 12.5;
+			p.y = this.y + 20.125;
+			cameraLayer.addChild(p);
+			stop();
 		}
 	}
 	

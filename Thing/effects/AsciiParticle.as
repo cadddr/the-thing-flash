@@ -16,8 +16,10 @@ package effects
         var tweenY: Tween;
         var tweenAlpha: Tween;
         
-        public function AsciiParticle(heading: Point, ttl: int)
+        public function AsciiParticle(x:Number, y:Number, heading: Point, ttl: int)
         {
+            this.x = x;
+            this.y = y;
             text = ".";
             selectable = false;
             textColor = 0xffff00;

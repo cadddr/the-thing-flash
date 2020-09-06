@@ -34,8 +34,8 @@ package asciiRooms {
 			interactables.push(interactable);
 
 			var point = computePositionInRoom(Math.random() * width, Math.random() * height * tileHeight,0,0);
-			interactable.x = point.x;//this.x + this.width / 2;
-			interactable.y = point.y; //this.y + this.height / 2;
+			interactable.x = point.x;
+			interactable.y = point.y;
 			cameraLayer.addChild(interactable)
 		}
 
@@ -79,8 +79,14 @@ package asciiRooms {
 														character.width, 
 														character.height);
 			trace ('position in room', position);
-
-			character.moveTo(position.x, position.y);
+			if (character.previousRoom != null)
+			{
+				character.animateMoveTo(position.x, position.y);
+			}
+			else {
+				character.x = position.x;
+				character.y = position.y;
+			}
 		}
 		
 		public function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {

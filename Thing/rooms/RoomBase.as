@@ -145,6 +145,5 @@ package rooms
 				if (item is Player) item.revealItself()
 			});
 		}
-
     }
 }

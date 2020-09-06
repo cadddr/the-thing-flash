@@ -6,15 +6,15 @@ package effects
 
     public class AsciiParticleSystem extends MovieClip {
         
-        public function AsciiParticleSystem(n:int, continuous:Boolean)
+        public function AsciiParticleSystem(n:int, continuous:Boolean, cameraLayer: MovieClip)
         {
             var particles:Array = [];
             addEventListener(Event.ADDED_TO_STAGE, function (e:Event): void {
                 for(var index:int = 0; index < n; index++)
                 {
-                    var p = new AsciiParticle(new Point(Math.random()*800, Math.random()*600), Math.random()*2)
+                    var p = new AsciiParticle(x, y, new Point(Math.random()*800, Math.random()*600), Math.random()*2)
                     particles.push(p);
-                    stage.addChild(p);
+                    cameraLayer.addChild(p);
                 }
             })
 
@@ -22,12 +22,12 @@ package effects
             {addEventListener(Event.ENTER_FRAME, function(e:Event):void {  
                 for(var index:int = 0; index < n; index++) {
                     if (particles[0].ttl == 0) {
-                        stage.removeChild(particles[0])
+                        cameraLayer.removeChild(particles[0])
                         particles.removeAt(0);
 
-                        var p = new AsciiParticle(new Point(Math.random()*800, Math.random()*600), Math.random()*2)
+                        var p = new AsciiParticle(x, y, new Point(Math.random()*800, Math.random()*600), Math.random()*2)
                         particles.push(p);
-                        stage.addChild(p);
+                        cameraLayer.addChild(p);
                     }     
                 }      
                 // for(var index:int = 0; index < n; index++)

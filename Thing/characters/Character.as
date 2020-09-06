@@ -56,7 +56,7 @@
 		var tweenX: Tween;
 		var tweenY: Tween;
 
-		public function moveTo(x:Number, y:Number) {
+		public function animateMoveTo(x:Number, y:Number) {
 			if (camera != null) {
 				camera.pinCameraToObject(this);
 			}
@@ -65,18 +65,28 @@
 
 			tweenX = new Tween(this, "x", Strong.easeInOut, this.x, x, 1, true);
 			tweenY = new Tween(this, "y", Strong.easeInOut, this.y, y, 1, true);
+			var caller:MovieClip = this;
 
 			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-				// trace("x", e.position);
 				if (currentRoom)
-				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, y);}
+				{
+					AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, caller.y);
+				}
+				if (previousRoom)
+				{
+					AsciiRoomBase(previousRoom).applyTileLightingFromSource(previousRoom, e.position, caller.y);
+				}
 			})
 
 			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-
-				// trace("y", e.position)
 				if (currentRoom)
-				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, e.position);}
+				{
+					AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, caller.x, e.position);
+				}
+				if (previousRoom)
+				{
+					AsciiRoomBase(previousRoom).applyTileLightingFromSource(previousRoom, caller.x, e.position);
+				}
 			})
 
 			var helper: Function = function (first: Tween, second: Tween): void {
@@ -86,11 +96,12 @@
 				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
 			}
 
-			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {helper(tweenX, tweenY);}
-			else {helper(tweenY, tweenX);}
-
-			// this.x=x;
-			// this.y=y;
+			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
+				helper(tweenX, tweenY)
+			}
+			else {
+				helper(tweenY, tweenX);
+			}
 		}	
 		
 		public function enterRoom(room: RoomBase) {
