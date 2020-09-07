@@ -10,15 +10,18 @@ package asciiRooms
     import rooms.Room;
 
     public class AsciiTile extends Interactable {
-        private var colorTransform: ColorTransform = new ColorTransform();
+        var colorTransform: ColorTransform = new ColorTransform(0,0,0,1,27,27,47,1);
 
         public function AsciiTile()
         {
+            
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
             });
+            var caller = this;
+            var currentFrame = 0;
+            addEventListener(Event.ENTER_FRAME, function(e:Event): void {
 
-            // addEventListener(Event.ENTER_FRAME, function(e:Event): void {
             //     if (GlobalState.draggableCharacter != null) {
             //         var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
                     
@@ -29,7 +32,24 @@ package asciiRooms
             //             alpha = 1 -  dist / 800;
             //         }
             //     }
-            // });
+            
+                if (caller is AsciiFloorTile) {
+                    if (colorTransform.color != GlobalState.DARK_PURPLE) {
+                        if (currentFrame % 4 == 0) {
+                            var noise: Number = .0035;
+
+                            AsciiFloorTile(caller).asciiTileText.backgroundColor = //colorTransform.color;
+                                new ColorTransform(0,0,0,1,
+                                    colorTransform.redOffset + Math.sin(currentFrame + Math.random() * 4) * 255 * noise,
+                                    colorTransform.greenOffset + Math.sin(currentFrame + Math.random() * 4) * 255 * noise,
+                                    colorTransform.blueOffset + Math.sin(currentFrame + Math.random() * 4) * 255 * noise, 
+                                    1).color;
+                        }
+                        currentFrame = (currentFrame + 1) % 24;
+                    }
+
+                }
+            });
         }
 
         protected function getSelection(): MovieClip {
@@ -66,7 +86,8 @@ package asciiRooms
             var dist = getDistanceFrom(sourceX, sourceY);
             var diffuse = Math.cos(Math.atan(dist + 5));
 
-            AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1).color;
+            colorTransform = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1);
+
 		}
 
         public function unapplyLighting() {
