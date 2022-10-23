@@ -16,6 +16,7 @@
 			camera = VirtualCamera.getCamera(root)
 			cameraLayer = MovieClip(getChildByName("Layer_1"));
 			cameraLayer2 = MovieClip(getChildByName("Layer_2"));
+			trace(cameraLayer);
 
 			stage.addChild(new LevelSelectionScreen(camera, cameraLayer, cameraLayer2));
 		}

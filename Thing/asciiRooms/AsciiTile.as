@@ -22,16 +22,18 @@ package asciiRooms
             var currentFrame = 0;
             addEventListener(Event.ENTER_FRAME, function(e:Event): void {
 
-            //     if (GlobalState.draggableCharacter != null) {
-            //         var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
-                    
-            //         if (dist > 400) {
-            //             alpha=0;
-            //         } 
-            //         else {
-            //             alpha = 1 -  dist / 800;
-            //         }
-            //     }
+                // if (GlobalState.draggableCharacter != null) {
+                    // var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+                    var dist = getDistanceFrom(stage.mouseX, stage.mouseY);
+                    // var camPos = parent.camera.getPosition();
+                    // if (dist > 400) {
+                    //     alpha=0;
+                    // } 
+                    // else {
+                        // alpha = 1 -  dist / 800;
+                        alpha = 1 * 100 / dist;
+                    // }
+                // }
             
                 if (caller is AsciiFloorTile) {
                     if (colorTransform.color != GlobalState.DARK_PURPLE) {
@@ -73,7 +75,7 @@ package asciiRooms
         }
 
         private function getDistanceFrom(sourceX, sourceY) {
-            var global = localToGlobal(new Point(this.x, this.y));
+            // var global = localToGlobal(new Point(this.x, this.y));
             var x = parent.x + this.x - sourceX;
             var y = parent.y + this.y - sourceY;
             var dist = Math.sqrt(x*x + y*y);
@@ -86,7 +88,10 @@ package asciiRooms
             var dist = getDistanceFrom(sourceX, sourceY);
             var diffuse = Math.cos(Math.atan(dist + 5));
 
-            colorTransform = new ColorTransform(0,0,0,1,27+(255-27)*diffuse,27+(255-27)*diffuse,47+(255-47)*diffuse,1);
+            colorTransform = new ColorTransform(0,0,0,1,
+                27+(255-27)*diffuse,
+                27+(255-27)*diffuse,
+                47+(255-47)*diffuse,1);
 
 		}
 
