@@ -19,6 +19,15 @@
 			asciiMarker.visible = true;
 		}
 
+		override public function getSyringe(): MovieClip {
+			throw asciiSyringe;
+		}
+
+		override public function getCharge(): MovieClip {
+			throw asciiCharge;
+		}
+
+
 		protected function getSelection(): MovieClip {
 			return asciiSelection;
 		}
@@ -94,14 +103,14 @@
 
 		override public function equipExplosiveCharge() {
 			trace(this, "has equipped explosive charge")
-			this.asciiCharge.visible = true;
-			this.asciiCharge.mouseEnabled = true;
-			this.asciiCharge.owner = this;
+			getCharge().visible = true;
+			getCharge().mouseEnabled = true;
+			getCharge().owner = this;
 		}
 
 		override public function equipSyringe() {
 			trace(this, "has equipped test syringe")
-			this.asciiSyringe.equip(this)
+			getSyringe().equip(this)
 		}
 	}
 }

@@ -1,10 +1,10 @@
 ﻿package rooms {
 	
 	import flash.display.MovieClip;
-	import rooms.Room;
+	import rooms.RoomBase;
 	import characters.Player;
 	
-	public class AmmoRoom extends Room {
+	public class AmmoRoom extends RoomBase {
 		
 		
 		public function AmmoRoom() {

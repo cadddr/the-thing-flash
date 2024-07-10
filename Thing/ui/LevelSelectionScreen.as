@@ -49,14 +49,14 @@
 						stage.removeChild(caller);
 				});
 
-				testLevelSelectionButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent): void {
-						import ui.LevelScreen;
-						import model.levels.TestLevel;
-						import view.TestLevelView;
+				// testLevelSelectionButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent): void {
+				// 		import ui.LevelScreen;
+				// 		import model.levels.TestLevel;
+				// 		import view.TestLevelView;
 
-						var levelController: LevelController  = new LevelController();
-						levelController.createLevel(new TestLevel(), new TestLevelView(), cameraLayer);
-				});
+				// 		var levelController: LevelController  = new LevelController();
+				// 		levelController.createLevel(new TestLevel(), new TestLevelView(), cameraLayer);
+				// });
 			});
 		}
 	}

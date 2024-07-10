@@ -21,6 +21,14 @@
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
 
+		public function getSyringe(): MovieClip {
+			throw null;
+		}
+
+		public function getCharge(): MovieClip {
+			throw null;
+		}
+
 		public function get IsInfected() {
 			return isInfected;
 		}
@@ -52,14 +60,14 @@
 
 		public function equipSyringe() {
 			trace(this, "has equipped syringe")
-			this.mysyringe.visible = true;
-			this.mysyringe.owner = this;
+			getSyringe().visible = true;
+			getSyringe().owner = this;
 		}
 
 		public function equipExplosiveCharge() {
 			trace(this, "has equipped explosive charge")
-			this.mycharge.visible = true;
-			this.mycharge.owner = this;
+			getCharge().visible = true;
+			getCharge().owner = this;
 		}
 
 		override protected function highlightForInteraction(): void {

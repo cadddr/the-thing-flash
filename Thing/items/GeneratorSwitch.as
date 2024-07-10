@@ -14,7 +14,7 @@
 		}
 		
 		protected function getSelection(): MovieClip {
-			return myselection;
+			throw null;
 		}
 
 		override protected function highlightForInteraction(): void {
