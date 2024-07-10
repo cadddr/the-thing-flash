@@ -2,7 +2,6 @@
 	
 	import flash.display.MovieClip;
 	import items.Item;
-	import rooms.Room;
 	import characters.*;
 	import flash.events.MouseEvent;
 	import fl.motion.MotionEvent;

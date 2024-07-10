@@ -258,7 +258,7 @@
 		
 		private function goToLeastPopulatedRoom()
 		{
-			var leastPopulatedRoom:Room = ReachableRooms[0];
+			var leastPopulatedRoom:RoomBase = ReachableRooms[0];
 			
 			for(var i:int = 0; i < ReachableRooms.length; i++)
 			{

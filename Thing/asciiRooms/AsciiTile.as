@@ -7,7 +7,6 @@ package asciiRooms
     import flash.geom.ColorTransform;
     import flash.geom.Point;
     import flash.events.Event;
-    import rooms.Room;
 
     public class AsciiTile extends Interactable {
         var colorTransform: ColorTransform = new ColorTransform(0,0,0,1,27,27,47,1);

@@ -1,7 +1,6 @@
-package asciiRooms {
+﻿package asciiRooms {
 	
 	import flash.display.MovieClip;
-	import rooms.Room;
 	import characters.*;
 	import flash.events.*;
 	import items.AsciiGeneratorSwitch;

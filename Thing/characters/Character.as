@@ -1,7 +1,6 @@
 ﻿package characters {
 	import flash.display.MovieClip;
 	import GlobalState;
-	import rooms.Room;
 	import characters.Interactable;
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;

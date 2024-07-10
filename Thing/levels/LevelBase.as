@@ -4,7 +4,6 @@
 	import flash.events.*;
 	import fl.controls.Button;
 	import Utils;
-	import rooms.Room;
 	import characters.*;
 	import rooms.GeneratorRoomInterface;
 	import fl.VirtualCamera;
