@@ -12,69 +12,67 @@
 	
 	public class LevelScreen extends MovieClip {
 		
-		private static const KEY_LEFT: int = 37;
-		private static const KEY_UP: int = 38;
-		private static const KEY_RIGHT: int = 39;
-		private static const KEY_DOWN: int = 40;
-		private static const KEY_ZOOM_IN: int = 187;
-		private static const KEY_ZOOM_OUT: int = 189;
-		private static const CAMERA_PAN_AMOUNT: Number = 10;
-		private static const CAMERA_ZOOM_IN_AMOUNT: Number = 110;
-		private static const CAMERA_ZOOM_OUT_AMOUNT: Number = 90;
+		private static const KEY_LEFT: int = 37; // Left arrow key
+		private static const KEY_UP: int = 38; // Up arrow key
+		private static const KEY_RIGHT: int = 39; // Right arrow key
+		private static const KEY_DOWN: int = 40; // Down arrow key
+		private static const KEY_ZOOM_IN: int = 187; // Plus key (Zoom in)
+		private static const KEY_ZOOM_OUT: int = 189; // Minus key (Zoom out)
+
+		private static const CAMERA_PAN_AMOUNT: Number = 10; // Amount to pan the camera
+		private static const CAMERA_ZOOM_IN_AMOUNT: Number = 110; // Amount to zoom in the camera
+		private static const CAMERA_ZOOM_OUT_AMOUNT: Number = 90; // Amount to zoom out the camera
+
 
 		public function LevelScreen(level: LevelBase, camera: VirtualCamera = null, cameraLayer: MovieClip = null, cameraLayer2: MovieClip = null) {
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		}
+			var caller = this;
 
-		private function onAddedToStage(e: Event): void {
-			goBackButton.addEventListener(MouseEvent.CLICK, onGoBackButtonClick);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
+				level.btn_endTurn = endTurnButton;
 
-			level.btn_endTurn = endTurnButton;
-			level.onGameOver = onGameOver;
+				level.setCameraAndLayer(camera, cameraLayer);
+				cameraLayer.addChild(level);
+				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
 
-			level.setCameraAndLayer(camera, cameraLayer);
-			cameraLayer.addChild(level);
-			level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
-		}
+				goBackButton.addEventListener(MouseEvent.CLICK, function(e: MouseEvent): void {
+					stage.addChild(new LevelSelectionScreen(null));
+					stage.removeChild(level); // TODO:
+					stage.removeChild(caller);
+				});
 
-		private function onGoBackButtonClick(e: MouseEvent): void {
-			stage.addChild(new LevelSelectionScreen(null));
-			stage.removeChild(level);
-			stage.removeChild(this);
-		}
+				level.onGameOver = function(): void {
+					stage.addChild(new GameOverScreen());
+					stage.removeChild(level);
+					stage.removeChild(caller);
+				};
 
-		private function onGameOver(): void {
-			stage.addChild(new GameOverScreen());
-			stage.removeChild(level);
-			stage.removeChild(this);
-		}
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e: KeyboardEvent): void {
+					if ([KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_ZOOM_IN, KEY_ZOOM_OUT].indexOf(e.keyCode) != -1) {
+						camera.unpinCamera();
+					}
 
-		private function onKeyDown(e: KeyboardEvent): void {
-			if ([KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_ZOOM_IN, KEY_ZOOM_OUT].indexOf(e.keyCode) != -1) {
-				camera.unpinCamera();
-			}
-
-			switch (e.keyCode) {
-				case KEY_LEFT:
-					camera.moveBy(CAMERA_PAN_AMOUNT, 0);
-					break;
-				case KEY_RIGHT:
-					camera.moveBy(-CAMERA_PAN_AMOUNT, 0);
-					break;
-				case KEY_UP:
-					camera.moveBy(0, CAMERA_PAN_AMOUNT);
-					break;
-				case KEY_DOWN:
-					camera.moveBy(0, -CAMERA_PAN_AMOUNT);
-					break;
-				case KEY_ZOOM_IN:
-					camera.zoomBy(CAMERA_ZOOM_IN_AMOUNT);
-					break;
-				case KEY_ZOOM_OUT:
-					camera.zoomBy(CAMERA_ZOOM_OUT_AMOUNT);
-					break;
-			}
+					switch (e.keyCode) {
+						case KEY_LEFT: // Left arrow key
+							camera.moveBy(CAMERA_PAN_AMOUNT, 0);
+							break;
+						case KEY_RIGHT: // Right arrow key
+							camera.moveBy(-CAMERA_PAN_AMOUNT, 0);
+							break;
+						case KEY_UP: // Up arrow key
+							camera.moveBy(0, CAMERA_PAN_AMOUNT);
+							break;
+						case KEY_DOWN: // Down arrow key
+							camera.moveBy(0, -CAMERA_PAN_AMOUNT);
+							break;
+						case KEY_ZOOM_IN: // Plus key (Zoom in)
+							camera.zoomBy(CAMERA_ZOOM_IN_AMOUNT);
+							break;
+						case KEY_ZOOM_OUT: // Minus key (Zoom out)
+							camera.zoomBy(CAMERA_ZOOM_OUT_AMOUNT);
+							break;
+					}
+				});				
+			});
 		}
 	}
 }
