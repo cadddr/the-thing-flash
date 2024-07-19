@@ -16,52 +16,17 @@
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
 
-		protected var playerReachabilityMap: Array = [
- 			[]
- 		];
-
- 		protected var thingReachabilityMap: Array = [
- 			[]
- 		];
+		protected var playerReachabilityMap: Array;
+ 		protected var thingReachabilityMap: Array;
 
 		//out of 6
 		protected var leftBehindProbability: Number = 2
-
 		protected var humanInfectedRefusalProbability = 2;
 
-		public var btn_endTurn: SimpleButton;
 		public var onGameOver: Function;
-
-		protected var playerType = Player;
-		protected var thingType = Thing;
 
 		var camera: VirtualCamera;
 		var cameraLayer: MovieClip;
-
-		public function LevelBase() {
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		}
-
-		protected function onAddedToStage(e: Event): void {
-			btn_endTurn.addEventListener(MouseEvent.CLICK, function (e: MouseEvent): void {
-				endTurn();
-			});
-			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-
-			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
-				Things.forEach(function (thing: * ): void {
-					thing.refreshVisibility();
-				});
-			});
-
-						
-			initializeRooms(GlobalState.rooms);
-			initializePlayers();
-			initializeThing();
-
-			selectActiveCharacter();
-		}
 
 		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
 			this.camera = camera;
@@ -75,6 +40,7 @@
 				// return
 			}
 		}
+
 
 		protected function get Players() {
 			var players = [];
@@ -97,6 +63,70 @@
 			return things;
 		}
 
+		public function LevelBase() {
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+
+		// may be overriden and called from subclass
+		protected function onAddedToStage(e: Event): void {
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+
+			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
+				refreshThingsVisibility();
+			});
+						
+			initializeRooms(GlobalState.rooms);
+			initializePlayers();
+			initializeThing();
+
+			selectActiveCharacter();
+		}
+
+		private static const KEY_SPACE: int = 32;
+		private static const KEY_D: int = 68;
+		private static const KEY_TAB: int = 9;
+
+		protected function onKeyPress(e: KeyboardEvent): void {
+			switch (e.keyCode) {
+				case KEY_SPACE:
+					endTurn();
+					break;
+				case KEY_D:
+					toggleDebugMode();
+					break;
+				case KEY_TAB:
+					selectActiveCharacter();
+					break;
+				default:
+					// No action for other keys
+					break;
+			}
+		}
+
+		private function toggleDebugMode(): void {
+			trace("Debug mode", GlobalState.DEBUG);
+			GlobalState.DEBUG = !GlobalState.DEBUG;
+			refreshThingsVisibility();
+		}
+
+		private function refreshThingsVisibility(): void {
+			Things.forEach(function (thing: * ): void {
+				trace("lightSwitched");
+				thing.refreshVisibility();
+			});
+		}
+
+		protected function selectActiveCharacter() {
+			var i = 0;
+			if (GlobalState.draggableCharacter != null) {
+				i = Players.indexOf(GlobalState.draggableCharacter)
+			}
+			
+			Players[(i + 1) % Players.length].selectAsActiveCharacter();
+			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
+			Players[i].unselectAsActiveCharacter();
+		}
+
 		//todo: make look nicer
 		protected function initializeRooms(shrooms: Array) {
 			for (var i: int = 0; i < shrooms.length; i++) {
@@ -117,7 +147,7 @@
 			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
 
 			for (var i: int = 0; i < maxPlayers; i++) {
-				var player = new playerType(humanInfectedRefusalProbability);
+				var player = new AsciiPlayer(humanInfectedRefusalProbability);
 				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
@@ -127,7 +157,7 @@
 		}
 
 		protected function initializeThing() {
-			var thing = new thingType();
+			var thing = new AsciiThing();
 
 			//todo: needs refactoring
 			trace("Where does", thing, "start?");
@@ -175,37 +205,8 @@
 				luckyMan.previousRoom.register(luckyMan);
 			}
 		}
-
-		protected function onKeyPress(e: KeyboardEvent) {
-			//space
-			if (e.keyCode == 32)
-				{endTurn();}
-			else if (String.fromCharCode(e.charCode) == "d")
-				{trace("Debug mode", GlobalState.DEBUG );
-				GlobalState.DEBUG = !GlobalState.DEBUG;
-				Things.forEach(function (thing: * ) {
-					trace("lightSwitched");
-					thing.refreshVisibility();
-				});}
-			else if (e.keyCode == 9) {
-				selectActiveCharacter();
-
-			}
-			//needs improvemen
-		}
-
-		protected function selectActiveCharacter() {
-			var i = 0;
-			if (GlobalState.draggableCharacter != null) {
-				i = Players.indexOf(GlobalState.draggableCharacter)
-			}
-			
-			Players[(i + 1) % Players.length].selectAsActiveCharacter();
-			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
-			Players[i].unselectAsActiveCharacter();
-		}
 		
-		protected function endTurn() {
+		public function endTurn() {
 			var squads = identifySquads();
 			squads.forEach(function (squad: * ) {
 				returnRandomSquadMember(squad)

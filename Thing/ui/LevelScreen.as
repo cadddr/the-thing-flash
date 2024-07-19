@@ -28,8 +28,6 @@
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
-				level.btn_endTurn = endTurnButton;
-
 				level.setCameraAndLayer(camera, cameraLayer);
 				cameraLayer.addChild(level);
 				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
@@ -38,6 +36,10 @@
 					stage.addChild(new LevelSelectionScreen(null));
 					stage.removeChild(level); // TODO:
 					stage.removeChild(caller);
+				});
+
+				endTurnButton.addEventListener(MouseEvent.CLICK, function (e: MouseEvent): void {
+					level.endTurn();
 				});
 
 				level.onGameOver = function(): void {

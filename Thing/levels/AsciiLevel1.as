@@ -10,11 +10,6 @@
 		
 		
 		public function AsciiLevel1() {
-			playerType = AsciiPlayer;
-			thingType = AsciiThing;
-
-			GlobalState.thingType = thingType;
-			
 			maxPlayers = 2;
 			
 			playerReachabilityMap = 
@@ -42,7 +37,7 @@
 			
 		}
 
-		override protected function endTurn() {
+		override public function endTurn() {
 			room1.enhancePlayers();
 			room4.enhancePlayers();
 
