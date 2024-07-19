@@ -2,7 +2,7 @@
 
 	import flash.display.MovieClip;
 	import flash.events.*;
-	import fl.controls.Button;
+	import flash.display.SimpleButton;
 	import Utils;
 	import characters.*;
 	import rooms.GeneratorRoomInterface;
@@ -29,7 +29,7 @@
 
 		protected var humanInfectedRefusalProbability = 2;
 
-		public var btn_endTurn: Button;
+		public var btn_endTurn: SimpleButton;
 		public var onGameOver: Function;
 
 		protected var playerType = Player;
