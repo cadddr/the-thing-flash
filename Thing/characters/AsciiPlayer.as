@@ -17,6 +17,7 @@
 			asciiSyringe.visible = false;
 			asciiCharge.visible = false;
 			asciiMarker.visible = true;
+			gotoAndStop(24);
 		}
 
 		override public function getSyringe(): MovieClip {
