@@ -11,8 +11,8 @@
 	public class AsciiPlayer extends Player {
 		
 		
-		public function AsciiPlayer(infectedRefusalProbability) {
-			super(infectedRefusalProbability);
+		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
+			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
 			asciiSyringe.visible = false;
 			asciiCharge.visible = false;
@@ -20,11 +20,11 @@
 		}
 
 		override public function getSyringe(): MovieClip {
-			throw asciiSyringe;
+			return asciiSyringe;
 		}
 
 		override public function getCharge(): MovieClip {
-			throw asciiCharge;
+			return asciiCharge;
 		}
 
 

@@ -23,6 +23,11 @@
 		protected var leftBehindProbability: Number = 2
 		protected var humanInfectedRefusalProbability = 2;
 
+		protected var thingKillingProbability: Number = 3;
+		protected var thingOpenAssimilationProbability: Number = 2;
+		protected var humanKillingProbability: Number = 2;
+		protected var thingCautiousnessLevel: Number = 1;
+
 		public var onGameOver: Function;
 
 		var camera: VirtualCamera;
@@ -114,10 +119,10 @@
 		}
 
 		private function refreshThingsVisibility(): void {
-			Things.forEach(function (thing: * ): void {
+			for each (var thing: * in Things) {
 				trace("lightSwitched");
 				thing.refreshVisibility();
-			});
+			}
 		}
 
 		protected function selectActiveCharacter() {
@@ -151,7 +156,7 @@
 			var initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 
 			for (var i: int = 0; i < maxPlayers; i++) {
-				var player = new AsciiPlayer(humanInfectedRefusalProbability);
+				var player = new AsciiPlayer(humanInfectedRefusalProbability, function () {return new AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability)});
 				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
@@ -161,7 +166,7 @@
 		}
 
 		protected function initializeThing() {
-			var thing = new AsciiThing();
+			var thing = new AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 
 			//todo: needs refactoring
 			trace("Where does", thing, "start?");

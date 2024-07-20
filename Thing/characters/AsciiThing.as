@@ -10,7 +10,8 @@
 	public class AsciiThing extends Thing {
 		
 		
-		public function AsciiThing() {
+		public function AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) {
+			super(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 			unhighlightForInteraction();
 		}
 
@@ -36,7 +37,7 @@
 						trace(GlobalState.draggableCharacter, "is attacking", this);
 						
 						//dice roll should be 2 or 1
-						if(Utils.getRandom(6, 1) <= GlobalState.humanKillingProbability)
+						if(Utils.getRandom(6, 1) <= humanKillingProbability)
 						{
 							die();
 						}
@@ -52,6 +53,5 @@
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
 		}
-	}
-	
+	}	
 }

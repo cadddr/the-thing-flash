@@ -9,14 +9,16 @@
 
 	public class Player extends Character {
 		protected var infectedRefusalProbability;
+		protected var spawnThing: Function;
 
 		protected var alreadyActed: Boolean = false;
  		protected var isInfected: Boolean = false;
 
 		//public var revelationCallback:Function = null;
 
-		public function Player(infectedRefusalProbability) {
+		public function Player(infectedRefusalProbability, spawnThing) {
 			this.infectedRefusalProbability = infectedRefusalProbability;
+			this.spawnThing = spawnThing;
 
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
 		}
@@ -128,7 +130,7 @@
 
 		public function revealItself() {
 			if (isInfected) {
-				var revealedThing = new AsciiThing();
+				var revealedThing = spawnThing();
 
 				stage.addChild(revealedThing);
 

@@ -15,10 +15,19 @@
 		public var isVisible:Boolean;
 		private var switchLightRetries = 2;
 
-		public function Thing() 
+		protected var thingKillingProbability: Number;
+		protected var thingOpenAssimilationProbability: Number;
+		protected var thingCautiousnessLevel: Number;
+		protected var humanKillingProbability: Number;
+
+		public function Thing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) 
 		{			
 			trace("One more", this);
-			
+			this.thingKillingProbability = thingKillingProbability;
+			this.thingOpenAssimilationProbability = thingOpenAssimilationProbability;
+			this.thingCautiousnessLevel = thingCautiousnessLevel;
+			this.humanKillingProbability = humanKillingProbability;
+
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
@@ -45,7 +54,7 @@
 						else 
 						{
 							trace(this, "is deciding on whether to engage in an open fight");
-							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * GlobalState.thingCautiousnessLevel)						
+							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * thingCautiousnessLevel)						
 								attack(victim)
 							else	{											
 								goToAnotherRandomReachableRoom();		
@@ -139,7 +148,7 @@
 						trace(GlobalState.draggableCharacter, "is attacking", this);
 						
 						//dice roll should be 2 or 1
-						if(Utils.getRandom(6, 1) <= GlobalState.humanKillingProbability)
+						if(Utils.getRandom(6, 1) <= humanKillingProbability)
 						{
 							die();
 						}
@@ -216,7 +225,7 @@
 			}
 			
 			trace(this, "is trying to assimilate into", victim);
-			if(Utils.getRandom(6,1) <= GlobalState.thingOpenAssimilationProbability + int(this.currentRoom.IsTakenOver) * 6)
+			if(Utils.getRandom(6,1) <= thingOpenAssimilationProbability + int(this.currentRoom.IsTakenOver) * 6)
 			{
 				victim.getInfected(infection);
 			}
@@ -233,7 +242,7 @@
 		{
 			trace(this, "is attacking", victim);
 			
-			if(Utils.getRandom(6, 1) <= GlobalState.thingKillingProbability)
+			if(Utils.getRandom(6, 1) <= thingKillingProbability)
 				victim.die();
 		}
 				
@@ -263,7 +272,7 @@
 			for(var i:int = 0; i < ReachableRooms.length; i++)
 			{
 				trace(this, "is deciding on where to go");
-				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * GlobalState.thingCautiousnessLevel)	
+				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * thingCautiousnessLevel)	
 					leastPopulatedRoom = ReachableRooms[i];
 			}
 			
