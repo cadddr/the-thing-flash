@@ -12,13 +12,15 @@ package rooms
         // Bookkeeping and game logic only
 
         public var guests: Array = [];
+		/// populated from LevelBase.initializeRooms in accordance with adjacency matrix
 		public var accessibleRooms: Array = [];
 		public var adjacentRooms: Array = [];
-
 		public var interactables: Array = [];
 
+
+		/// Belongs in a separate mixin
 		public var passiveAbility: Function;
-		
+
 		public function enhancePlayers() {
 			if (passiveAbility != null) {
 				passiveAbility(this);
@@ -42,24 +44,34 @@ package rooms
 			
 			eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});
 		}
+		/// End belongs in a separate mixin
 
-		protected var isReachable: Boolean = false;
+		/// Player reachability
+		private var isReachable: Boolean = false;
 
-		public function get IsReachable(): Boolean {
+		// Reachability affects highlighting and checked in interactOnMouseClick
+		protected function get IsReachable(): Boolean {
 			return isReachable;
 		}
 
-		public function set IsReachable(value: Boolean): void {
+		// only set as part of setAccessibleRoomsReachability
+		protected function set IsReachable(value: Boolean): void {
 			isReachable = value;
             dispatchEvent(new Event(isReachable ? GlobalState.ROOM_BECAME_REACHABLE : GlobalState.ROOM_BECAME_UNREACHABLE)) 
         }
 
+		// This is to highlight rooms that can be reached from the current room when making a move
+		// Called from releaseCharacter, Player.initializeAction, AsciiPlayer.initializeAction, AsciiPlayer.finalizeAction
         public function setAccessibleRoomsReachability(value: Boolean): void {
-            for each(var room:RoomBase in accessibleRooms)
-            {
+            for each(var room:RoomBase in accessibleRooms) {
                 room.IsReachable = value;
             }
 		}
+
+		public function isReachableFrom(room: RoomBase): Boolean {
+			return accessibleRooms.indexOf(room) != -1;
+		}
+		/// End player reachability
 
         public function get Things(): Array {
  			return guests.filter(function (item: * ) {

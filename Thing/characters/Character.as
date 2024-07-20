@@ -92,7 +92,7 @@
 				second.stop();
 				first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {second.start();});
 
-				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {stop();});
+				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {gotoAndStop(24);});
 			}
 
 			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {

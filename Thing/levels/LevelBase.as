@@ -47,9 +47,8 @@
 		}
 
 		protected function get Rooms(): Array {
-			throw new Error("Rooms not implemented");
+			throw new Error("Rooms has to be provided by each level");
 		}
-
 
 		protected function get Players() {
 			var players = [];
@@ -76,6 +75,7 @@
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
+		// initialization requiring MovieClip objects
 		// may be overriden and called from subclass
 		protected function onAddedToStage(e: Event): void {
 			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {

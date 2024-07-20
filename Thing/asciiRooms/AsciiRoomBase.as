@@ -16,9 +16,9 @@
 	import events.CharacterEvent;
 	import characters.Interactable;
 	
-	
+	//display specific functionality, UI interactions, positioning, animations
 	public class AsciiRoomBase extends RoomBase {
-		//display/UI-specific functionality
+		
 		var tileWidth = 25;
 		var tileHeight = 40.25;
 		
@@ -99,8 +99,8 @@
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
-			if (IsReachable) {
-				if (GlobalState.draggableCharacter != null) {
+			if (GlobalState.draggableCharacter != null) {
+				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					//room logic
 					register(GlobalState.draggableCharacter);
 					//room view
@@ -114,7 +114,7 @@
 
 		override protected function interactOnMouseOver(e: MouseEvent): void {
 			if (GlobalState.draggableCharacter) {
-				if (IsReachable) {
+				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightSelected();
 				} else {
 					highlightRestricted();
@@ -130,7 +130,7 @@
 		override protected function interactOnMouseOut(e:MouseEvent): void {
 			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 			if (GlobalState.draggableCharacter) {
-				if (IsReachable) {
+				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightReachable();
 				} else {
 					unhighlight();
