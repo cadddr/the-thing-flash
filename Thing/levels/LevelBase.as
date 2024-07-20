@@ -34,32 +34,36 @@
 		}
 
 		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
-			for each(var room:RoomBase in GlobalState.rooms)
+			for each(var room:RoomBase in Rooms)
 			{
 				AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
 				// return
 			}
 		}
 
+		protected function get Rooms(): Array {
+			throw new Error("Rooms not implemented");
+		}
+
 
 		protected function get Players() {
 			var players = [];
 
-			GlobalState.rooms.forEach(function (room: * ) {
-				room.Players.forEach(function (player: * ) {
+			for each (var room: * in Rooms) {
+				for each (var player: * in room.Players) {
 					players.push(player);
-				});
-			});
+				}
+			}
 			return players;
 		}
 
 		protected function get Things() {
 			var things = []
-			GlobalState.rooms.forEach(function (room: * ) {
-				room.Things.forEach(function (thing: * ) {
+			for each (var room: * in Rooms) {
+				for each (var thing: * in room.Things) {
 					things.push(thing);
-				});
-			});
+				}
+			}
 			return things;
 		}
 
@@ -75,7 +79,7 @@
 				refreshThingsVisibility();
 			});
 						
-			initializeRooms(GlobalState.rooms);
+			initializeRooms();
 			initializePlayers();
 			initializeThing();
 
@@ -128,15 +132,15 @@
 		}
 
 		//todo: make look nicer
-		protected function initializeRooms(shrooms: Array) {
-			for (var i: int = 0; i < shrooms.length; i++) {
+		protected function initializeRooms() {
+			for (var i: int = 0; i < Rooms.length; i++) {
 				for (var j: int = 0; j < playerReachabilityMap[i].length; j++) {
 					if (playerReachabilityMap[i][j] == 1) {
-						shrooms[i].accessibleRooms.push(shrooms[j]);
+						Rooms[i].accessibleRooms.push(Rooms[j]);
 					}
 
 					if (thingReachabilityMap[i][j] == 1) {
-						shrooms[i].adjacentRooms.push(shrooms[j]);
+						Rooms[i].adjacentRooms.push(Rooms[j]);
 					}
 				}
 			}
@@ -144,14 +148,14 @@
 
 		protected function initializePlayers() {
 			trace("Where do humans start?")
-			var initialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
+			var initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 
 			for (var i: int = 0; i < maxPlayers; i++) {
 				var player = new AsciiPlayer(humanInfectedRefusalProbability);
 				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
-				GlobalState.rooms[initialRoom].register(player);
+				Rooms[initialRoom].register(player);
 				cameraLayer.addChild(player);
 			}
 		}
@@ -161,14 +165,14 @@
 
 			//todo: needs refactoring
 			trace("Where does", thing, "start?");
-			var thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length, 1) - 1;
+			var thingsInitialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 
-			while (!GlobalState.rooms[thingsInitialRoom].IsTakenOver) {
+			while (!Rooms[thingsInitialRoom].IsTakenOver) {
 				trace(thing, "needs another room to start?");
-				thingsInitialRoom = Utils.getRandom(GlobalState.rooms.length - 1, 0, thingsInitialRoom);
+				thingsInitialRoom = Utils.getRandom(Rooms.length - 1, 0, thingsInitialRoom);
 			}
 
-			GlobalState.rooms[thingsInitialRoom].register(thing);
+			Rooms[thingsInitialRoom].register(thing);
 			cameraLayer.addChild(thing);
 		}
 
@@ -219,7 +223,7 @@
 				item.act()
 			});
 
-			if (GlobalState.rooms.every(function (item: * ) {
+			if (Rooms.every(function (item: * ) {
 				return item.NonInfectedPlayers.length == 0
 			})) {
 				trace("HUMANS LOST");
@@ -228,7 +232,7 @@
 
 			}
 
-			if (GlobalState.rooms.every(function (item: * ) {
+			if (Rooms.every(function (item: * ) {
 				return item.Things.length == 0 && item.InfectedPlayers.length == 0
 			})) {
 				trace("HUMANS WON");

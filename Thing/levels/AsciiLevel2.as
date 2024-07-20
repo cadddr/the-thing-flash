@@ -52,10 +52,17 @@
 			];
 		}
 
+		override protected function get Rooms(): Array {
+			return [room1, room2, room3, room4, room5,
+			         room6, room7, room8, room9,
+					 room10, room11, room12, room13];
+		}
+
+		// initialization requiring MovieClip objects
 		override protected function onAddedToStage(e: Event): void {
-			GlobalState.rooms = [room1, room2, room3, room4, room5,
-			                     room6, room7, room8, room9,
-								 room10, room11, room12, room13];
+			// rooms = [room1, room2, room3, room4, room5,
+			//          room6, room7, room8, room9,
+			// 		 room10, room11, room12, room13];
 
 			room1.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_EXPLOSIVES
 			room5.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_SYRINGES

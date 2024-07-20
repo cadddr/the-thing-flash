@@ -30,8 +30,12 @@
 			
 		}
 
+		override protected function get Rooms(): Array {
+			return [room1, room2, room3, room4];
+		}
+
 		override protected function onAddedToStage(e: Event): void {
-			GlobalState.rooms = [room1, room2, room3, room4];
+			// GlobalState.rooms = [room1, room2, room3, room4];
 			
 			super.onAddedToStage(e);
 			
