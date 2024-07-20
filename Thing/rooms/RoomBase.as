@@ -18,6 +18,7 @@ package rooms
 		public var interactables: Array = [];
 
 		public var passiveAbility: Function;
+		
 		public function enhancePlayers() {
 			if (passiveAbility != null) {
 				passiveAbility(this);

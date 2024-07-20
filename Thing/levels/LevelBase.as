@@ -96,17 +96,6 @@
 			}
 		}
 
-		public function selectActiveCharacter() {
-			var i = 0;
-			if (GlobalState.draggableCharacter != null) {
-				i = Players.indexOf(GlobalState.draggableCharacter)
-			}
-			
-			Players[(i + 1) % Players.length].selectAsActiveCharacter();
-			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
-			Players[i].unselectAsActiveCharacter();
-		}
-
 		//todo: make look nicer
 		protected function initializeRooms() {
 			for (var i: int = 0; i < Rooms.length; i++) {
@@ -127,7 +116,10 @@
 			var initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 
 			for (var i: int = 0; i < maxPlayers; i++) {
-				var player = new AsciiPlayer(humanInfectedRefusalProbability, function () {return new AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability)});
+				var player = new AsciiPlayer(humanInfectedRefusalProbability, 
+					function () {
+						return new AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability)
+					});
 				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
@@ -150,6 +142,17 @@
 
 			Rooms[thingsInitialRoom].register(thing);
 			cameraLayer.addChild(thing);
+		}
+
+		public function selectActiveCharacter() {
+			var i = 0;
+			if (GlobalState.draggableCharacter != null) {
+				i = Players.indexOf(GlobalState.draggableCharacter)
+			}
+			
+			Players[(i + 1) % Players.length].selectAsActiveCharacter();
+			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
+			Players[i].unselectAsActiveCharacter();
 		}
 
 		protected function identifySquads() {
@@ -205,7 +208,6 @@
 				trace("HUMANS LOST");
 				//stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 				onGameOver();
-
 			}
 
 			if (Rooms.every(function (item: * ) {
@@ -220,9 +222,6 @@
 			Players.forEach(function (item: * ) {
 				item.IsInactive = false
 			});
-
 		}
-
 	}
-
 }
