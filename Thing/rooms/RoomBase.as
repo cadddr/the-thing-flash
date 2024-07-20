@@ -46,32 +46,17 @@ package rooms
 		}
 		/// End belongs in a separate mixin
 
-		/// Player reachability
-		private var isReachable: Boolean = false;
-
-		// Reachability affects highlighting and checked in interactOnMouseClick
-		protected function get IsReachable(): Boolean {
-			return isReachable;
-		}
-
-		// only set as part of setAccessibleRoomsReachability
-		protected function set IsReachable(value: Boolean): void {
-			isReachable = value;
-            dispatchEvent(new Event(isReachable ? GlobalState.ROOM_BECAME_REACHABLE : GlobalState.ROOM_BECAME_UNREACHABLE)) 
-        }
-
-		// This is to highlight rooms that can be reached from the current room when making a move
-		// Called from releaseCharacter, Player.initializeAction, AsciiPlayer.initializeAction, AsciiPlayer.finalizeAction
-        public function setAccessibleRoomsReachability(value: Boolean): void {
-            for each(var room:RoomBase in accessibleRooms) {
-                room.IsReachable = value;
-            }
-		}
-
 		public function isReachableFrom(room: RoomBase): Boolean {
 			return accessibleRooms.indexOf(room) != -1;
 		}
-		/// End player reachability
+
+		public function highlightReachableRooms(): void {
+            throw new Error("Not implemented");
+		}
+
+		public function unhighlightReachableRooms(): void {
+            throw new Error("Not implemented");
+		}
 
         public function get Things(): Array {
  			return guests.filter(function (item: * ) {
@@ -132,7 +117,7 @@ package rooms
         public function releaseCharacter(character: Character) {
             guests.removeAt(guests.indexOf(character));
 
-            setAccessibleRoomsReachability(false);
+            unhighlightReachableRooms();
 
             Things.forEach(function (thing: * ) {
                 thing.refreshVisibility()

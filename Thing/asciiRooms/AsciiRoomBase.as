@@ -24,8 +24,6 @@
 		
 		public function AsciiRoomBase() {
 			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove);
-			addEventListener(GlobalState.ROOM_BECAME_REACHABLE, function(e:Event): void {highlightReachable();});
-			addEventListener(GlobalState.ROOM_BECAME_UNREACHABLE, function(e:Event): void {unhighlight();});
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {putIn(e.character);});
 		}
 
@@ -152,6 +150,18 @@
 
 		public function highlightRestricted() {
 			setFloorColorTransform(new ColorTransform(0, 0, 0, 1, 228, 63, 90));
+		}
+
+		override public function highlightReachableRooms(): void {
+            for each(var room:* in accessibleRooms) {
+                room.highlightReachable();
+            }
+		}
+
+		override public function unhighlightReachableRooms(): void {
+            for each(var room:* in accessibleRooms) {
+                room.unhighlight();
+            }
 		}
 
 		protected function setFloorColorTransform(colorTransform: ColorTransform) {
