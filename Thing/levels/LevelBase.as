@@ -78,8 +78,6 @@
 
 		// may be overriden and called from subclass
 		protected function onAddedToStage(e: Event): void {
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-
 			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
 				refreshThingsVisibility();
 			});
@@ -91,41 +89,14 @@
 			selectActiveCharacter();
 		}
 
-		private static const KEY_SPACE: int = 32;
-		private static const KEY_D: int = 68;
-		private static const KEY_TAB: int = 9;
-
-		protected function onKeyPress(e: KeyboardEvent): void {
-			switch (e.keyCode) {
-				case KEY_SPACE:
-					endTurn();
-					break;
-				case KEY_D:
-					toggleDebugMode();
-					break;
-				case KEY_TAB:
-					selectActiveCharacter();
-					break;
-				default:
-					// No action for other keys
-					break;
-			}
-		}
-
-		private function toggleDebugMode(): void {
-			trace("Debug mode", GlobalState.DEBUG);
-			GlobalState.DEBUG = !GlobalState.DEBUG;
-			refreshThingsVisibility();
-		}
-
-		private function refreshThingsVisibility(): void {
+		public function refreshThingsVisibility(): void {
 			for each (var thing: * in Things) {
 				trace("lightSwitched");
 				thing.refreshVisibility();
 			}
 		}
 
-		protected function selectActiveCharacter() {
+		public function selectActiveCharacter() {
 			var i = 0;
 			if (GlobalState.draggableCharacter != null) {
 				i = Players.indexOf(GlobalState.draggableCharacter)
