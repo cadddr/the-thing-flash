@@ -102,25 +102,9 @@
 				helper(tweenY, tweenX);
 			}
 		}	
-		
-		public function enterRoom(room: RoomBase) {
-            this.currentRoom = room;
-            room.admitCharacter(this);
-        }
 
-        public function leaveRoom() {
-            //leave previous room & refresh visibility
-			if (this.currentRoom)
-			{
-				this.previousRoom = this.currentRoom;		
-				this.currentRoom.releaseCharacter(this)
-                this.currentRoom = null;
-			}
-        }
-
-		public function die()
-		{
-			leaveRoom();
+		public function die() {
+			this.currentRoom.releaseCharacter(this)
 		}
 	}
 }

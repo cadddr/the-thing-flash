@@ -65,7 +65,6 @@ package rooms
  		}
 
  		public function get Players(): Array {
-            
  			return guests.filter(function (item: * ) {
  				return item is Player
  			});
@@ -112,6 +111,8 @@ package rooms
 			Things.forEach(function (thing: * ) {
 				thing.refreshVisibility()
 			});
+
+			dispatchEvent(new CharacterEvent(GlobalState.CHARACTER_PLACED_IN_ROOM, character));
         }
 
         public function releaseCharacter(character: Character) {
@@ -125,9 +126,13 @@ package rooms
         }
 
 		public function register(character: Character) {
-            character.leaveRoom();
-            character.enterRoom(this);
-            dispatchEvent(new CharacterEvent(GlobalState.CHARACTER_PLACED_IN_ROOM, character));
+			//leave previous room & refresh visibility
+			if (character.currentRoom) {
+				character.currentRoom.releaseCharacter(character)
+				character.previousRoom = character.currentRoom;		
+			}
+			character.currentRoom = this;
+            this.admitCharacter(character);
 		}
 
 		public function killGuests() {
