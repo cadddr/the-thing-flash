@@ -27,6 +27,7 @@
 		protected function highlightForInteraction(): void {}
 		protected function unhighlightForInteraction(): void {}
 
+		// used so that rooms made of other rooms don't trigger twice
 		public function disableAllInteraction(): void {
 			removeEventListener(MouseEvent.MOUSE_OVER, interactOnMouseOver);
 			removeEventListener(MouseEvent.MOUSE_OUT, interactOnMouseOut);
@@ -38,6 +39,7 @@
 			removeEventListener(MouseEvent.MOUSE_UP, interactOnMouseUp);
 		}
 
+		// TODO: not used anywhere, remove?
 		protected function canInteract(): Boolean {
 			return false;
 		}

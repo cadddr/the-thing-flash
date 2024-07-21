@@ -118,7 +118,7 @@ package rooms
         public function releaseCharacter(character: Character) {
             guests.removeAt(guests.indexOf(character));
 
-            unhighlightReachableRooms();
+            // unhighlightReachableRooms(); // handled in AsciiPlayer.finalizeAction
 
             Things.forEach(function (thing: * ) {
                 thing.refreshVisibility()

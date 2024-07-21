@@ -23,10 +23,11 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove);
-			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {putIn(e.character);});
+			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove); // TODO: shouldn't this be added in Interactable?
+			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 		}
 
+		// and this is a different Interactable e.g., a generator switch or a planted charge
 		public function spawnInteractable(interactable: Interactable, cameraLayer: MovieClip): void {
 			interactables.push(interactable);
 
@@ -70,14 +71,14 @@
 			}
 		}
 
-		public function putIn(character: Character): void {
-			var position: Point = computePositionInRoom(character.x != 0 ? mouseX : 0, 
-														character.y != 0 ? mouseY : 0, 
-														character.width, 
-														character.height);
+		public function positionInRoom(character: Character): void {
+			var position: Point = computePositionInRoom(
+				character.x != 0 ? mouseX : 0, 
+				character.y != 0 ? mouseY : 0, 
+				character.width, character.height
+			);
 			trace ('position in room', position);
-			if (character.previousRoom != null)
-			{
+			if (character.previousRoom != null) {
 				character.animateMoveTo(position.x, position.y);
 			}
 			else {
@@ -89,10 +90,6 @@
 		public function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
 			return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
 							 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
-		}
-
-		override protected function interactOnMouseUp(event: MouseEvent): void {
-
 		}
 
 		//undrags the player and puts it into the room
@@ -114,23 +111,25 @@
 			if (GlobalState.draggableCharacter) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightSelected();
-				} else {
+				} 
+				else {
 					highlightRestricted();
 				}
 			}
 		}
 
 		protected function interactOnMouseMove(e:MouseEvent): void {
-			// applyTileLightingFromSource(this, e.stageX, e.stageY);
-			// applyTileLightingFromSource(this, mouseX, mouseY);
+			applyTileLightingFromSource(this, e.stageX, e.stageY);
+			applyTileLightingFromSource(this, mouseX, mouseY);
 		}
 
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
+			applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 			if (GlobalState.draggableCharacter) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightReachable();
-				} else {
+				} 
+				else {
 					unhighlight();
 				}
 			}
