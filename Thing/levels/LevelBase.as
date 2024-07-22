@@ -41,7 +41,8 @@
 		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
 			for each(var room:RoomBase in Rooms)
 			{
-				AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
+				//TODO:
+				// AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
 				// return
 			}
 		}
