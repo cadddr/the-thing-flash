@@ -7,7 +7,6 @@
 	import characters.*;
 	import rooms.GeneratorRoomInterface;
 	import fl.VirtualCamera;
-	import flash.html.__HTMLScriptArray;
 	import asciiRooms.AsciiRoomBase;
 	import flash.utils.describeType;
 	import rooms.RoomBase;
