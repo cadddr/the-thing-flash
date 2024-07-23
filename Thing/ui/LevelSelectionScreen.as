@@ -9,7 +9,7 @@
 		
 		
 		public function LevelSelectionScreen(camera:VirtualCamera=null, cameraLayer: MovieClip=null, cameraLayer2: MovieClip = null) {
-			var caller = this;
+			var caller = this; // this becomes global when event listeners are called
 			trace(cameraLayer);
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
 				stage.color = 0x1b1b2f;
@@ -21,8 +21,12 @@
 				});
 
 				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-						stage.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
-						stage.removeChild(caller);
+						// stage.
+						trace(this);
+						trace(caller);
+						cameraLayer.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
+						// stage.
+						caller.parent.removeChild(caller);
 				});
 
 			});

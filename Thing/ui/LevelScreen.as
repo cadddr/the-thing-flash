@@ -34,7 +34,8 @@
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
 				level.setCameraAndLayer(camera, cameraLayer);
 				// cameraLayer.
-				stage.addChild(level);
+				//stage.
+				cameraLayer.addChild(level);
 				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
 
 				goBackButton.addEventListener(MouseEvent.CLICK, function(e: MouseEvent): void {

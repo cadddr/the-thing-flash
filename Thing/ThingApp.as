@@ -17,8 +17,14 @@
 			cameraLayer = MovieClip(getChildByName("Layer_1"));
 			cameraLayer2 = MovieClip(getChildByName("Layer_2"));
 			trace(cameraLayer);
+			trace(cameraLayer.parent)
+			trace(cameraLayer.parent == stage)
+			trace(cameraLayer.parent == stage.root)
+			trace(cameraLayer.parent == root)
+			trace(cameraLayer.parent == this)
 
-			stage.addChild(new LevelSelectionScreen(camera, cameraLayer, cameraLayer2));
+			// stage.
+			addChild(new LevelSelectionScreen(camera, cameraLayer, cameraLayer2));
 		}
 	}
 }
