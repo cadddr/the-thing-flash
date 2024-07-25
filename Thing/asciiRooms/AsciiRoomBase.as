@@ -59,7 +59,7 @@
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number, on: Boolean = true): void {
-			throw new Error("no apply tile lighting");
+			// throw new Error("no apply tile lighting");
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
 				if (child is AsciiFloorTile) {

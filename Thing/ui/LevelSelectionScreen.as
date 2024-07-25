@@ -21,10 +21,11 @@
 				});
 
 				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+
 						// stage.
-						trace(this);
-						trace(caller);
-						cameraLayer.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
+						// cameraLayer.
+						//caller.parent.
+						caller.parent.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer, cameraLayer2));
 						// stage.
 						caller.parent.removeChild(caller);
 				});
