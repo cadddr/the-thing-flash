@@ -32,7 +32,10 @@
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
+				caller.removeChild(backgroundSprite);
+				caller.parent.addChildAt(backgroundSprite, 0);
 				level.setCameraAndLayer(camera, cameraLayer);
+				
 				// cameraLayer.
 				//stage.
 				cameraLayer.addChild(level);
