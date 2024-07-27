@@ -14,9 +14,8 @@
 				stage.color = 0x1b1b2f; // TODO: why is this set here?
 					
 				asciiLevelSelectionButton1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
-						// TODO: make same as level2
-						stage.addChild(new LevelScreen(new AsciiLevel1()));
-						stage.removeChild(caller);
+						caller.parent.addChild(new LevelScreen(new AsciiLevel1(), camera, cameraLayer));
+						caller.parent.removeChild(caller);
 				});
 
 				asciiLevelSelectionButton2.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {

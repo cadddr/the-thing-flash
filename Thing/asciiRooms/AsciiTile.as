@@ -17,7 +17,9 @@ package asciiRooms
 
         public function AsciiTile()
         {
-            
+            // addEventListener(Event.ENTER_FRAME, function(e:Event): void {
+            //     applyLighting(mouseX, mouseY);
+            // });
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
             });
@@ -91,10 +93,10 @@ package asciiRooms
             var dist = getDistanceFrom(sourceX, sourceY);
             var diffuse = Math.cos(Math.atan(dist + 5));
 
-            colorTransform = new ColorTransform(0,0,0,1,
+            AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0,0,0,1,
                 27+(255-27)*diffuse,
                 27+(255-27)*diffuse,
-                47+(255-47)*diffuse,1);
+                47+(255-47)*diffuse,1).color;
 
 		}
 

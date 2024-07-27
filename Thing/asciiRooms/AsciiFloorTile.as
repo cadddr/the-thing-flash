@@ -21,10 +21,10 @@
 		}
 
 		override protected function highlightForInteraction(): void {
-            asciiTileText.backgroundColor = GlobalState.BRIGHT_ORANGE;
+            // asciiTileText.backgroundColor = GlobalState.BRIGHT_ORANGE;
         }
         override protected function unhighlightForInteraction(): void {
-            asciiTileText.backgroundColor = GlobalState.DARK_PURPLE;
+            // asciiTileText.backgroundColor = GlobalState.DARK_PURPLE;
         }
 		
 	}

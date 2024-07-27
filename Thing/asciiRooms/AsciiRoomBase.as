@@ -24,7 +24,7 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-			// addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove); // TODO: shouldn't this be added in Interactable?
+			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove); // TODO: shouldn't this be added in Interactable?
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 		}
 
@@ -41,7 +41,6 @@
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number, on: Boolean = true): void {
-			// throw new Error("no apply tile lighting");
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
 				if (child is AsciiFloorTile) {
@@ -111,7 +110,7 @@
 		}
 
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
+			applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 			if (GlobalState.draggableCharacter) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightReachable();
