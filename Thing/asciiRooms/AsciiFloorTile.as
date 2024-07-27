@@ -11,8 +11,8 @@
 		
 		
 		public function AsciiFloorTile() {
-			asciiTileText.background = false;
-			asciiTileText.mouseEnabled = false;
+			asciiTileText.background = true;
+			// asciiTileText.mouseEnabled = false;
 			asciiTileText.backgroundColor = GlobalState.DARK_PURPLE;
 		}
 		

@@ -35,7 +35,7 @@ package asciiRooms
             highlightForInteraction();
         }
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-            // unhighlightForInteraction();
+            unhighlightForInteraction();
         }
 
         override protected function highlightForInteraction(): void {
