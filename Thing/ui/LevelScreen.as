@@ -32,14 +32,14 @@
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
+				// this fixes floor tile mouse glitching
 				caller.removeChild(backgroundSprite);
 				caller.parent.addChildAt(backgroundSprite, 0);
+
 				level.setCameraAndLayer(camera, cameraLayer);
-				
-				// cameraLayer.
-				//stage.
-				cameraLayer.addChild(level);
-				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2);
+
+				cameraLayer.addChild(level); // level needs to be on camera layer for scrolling and zooming
+				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2); // this is needed for wall parallax
 
 				goBackButton.addEventListener(MouseEvent.CLICK, function(e: MouseEvent): void {
 					stage.addChild(new LevelSelectionScreen(null));

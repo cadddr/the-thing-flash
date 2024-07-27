@@ -40,21 +40,22 @@
 		}
 
 		public function allocateChildrenToLayers(container: MovieClip, cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
-			throw new Error("no allocate childre to layers");
 			var children = new Array();
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
 				if (child is AsciiWallTile ) {
-					children.push(child);
+					child.z = -20;
+					// children.push(child);
 				}
 			}
-			for each(var child:DisplayObject in children)
-			{
-				cameraLayer2.addChild(child);
-				//offset by room position
-				child.x += x;
-				child.y += y;
-			}
+			// for each(var child:DisplayObject in children)
+			// {
+			// 	trace(child.parent)
+			// 	cameraLayer2.addChild(child);
+			// 	//offset by room position
+			// 	child.x += x;
+			// 	child.y += y;
+			// }
 		}
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?

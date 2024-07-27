@@ -29,6 +29,7 @@
 
 		public var onGameOver: Function;
 
+		// Camera stuff should be handled in a view not logic class
 		var camera: VirtualCamera;
 		var cameraLayer: MovieClip;
 
@@ -41,10 +42,13 @@
 			for each(var room:RoomBase in Rooms)
 			{
 				//TODO:
+				// camera.setZDepth(200);
+				// trace(camera.getZDepth())
 				// AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
 				// return
 			}
 		}
+		// End camera stuff
 
 		protected function get Rooms(): Array {
 			throw new Error("Rooms has to be provided by each level");
