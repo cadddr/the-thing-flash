@@ -31,22 +31,11 @@
 
 		// Camera stuff should be handled in a view not logic class
 		var camera: VirtualCamera;
-		var cameraLayer: MovieClip;
+		var cameraLayer: MovieClip; // cameraLayer is needed so that characters can be pinned
 
 		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
 			this.camera = camera;
 			this.cameraLayer = cameraLayer;
-		}
-
-		public function reallocateRoomTilesToLayers(cameraLayer1: MovieClip, cameraLayer2: MovieClip): void {
-			for each(var room:RoomBase in Rooms)
-			{
-				//TODO:
-				// camera.setZDepth(200);
-				// trace(camera.getZDepth())
-				// AsciiRoomBase(room).allocateChildrenToLayers(room, cameraLayer1, cameraLayer2);
-				// return
-			}
 		}
 		// End camera stuff
 

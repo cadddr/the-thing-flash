@@ -11,15 +11,11 @@
 	public class ThingApp extends MovieClip {
 		var camera: VirtualCamera;
 		var cameraLayer: MovieClip;
-		var cameraLayer2: MovieClip;
 	
 		public function ThingApp() {
 			camera = VirtualCamera.getCamera(root)
 			cameraLayer = MovieClip(getChildByName("Layer_1"));
-			cameraLayer2 = MovieClip(getChildByName("Layer_2"));
 
-			trace(cameraLayer.z)
-			trace(cameraLayer2.z)
 			trace(cameraLayer);
 			trace(cameraLayer.parent)
 			trace(cameraLayer.parent == stage)
@@ -28,7 +24,7 @@
 			trace(cameraLayer.parent == this)
 
 			// using this rather than stage as parent for child clips
-			addChild(new LevelSelectionScreen(camera, cameraLayer, cameraLayer2));
+			addChild(new LevelSelectionScreen(camera, cameraLayer));
 		}
 	}
 }

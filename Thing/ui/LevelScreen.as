@@ -28,7 +28,7 @@
 		private static const CAMERA_ZOOM_OUT_AMOUNT: Number = 90; // Amount to zoom out the camera
 
 
-		public function LevelScreen(level: LevelBase, camera: VirtualCamera = null, cameraLayer: MovieClip = null, cameraLayer2: MovieClip = null) {
+		public function LevelScreen(level: LevelBase, camera: VirtualCamera = null, cameraLayer: MovieClip = null) {
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
@@ -39,7 +39,6 @@
 				level.setCameraAndLayer(camera, cameraLayer);
 
 				cameraLayer.addChild(level); // level needs to be on camera layer for scrolling and zooming
-				level.reallocateRoomTilesToLayers(cameraLayer, cameraLayer2); // this is needed for wall parallax
 
 				goBackButton.addEventListener(MouseEvent.CLICK, function(e: MouseEvent): void {
 					stage.addChild(new LevelSelectionScreen(null));
