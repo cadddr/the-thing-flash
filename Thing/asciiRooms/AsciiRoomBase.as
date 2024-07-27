@@ -24,7 +24,7 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-			// addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove); // TODO: shouldn't this be added in Interactable?
+			addEventListener(MouseEvent.MOUSE_MOVE, interactOnMouseMove); // TODO: shouldn't this be added in Interactable?
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 		}
 
@@ -110,7 +110,7 @@
 		}
 
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-			applyTileLightingFromSource(this, e.stageX, e.stageY, false);
+			// applyTileLightingFromSource(this, e.stageX, e.stageY, false);
 			if (GlobalState.draggableCharacter) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					highlightReachable();

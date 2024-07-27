@@ -28,22 +28,13 @@
 			return asciiCharge;
 		}
 
-
-		protected function getSelection(): MovieClip {
-			return asciiSelection;
-		}
-
 		override protected function highlightForInteraction(): void {
-			// getSelection().visible = true;
-			// getSelection().gotoAndPlay(1);
 			if (currentRoom != null) //TODO:
 			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
 		}
 
 		override protected function unhighlightForInteraction(): void {
 			if (GlobalState.draggableCharacter != this) {
-				// getSelection().gotoAndStop(1);
-				// getSelection().visible = false;
 				if (currentRoom != null) //TODO:
 				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y, false);}
 			}

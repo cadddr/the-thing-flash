@@ -11,15 +11,8 @@ package asciiRooms
     public class AsciiTile extends Interactable {
         var colorTransform: ColorTransform = new ColorTransform(0,0,0,1,27,27,47,1);
 
-        protected function getSelection(): MovieClip {
-			return null;
-		}
-
         public function AsciiTile()
         {
-            // addEventListener(Event.ENTER_FRAME, function(e:Event): void {
-            //     applyLighting(mouseX, mouseY);
-            // });
             addEventListener(Event.ADDED_TO_STAGE, function(e:Event): void {
                 unhighlightForInteraction();
             });
@@ -41,12 +34,8 @@ package asciiRooms
         }
 
         override protected function highlightForInteraction(): void {
-            if (getSelection() != null)
-            {getSelection().visible = true;}
         }
         override protected function unhighlightForInteraction(): void {
-            if (getSelection() != null)
-            {getSelection().visible = false;}
         }
 
         private function highlightOnMouseProximity(caller: AsciiTile, currentFrame: Number) {
