@@ -34,16 +34,16 @@
 		}
 
 		override protected function highlightForInteraction(): void {
-			getSelection().visible = true;
-			getSelection().gotoAndPlay(1);
+			// getSelection().visible = true;
+			// getSelection().gotoAndPlay(1);
 			if (currentRoom != null) //TODO:
 			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
 		}
 
 		override protected function unhighlightForInteraction(): void {
 			if (GlobalState.draggableCharacter != this) {
-				getSelection().gotoAndStop(1);
-				getSelection().visible = false;
+				// getSelection().gotoAndStop(1);
+				// getSelection().visible = false;
 				if (currentRoom != null) //TODO:
 				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y, false);}
 			}
