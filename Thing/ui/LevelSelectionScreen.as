@@ -23,6 +23,12 @@
 						caller.parent.addChild(new LevelScreen(new AsciiLevel2(), camera, cameraLayer));
 						caller.parent.removeChild(caller);
 				});
+
+				asciiLevelSelectionButton3.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) {
+						// parent is top level clip
+						caller.parent.addChild(new LevelScreen(new AsciiLevel3(), camera, cameraLayer));
+						caller.parent.removeChild(caller);
+				});
 			});
 		}
 	}
