@@ -36,7 +36,7 @@
 		override protected function unhighlightForInteraction(): void {
 			if (GlobalState.draggableCharacter != this) {
 				if (currentRoom != null) //TODO:
-				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y, false);}
+				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
 			}
 		}
 
