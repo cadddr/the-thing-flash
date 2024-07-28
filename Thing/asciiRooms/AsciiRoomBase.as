@@ -29,7 +29,6 @@
 
 		// and this is a different Interactable e.g., a generator switch or a planted charge
 		public function spawnInteractable(interactable: Interactable, cameraLayer: MovieClip): void {
-			return; //TODO:
 			interactables.push(interactable);
 
 			var point = computePositionInRoom(Math.random() * width, Math.random() * height * tileHeight,0,0);
@@ -40,6 +39,7 @@
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number): void {
+			return;
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
 				if (child is AsciiFloorTile) {
@@ -142,6 +142,16 @@
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
 					child.asciiTileText.textColor = colorTransform.color;
+				}
+			}
+		}
+
+		public function setFloorBackgroundColor(color: int) {
+			for(var i:int = 0; i < numChildren; i++) {
+				var child = getChildAt(i);
+				if (child is AsciiFloorTile ) {
+					child.asciiTileText.backgroundColor = new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
+					// child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 27 * color, 27 * color, 47 * color);
 				}
 			}
 		}

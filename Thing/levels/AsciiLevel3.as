@@ -37,5 +37,11 @@ package levels {
 		override protected function get Rooms(): Array {
 			return [room31, room32, room33, room34, room35, room36, room37];
 		}
+
+		override protected function onAddedToStage(e: Event): void {
+			// room37.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
+			room37.interactables.push(room37.asciiGeneratorSwitch)
+			super.onAddedToStage(e);
+		}
 	}
 }

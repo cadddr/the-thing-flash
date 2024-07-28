@@ -33,7 +33,7 @@
 				//so it wouldn't compete with players at switching the light
 				if (findLightSwitchInRoom(currentRoom) != null && GlobalState.isLightOn && switchLightRetries > 0)
 				{
-					findLightSwitchInRoom(currentRoom).switchPower(false);
+					findLightSwitchInRoom(currentRoom).switchPower();
 					switchLightRetries--;
 				}
 				else

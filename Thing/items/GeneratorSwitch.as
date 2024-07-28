@@ -4,6 +4,7 @@
 	import flash.events.*;
 	import rooms.*
 	import characters.Interactable;
+	import asciiRooms.AsciiRoomBase
 	
 	public class GeneratorSwitch extends Interactable {
 		
@@ -46,20 +47,20 @@
 			if(GlobalState.draggableCharacter)
 				   if(GlobalState.draggableCharacter.currentRoom.interactables.indexOf(this) != -1)
 				   {
-					   switchPower(true);
+					   switchPower();
 					   GlobalState.draggableCharacter.finalizeAction();
 				   }
 		}
 		
-		public function switchPower(switchOn:Boolean)
+		public function switchPower()
 		{			
-			   trace("Light has been switched to", switchOn ? "on": "off");
-			   GlobalState.isLightOn = switchOn;
-			   stage.color = int(switchOn) * 0x1b1b2f;
+			   GlobalState.isLightOn = !GlobalState.isLightOn;
+			   trace("Light has been switched to", GlobalState.isLightOn ? "on": "off");
+			   AsciiRoomBase(GlobalState.draggableCharacter.currentRoom).setFloorBackgroundColor(int(GlobalState.isLightOn))// * 0x1b1b2f);
 		
 			   dispatchEvent(new Event(GlobalState.LIGHT_SWITCHED));
 			   
-			   this.gotoAndStop(switchOn ? 1 : 2);
+			   this.gotoAndStop(GlobalState.isLightOn ? 1 : 2);
 			
 			   unhighlightForInteraction();
 		}
