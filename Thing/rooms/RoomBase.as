@@ -17,7 +17,6 @@ package rooms
 		public var adjacentRooms: Array = [];
 		public var interactables: Array = [];
 
-
 		/// Belongs in a separate mixin
 		public var passiveAbility: Function;
 
@@ -100,8 +99,14 @@ package rooms
 
 		public function get VisibleThings() {
 			return Things.filter(function (item: * ) {
-				return item.isVisible
+				return item.IsVisible
 			});
+		}
+
+		public function refreshThingsVisibility(): void {
+			for each (var thing: * in Things) {
+				thing.refreshVisibility();
+			}
 		}
 
         public function admitCharacter(character: Character) {

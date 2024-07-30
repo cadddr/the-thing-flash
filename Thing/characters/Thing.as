@@ -12,13 +12,39 @@
 	//todo: inprove ai
 	public class Thing extends Character 
 	{		
-		public var isVisible:Boolean;
 		private var switchLightRetries = 2;
 
 		protected var thingKillingProbability: Number;
 		protected var thingOpenAssimilationProbability: Number;
 		protected var thingCautiousnessLevel: Number;
 		protected var humanKillingProbability: Number;
+
+		private var isVisible:Boolean;
+		public function get IsVisible(): Boolean {
+			return isVisible;
+		}
+
+		public function set IsVisible(value: Boolean) {
+			trace(this, value ? "is revealed" : "disappears")
+			isVisible = value;
+			this.mouseEnabled = true;
+			
+			if (value) {
+				alpha = 1;
+				dispatchEvent(new Event("ThingRevealed"));
+			}
+			else {
+				if(GlobalState.DEBUG)
+					alpha = 0.3;
+				else
+					alpha = 0;
+			}
+		}
+		
+		public function refreshVisibility() {
+			trace ("visibility check at", currentRoom)
+			IsVisible = !currentRoom.IsTakenOver && GlobalState.isLightOn
+		}
 
 		public function Thing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) 
 		{			
@@ -70,8 +96,7 @@
 			}
 			/////////////////////////
 			
-			
-			goInvisible();
+			IsVisible = false;
 		}
 
 		protected function findLightSwitchInRoom(room: RoomBase): GeneratorSwitch {
@@ -145,40 +170,7 @@
 			}
 		}
 		
-		public function goVisible()
-		{
-			trace(this, "is revealed")
-			isVisible = true;
-			alpha = 1;
-			this.mouseEnabled = true;
-			
-			dispatchEvent(new Event("ThingRevealed"));
-		}
-		
-		public function goInvisible()
-		{
-			trace(this, "disappears");
-			isVisible = false;
-			if(GlobalState.DEBUG)
-				alpha = 0.3;
-			else
-				alpha = 0;
-				
-			this.mouseEnabled = false;
-		}
-		
-		public function refreshVisibility()
-		{
-			trace ("currentRoom", currentRoom)
-			if (currentRoom.IsTakenOver || !GlobalState.isLightOn)
-			{
-				goInvisible();
-			}
-			else
-			{
-				goVisible();
-			}
-		}
+
 		
 		
 		private function assimilate(victim:Player)
@@ -212,11 +204,10 @@
 			}
 		}
 		
-		override public function die()
-		{
+		override public function die() {
 			trace(this, "died")
 			super.die();
-			this.goVisible();
+			IsVisible = true;
 			dieAnimation();
 		}
 		

@@ -83,10 +83,9 @@
 
 		public function getInfected(infection: Function) {
 			trace(this, "got infected");
-
 			policy = infection;
 
-			this.IsVisible = false; // TODO: shouldn't visibility check simply trigger?
+			currentRoom.refreshThingsVisibility();
 			if (infection != null) // TODO: how can it be set with null? isn't things policy always same
 				IsInfected = true;
 		}
@@ -108,7 +107,7 @@
 				revealedThing.x = tmpX;
 				revealedThing.y = tmpY;
 
-				revealedThing.goVisible();
+				revealedThing.IsVisible = true;
 
 				//assuming the thing will act after players act
 			}

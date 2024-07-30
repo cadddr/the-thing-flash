@@ -21,14 +21,6 @@
 			this.cameraLayer = cameraLayer;
 		}
 
-		public function set IsVisible(value:Boolean) // needed for thing or infected
-		{
-			if(value)
-				alpha = 1;
-			else if(GlobalState.DEBUG)
-				alpha = 0.3;
-		}
-
 		protected function get ReachableRooms():Array
 		{
 			return currentRoom.accessibleRooms;
