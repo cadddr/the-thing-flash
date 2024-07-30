@@ -189,10 +189,10 @@
 			});
 
 			Players.forEach(function (item: * ) {
-				item.act()
+				item.actAutonomously()
 			});
 			Things.forEach(function (item: * ) {
-				item.act()
+				item.actAutonomously()
 			});
 
 			if (Rooms.every(function (item: * ) {

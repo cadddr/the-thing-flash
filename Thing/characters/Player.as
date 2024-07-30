@@ -116,12 +116,6 @@
 			//revelationCallback(this, IsInfected);
 		}
 
-		override public function die() {
-			trace(this, "died");
-			super.die()
-			AlreadyActed = true; //for not acting anymore
-		}
-
 		public override function toString(): String {
 			return "Player " + this.transform.colorTransform.color.toString(16);
 		}

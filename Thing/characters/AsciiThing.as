@@ -30,23 +30,22 @@
 		override protected function interactOnMouseUp(e: MouseEvent): void {}
 
 		override protected function interactOnMouseClick(e: MouseEvent): void {
-			if(!isDead)
-				if(GlobalState.draggableCharacter)
-				   if(currentRoom == GlobalState.draggableCharacter.currentRoom)
-			 	   {	
-						trace(GlobalState.draggableCharacter, "is attacking", this);
+			if(GlobalState.draggableCharacter)
+				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
+				{	
+					trace(GlobalState.draggableCharacter, "is attacking", this);
+					
+					//dice roll should be 2 or 1
+					if(Utils.getRandom(6, 1) <= humanKillingProbability)
+					{
+						die();
+					}
+					else
+						unhighlightForInteraction();
 						
-						//dice roll should be 2 or 1
-						if(Utils.getRandom(6, 1) <= humanKillingProbability)
-						{
-							die();
-						}
-						else
-							unhighlightForInteraction();
-							
-					// so he would knock off
-					currentRoom.register(GlobalState.draggableCharacter as Player);
-					GlobalState.draggableCharacter.finalizeAction();
+				// so he would knock off
+				currentRoom.register(GlobalState.draggableCharacter as Player);
+				GlobalState.draggableCharacter.finalizeAction();
 			}
 		}
 

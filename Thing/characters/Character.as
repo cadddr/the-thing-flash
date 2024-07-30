@@ -2,9 +2,6 @@
 	import flash.display.MovieClip;
 	import GlobalState;
 	import characters.Interactable;
-	import fl.transitions.Tween;
-	import fl.transitions.TweenEvent;
-    import fl.transitions.easing.*;
 	import asciiRooms.AsciiRoomBase;
 	import fl.VirtualCamera;
 	import flash.geom.Point;
@@ -12,13 +9,11 @@
 	
 	public class Character extends Interactable {
 		
-		public var policy:Function = null; //TODO: only needed for thing or assimilated?
+		public var policy: Function = null; //TODO: only needed for thing or assimilated?
 		public var currentRoom: RoomBase = null;
 		public var previousRoom: RoomBase = null;
-		
-		public var isDead:Boolean = false; // used to check if can act or accept mouse events or thing invisibility
 
-		private var camera: VirtualCamera;
+		protected var camera: VirtualCamera; // TODO: perhaps only needed for players
 		public var cameraLayer: MovieClip;
 
 		public function setCameraAndLayer(camera: VirtualCamera, cameraLayer: MovieClip): void {
@@ -39,72 +34,19 @@
 			return currentRoom.accessibleRooms;
 		}	
 		
-		public function act()
-		{
-			if (!isDead)
-			{
-				if(policy != null)
-					{
-						policy();
-					}
+		public function actAutonomously() {
+			if(policy != null) {
+				policy();
 			}
 		}
-
-		var tweenX: Tween;
-		var tweenY: Tween;
-
-		public function animateMoveTo(x:Number, y:Number) {
-			if (camera != null) {
-				camera.pinCameraToObject(this);
-			}
-
-			gotoAndPlay(1);
-
-			tweenX = new Tween(this, "x", Strong.easeInOut, this.x, x, 1, true);
-			tweenY = new Tween(this, "y", Strong.easeInOut, this.y, y, 1, true);
-			var caller:MovieClip = this;
-
-			tweenX.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-				if (currentRoom)
-				{
-					AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, e.position, caller.y);
-				}
-				if (previousRoom)
-				{
-					AsciiRoomBase(previousRoom).applyTileLightingFromSource(previousRoom, e.position, caller.y);
-				}
-			})
-
-			tweenY.addEventListener(TweenEvent.MOTION_CHANGE, function(e:TweenEvent) {
-				if (currentRoom)
-				{
-					AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, caller.x, e.position);
-				}
-				if (previousRoom)
-				{
-					AsciiRoomBase(previousRoom).applyTileLightingFromSource(previousRoom, caller.x, e.position);
-				}
-			})
-
-			var helper: Function = function (first: Tween, second: Tween): void {
-				second.stop();
-				first.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {second.start();});
-
-				second.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent) {gotoAndStop(24);});
-			}
-
-			if (Math.abs(x - this.x) > Math.abs(y - this.y)) {
-				helper(tweenX, tweenY)
-			}
-			else {
-				helper(tweenY, tweenX);
-			}
-		}	
 
 		public function die() {
-			this.currentRoom.releaseCharacter(this)
+			disableAllInteraction();
+			policy = null;
+			this.currentRoom.releaseCharacter(this);
+			dieAnimation();
 		}
 
-		protected function dieAnimation() {}
+		protected function dieAnimation() {throw null;}
 	}
 }

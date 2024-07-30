@@ -95,17 +95,6 @@
 			gotoAndStop(23);
 		}
 		
-		public function set IsDead(value)
-		{
-			if (value)
-			{
-				dieAnimation();
-				isDead = true;
-				mouseEnabled = false;
-				this.goVisible();
-			}
-		}
-		
 		override protected function get ReachableRooms():Array
 		{
 			return currentRoom.adjacentRooms;
@@ -123,25 +112,20 @@
 		//highlighting
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
-			if(!isDead) {
-				if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
-				{
-					highlightForInteraction();
-				}
+			if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
+			{
+				highlightForInteraction();
 			}
 		}
 		
 		override protected function interactOnMouseOut(e:MouseEvent): void
 		{
-			if(!isDead) {
 				unhighlightForInteraction();
-			}	
 		}
 		//for getting attacked by the dragged player
 		//gets attacked by a dragger
 		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
-			if(!isDead)
 				if(GlobalState.draggableCharacter)
 				   if(currentRoom == GlobalState.draggableCharacter.currentRoom)
 			 	   {	
@@ -173,17 +157,14 @@
 		
 		public function goInvisible()
 		{
-			if(!isDead)
-			{
-				trace(this, "disappears");
-				isVisible = false;
-				if(GlobalState.DEBUG)
-					alpha = 0.3;
-				else
-					alpha = 0;
-					
-				this.mouseEnabled = false;
-			}
+			trace(this, "disappears");
+			isVisible = false;
+			if(GlobalState.DEBUG)
+				alpha = 0.3;
+			else
+				alpha = 0;
+				
+			this.mouseEnabled = false;
 		}
 		
 		public function refreshVisibility()
@@ -234,8 +215,9 @@
 		override public function die()
 		{
 			trace(this, "died")
-			IsDead = true;
 			super.die();
+			this.goVisible();
+			dieAnimation();
 		}
 		
 		private function attack(victim:Player)

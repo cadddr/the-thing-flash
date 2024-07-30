@@ -58,8 +58,8 @@
 				character.width, character.height
 			);
 			trace ('position in room', position);
-			if (character.previousRoom != null) {
-				character.animateMoveTo(position.x, position.y);
+			if (character.previousRoom != null && character is AsciiPlayer) {
+				AsciiPlayer(character).animateMoveTo(position.x, position.y);
 			}
 			else {
 				character.x = position.x;
