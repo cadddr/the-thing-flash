@@ -9,7 +9,6 @@
 	
 	public class AsciiThing extends Thing {
 		
-		
 		public function AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) {
 			super(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 			unhighlightForInteraction();
@@ -27,26 +26,19 @@
 				getSelection().visible = false;
 		}
 
-		override protected function interactOnMouseUp(e: MouseEvent): void {}
+		// TODO: extract condition to logic
+		override protected function interactOnMouseOver(e:MouseEvent): void {
+			if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom) {
+				highlightForInteraction();
+			}
+		}
+		
+		override protected function interactOnMouseOut(e:MouseEvent): void {
+				unhighlightForInteraction();
+		}
 
 		override protected function interactOnMouseClick(e: MouseEvent): void {
-			if(GlobalState.draggableCharacter)
-				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
-				{	
-					trace(GlobalState.draggableCharacter, "is attacking", this);
-					
-					//dice roll should be 2 or 1
-					if(Utils.getRandom(6, 1) <= humanKillingProbability)
-					{
-						die();
-					}
-					else
-						unhighlightForInteraction();
-						
-				// so he would knock off
-				currentRoom.register(GlobalState.draggableCharacter as Player);
-				GlobalState.draggableCharacter.finalizeAction();
-			}
+			getAttackedByPlayer();
 		}
 
 		override protected function dieAnimation() {

@@ -33,6 +33,7 @@
 		}
 
 		public function die() {
+			trace(this, "died")
 			disableAllInteraction();
 			policy = null;
 			this.currentRoom.releaseCharacter(this);

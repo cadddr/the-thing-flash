@@ -9,7 +9,7 @@
 	import flash.events.Event;
 	import rooms.RoomBase;
 	import items.GeneratorSwitch;
-	//todo: inprove ai
+	
 	public class Thing extends Character 
 	{		
 		private var switchLightRetries = 2;
@@ -44,6 +44,10 @@
 		public function refreshVisibility() {
 			trace ("visibility check at", currentRoom)
 			IsVisible = !currentRoom.IsTakenOver && GlobalState.isLightOn
+		}
+
+		override protected function get ReachableRooms():Array {
+			return currentRoom.adjacentRooms;
 		}
 
 		public function Thing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) 
@@ -115,68 +119,32 @@
 			// return foundItems[0];
 			return null;
 		}
-
-		override protected function dieAnimation() {
-			gotoAndStop(23);
-		}
 		
-		override protected function get ReachableRooms():Array
-		{
-			return currentRoom.adjacentRooms;
-		}
-
-		override protected function highlightForInteraction(): void {
-			gotoAndPlay(2);
-		}
-
-		override protected function unhighlightForInteraction(): void {
-			gotoAndStop(1);
-		}
-		
-		
-		//highlighting
-		override protected function interactOnMouseOver(e:MouseEvent): void
-		{
-			if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom)
-			{
-				highlightForInteraction();
-			}
-		}
-		
-		override protected function interactOnMouseOut(e:MouseEvent): void
-		{
-				unhighlightForInteraction();
-		}
-		//for getting attacked by the dragged player
-		//gets attacked by a dragger
-		override protected function interactOnMouseUp(e:MouseEvent): void
-		{
-				if(GlobalState.draggableCharacter)
-				   if(currentRoom == GlobalState.draggableCharacter.currentRoom)
-			 	   {	
-						trace(GlobalState.draggableCharacter, "is attacking", this);
+		protected function getAttackedByPlayer(): void {
+			if(GlobalState.draggableCharacter)
+				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
+				{	
+					trace(GlobalState.draggableCharacter, "is attacking", this);
+					
+					//dice roll should be 2 or 1
+					if(Utils.getRandom(6, 1) <= humanKillingProbability)
+					{
+						die();
+					}
+					else
+						unhighlightForInteraction();
 						
-						//dice roll should be 2 or 1
-						if(Utils.getRandom(6, 1) <= humanKillingProbability)
-						{
-							die();
-						}
-						else
-							gotoAndStop(1);
-							
-					// so he would knock off
-					currentRoom.register(GlobalState.draggableCharacter as Player);
-					GlobalState.draggableCharacter.finalizeAction();
+				// so he would knock off
+				currentRoom.register(GlobalState.draggableCharacter as Player);
+				GlobalState.draggableCharacter.finalizeAction();
 			}
 		}
-		
-
 		
 		
 		private function assimilate(victim:Player)
 		{
 			//infection to be communicated to victim
-			var infection:Function = function()
+			var infection:Function = function() // this is different from things policy???
 			{				
 				var potentialVictims = this.currentRoom.Players;
 				trace("Infected", this, "in", this.currentRoom, "\n\tpotential victims:", potentialVictims.length)
@@ -205,10 +173,8 @@
 		}
 		
 		override public function die() {
-			trace(this, "died")
-			super.die();
 			IsVisible = true;
-			dieAnimation();
+			super.die();
 		}
 		
 		private function attack(victim:Player)
