@@ -15,7 +15,7 @@
 			asciiSyringe.visible = false;
 			asciiCharge.visible = false;
 			asciiMarker.visible = true;
-			gotoAndStop(24);
+			gotoAndStop(24); // where walking animation stops
 		}
 
 		override public function getSyringe(): MovieClip {
@@ -46,21 +46,24 @@
 			asciiMarker.visible = true
 		}
 
-		override protected function interactOnMouseDown(e: MouseEvent): void {}
-
-		override protected function interactOnMouseClick(e: MouseEvent): void {
+		override protected function interactOnMouseOver(e: MouseEvent): void {
 			if (!AlreadyActed) {
-				if (this.isInfected) {
-					trace("Is", this, "going to refuse to execute the order?");
-					if (Utils.getRandom(6, 1) <= infectedRefusalProbability) {
-						this.revealItself();
-						return;
-					}
-				}
-				initializeAction();
+				highlightForInteraction();
 			}
 		}
 
+		override protected function interactOnMouseOut(e: MouseEvent): void {
+			if (!AlreadyActed) {
+				unhighlightForInteraction();
+			}				
+		}
+
+		override protected function interactOnMouseClick(e: MouseEvent): void {
+			attemptAction();
+		}
+
+		// TODO: this one inadvertedly circumvents order refusal check?
+		// also no check for having acted?
 		public function selectAsActiveCharacter(): void {
 			highlightForInteraction();
 			initializeAction();

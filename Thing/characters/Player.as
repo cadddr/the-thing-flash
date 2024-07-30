@@ -25,9 +25,13 @@
 		protected function markAlreadyActed(): void {throw null;}
 		protected function markReadyToAct(): void {throw null;}
 
- 		protected var isInfected: Boolean = false;
+ 		private var isInfected: Boolean = false;
 		public function get IsInfected() {
 			return isInfected;
+		}
+
+		public function set IsInfected(value) {
+			isInfected = value;
 		}
 
 		public function get Roommates(): Array {
@@ -60,24 +64,9 @@
 			getCharge().equip(this);
 		}		
 
-		override protected function interactOnMouseOver(e: MouseEvent): void {
+		protected function attemptAction() {
 			if (!AlreadyActed) {
-				highlightForInteraction();
-			}
-				
-		}
-
-		override protected function interactOnMouseOut(e: MouseEvent): void {
-			if (!AlreadyActed) {
-				unhighlightForInteraction();
-			}				
-		}
-
-		// start drag
-		// mouse up handled by stage
-		override protected function interactOnMouseDown(e: MouseEvent): void {
-			if (!AlreadyActed) {
-				if (this.isInfected) {
+				if (this.IsInfected) {
 					trace("Is", this, "going to refuse to execute the order?");
 					if (Utils.getRandom(6, 1) <= infectedRefusalProbability) {
 						this.revealItself();
@@ -89,33 +78,33 @@
 			}
 		}
 
+		protected function initializeAction() {throw null;}
+		public function finalizeAction() {throw null;}
+
 		public function getInfected(infection: Function) {
 			trace(this, "got infected");
 
-			this.IsVisible = false;
-
 			policy = infection;
 
-			if (infection != null)
-				isInfected = true;
+			this.IsVisible = false; // TODO: shouldn't visibility check simply trigger?
+			if (infection != null) // TODO: how can it be set with null? isn't things policy always same
+				IsInfected = true;
 		}
 
 		public function revealItself() {
-			if (isInfected) {
+			if (IsInfected) {
 				var revealedThing = spawnThing();
 
-				stage.addChild(revealedThing);
+				cameraLayer.addChild(revealedThing);
 
 				var tmpX = this.x;
 				var tmpY = this.y;
-
 				var tmpRoom = this.currentRoom;
 
 				this.die();
-				stage.removeChild(this);
+				cameraLayer.removeChild(this);
 
-				tmpRoom.register(revealedThing);
-
+				tmpRoom.register(revealedThing); // TODO: why this needs to happen afterwards?
 				revealedThing.x = tmpX;
 				revealedThing.y = tmpY;
 
@@ -124,31 +113,13 @@
 				//assuming the thing will act after players act
 			}
 
-			//revelationCallback(this, isInfected);
+			//revelationCallback(this, IsInfected);
 		}
 
 		override public function die() {
 			trace(this, "died");
 			super.die()
 			AlreadyActed = true; //for not acting anymore
-			dieAnimation();
-		}
-
-		protected function initializeAction() {
-			currentRoom.highlightReachableRooms();
-			stage.setChildIndex(this, stage.numChildren - 1);
-			GlobalState.draggableCharacter = this;
-			startDrag();
-
-			mouseEnabled = false;
-		}
-
-		public function finalizeAction() {
-
-			stopDrag();
-			mouseEnabled = true;
-			GlobalState.draggableCharacter = null;
-			AlreadyActed = true;
 		}
 
 		public override function toString(): String {

@@ -76,12 +76,7 @@
 		override protected function interactOnMouseClick(event: MouseEvent): void {
 			if (GlobalState.draggableCharacter != null) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
-					//room logic
-					register(GlobalState.draggableCharacter);
-					//room view
-					//mouse pos is relative to room on camera layer
-					// putIn(GlobalState.draggableCharacter, mouseX, mouseY);
-					//character logic & view
+					register(GlobalState.draggableCharacter); //also raises event that positions char in room
 					GlobalState.draggableCharacter.finalizeAction();
 				}
 			}
