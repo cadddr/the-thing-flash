@@ -33,6 +33,12 @@
 		protected function dieAnimation() {
 			gotoAndPlay(2);
 		}
+
+		public function equip(owner: Player) {
+			this.visible = true;
+			this.mouseEnabled = true;
+			this.owner = owner;
+		}
 		
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
@@ -52,7 +58,7 @@
 		
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
-			if(!owner.IsInactive)
+			if(!owner.AlreadyActed)
 			{
 				trace(owner, "has planted explosive charge in", owner.currentRoom);				
 				this.visible = false;

@@ -13,7 +13,7 @@
 		
 		override public function enhancePlayers()
 		{			
-			var eligiblePlayers = this.guests.filter(function(item:*) {return item is Player && !item.IsInactive});
+			var eligiblePlayers = this.guests.filter(function(item:*) {return item is Player && !item.AlreadyActed});
 			
 			eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
 		}

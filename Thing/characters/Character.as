@@ -12,11 +12,11 @@
 	
 	public class Character extends Interactable {
 		
-		public var policy:Function = null;
+		public var policy:Function = null; //TODO: only needed for thing or assimilated?
 		public var currentRoom: RoomBase = null;
 		public var previousRoom: RoomBase = null;
 		
-		public var isDead:Boolean = false;
+		public var isDead:Boolean = false; // used to check if can act or accept mouse events or thing invisibility
 
 		private var camera: VirtualCamera;
 		public var cameraLayer: MovieClip;
@@ -26,7 +26,7 @@
 			this.cameraLayer = cameraLayer;
 		}
 
-		public function set IsVisible(value:Boolean)
+		public function set IsVisible(value:Boolean) // needed for thing or infected
 		{
 			if(value)
 				alpha = 1;
@@ -37,9 +37,7 @@
 		protected function get ReachableRooms():Array
 		{
 			return currentRoom.accessibleRooms;
-		}
-		
-		protected function dieAnimation() {}	
+		}	
 		
 		public function act()
 		{
@@ -106,5 +104,7 @@
 		public function die() {
 			this.currentRoom.releaseCharacter(this)
 		}
+
+		protected function dieAnimation() {}
 	}
 }

@@ -155,10 +155,10 @@
 			for (var i: int = 0; i < Players.length; i++) {
 				//identifying squads of players moving together
 				var checkSameSquad: Function = function (item: * ) {
-					return item.previousRoom == Players[i].previousRoom && item.currentRoom == Players[i].currentRoom && item.currentRoom != Players[i].previousRoom && item.previousRoom != Players[i].currentRoom && item.IsInactive;
+					return item.previousRoom == Players[i].previousRoom && item.currentRoom == Players[i].currentRoom && item.currentRoom != Players[i].previousRoom && item.previousRoom != Players[i].currentRoom && item.AlreadyActed;
 				}
 
-				if (!checkedSquadMembers.some(checkSameSquad) && Players[i].IsInactive) {
+				if (!checkedSquadMembers.some(checkSameSquad) && Players[i].AlreadyActed) {
 					var squad: Array = Players.filter(checkSameSquad);
 
 					squads.push(squad);
@@ -213,7 +213,7 @@
 
 			//reset action flags
 			Players.forEach(function (item: * ) {
-				item.IsInactive = false
+				item.AlreadyActed = false
 			});
 		}
 	}

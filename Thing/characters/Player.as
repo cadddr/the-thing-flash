@@ -11,43 +11,23 @@
 		protected var infectedRefusalProbability;
 		protected var spawnThing: Function;
 
-		protected var alreadyActed: Boolean = false;
+		private var alreadyActed: Boolean = false;
+		public function get AlreadyActed(): Boolean {
+			return alreadyActed;
+		}
+
+		public function set AlreadyActed(value) {
+			alreadyActed = value;
+			
+			value ? markAlreadyActed() : markReadyToAct();
+		}
+
+		protected function markAlreadyActed(): void {throw null;}
+		protected function markReadyToAct(): void {throw null;}
+
  		protected var isInfected: Boolean = false;
-
-		//public var revelationCallback:Function = null;
-
-		public function Player(infectedRefusalProbability, spawnThing) {
-			this.infectedRefusalProbability = infectedRefusalProbability;
-			this.spawnThing = spawnThing;
-
-			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255);
-		}
-
-		public function getSyringe(): MovieClip {
-			throw null;
-		}
-
-		public function getCharge(): MovieClip {
-			throw null;
-		}
-
 		public function get IsInfected() {
 			return isInfected;
-		}
-
-
-
-		public function set IsInactive(value) {
-			if (value)
-				markInactive();
-			else
-				markReady();
-
-			alreadyActed = value;
-		}
-
-		public function get IsInactive(): Boolean {
-			return alreadyActed;
 		}
 
 		public function get Roommates(): Array {
@@ -58,45 +38,37 @@
 			return currentRoom.VisibleThings.length;
 		}
 
-		
+		//public var revelationCallback:Function = null;
+
+		public function Player(infectedRefusalProbability, spawnThing) {
+			this.infectedRefusalProbability = infectedRefusalProbability;
+			this.spawnThing = spawnThing;
+
+			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255); // Random color?
+		}
+
+		public function getSyringe(): MovieClip {throw null;}
+		public function getCharge(): MovieClip {throw null;}
 
 		public function equipSyringe() {
-			trace(this, "has equipped syringe")
-			getSyringe().visible = true;
-			getSyringe().owner = this;
+			trace(this, "has equipped test syringe")
+			getSyringe().equip(this)
 		}
 
 		public function equipExplosiveCharge() {
 			trace(this, "has equipped explosive charge")
-			getCharge().visible = true;
-			getCharge().owner = this;
-		}
-
-		override protected function highlightForInteraction(): void {
-			gotoAndPlay(2);
-		}
-
-		override protected function unhighlightForInteraction(): void {
-			gotoAndPlay(1);
-		}
-
-		protected function markReady(): void {
-			gotoAndPlay(1);
-		}
-
-		protected function markInactive(): void {
-			gotoAndStop(23);
-		}
+			getCharge().equip(this);
+		}		
 
 		override protected function interactOnMouseOver(e: MouseEvent): void {
-			if (!alreadyActed) {
+			if (!AlreadyActed) {
 				highlightForInteraction();
 			}
 				
 		}
 
 		override protected function interactOnMouseOut(e: MouseEvent): void {
-			if (!alreadyActed) {
+			if (!AlreadyActed) {
 				unhighlightForInteraction();
 			}				
 		}
@@ -104,7 +76,7 @@
 		// start drag
 		// mouse up handled by stage
 		override protected function interactOnMouseDown(e: MouseEvent): void {
-			if (!alreadyActed) {
+			if (!AlreadyActed) {
 				if (this.isInfected) {
 					trace("Is", this, "going to refuse to execute the order?");
 					if (Utils.getRandom(6, 1) <= infectedRefusalProbability) {
@@ -155,19 +127,11 @@
 			//revelationCallback(this, isInfected);
 		}
 
-
-		override protected function dieAnimation() {
-			gotoAndStop(24);
-		}
-
 		override public function die() {
 			trace(this, "died");
-
 			super.die()
+			AlreadyActed = true; //for not acting anymore
 			dieAnimation();
-			//for not acting anymore
-			alreadyActed = true;
-
 		}
 
 		protected function initializeAction() {
@@ -184,15 +148,11 @@
 			stopDrag();
 			mouseEnabled = true;
 			GlobalState.draggableCharacter = null;
-			IsInactive = true;
-
-
+			AlreadyActed = true;
 		}
 
 		public override function toString(): String {
 			return "Player " + this.transform.colorTransform.color.toString(16);
 		}
-
 	}
-
 }

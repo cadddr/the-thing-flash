@@ -16,7 +16,7 @@
 		
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
-			if(!owner.IsInactive)
+			if(!owner.AlreadyActed)
 			{
 				trace(owner, "has used syringe");
 				owner.currentRoom.revealInfectedPlayers();

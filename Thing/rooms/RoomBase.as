@@ -27,10 +27,11 @@ package rooms
 			}
 		}
 
+		// this is duplicated in special room classes
 		public static var PASSIVE_ABILITY_DISPENSE_EXPLOSIVES = function (room:RoomBase):void
 		{			
 			var eligiblePlayers = room.guests.filter(function(item:*) {
-				return item is Player && !item.IsInactive
+				return item is Player && !item.AlreadyActed
 			});
 			
 			eligiblePlayers.forEach(function(item:*) {item.equipExplosiveCharge()});
@@ -39,7 +40,7 @@ package rooms
 		public static var PASSIVE_ABILITY_DISPENSE_SYRINGES = function (room:RoomBase):void
 		{			
 			var eligiblePlayers = room.guests.filter(function(item:*) {
-				return item is Player && !item.IsInactive
+				return item is Player && !item.AlreadyActed
 			});
 			
 			eligiblePlayers.forEach(function(item:*) {item.equipSyringe()});

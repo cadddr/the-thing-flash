@@ -7,9 +7,7 @@
 	import items.AsciiSyringe;
 	import asciiRooms.AsciiRoomBase;
 	
-	
 	public class AsciiPlayer extends Player {
-		
 		
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
@@ -40,18 +38,18 @@
 			}
 		}
 
-		override protected function markInactive(): void {
+		override protected function markAlreadyActed(): void {
 			asciiMarker.visible = false
 		}
 
-		override protected function markReady(): void {
+		override protected function markReadyToAct(): void {
 			asciiMarker.visible = true
 		}
 
 		override protected function interactOnMouseDown(e: MouseEvent): void {}
 
 		override protected function interactOnMouseClick(e: MouseEvent): void {
-			if (!alreadyActed) {
+			if (!AlreadyActed) {
 				if (this.isInfected) {
 					trace("Is", this, "going to refuse to execute the order?");
 					if (Utils.getRandom(6, 1) <= infectedRefusalProbability) {
@@ -84,25 +82,13 @@
 			previousRoom.unhighlightReachableRooms();
 			currentRoom.unhighlightReachableRooms();
 			GlobalState.draggableCharacter = null;
-			IsInactive = true;
+			AlreadyActed = true;
 
 			unhighlightForInteraction();
 		}
 
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
-		}
-
-		override public function equipExplosiveCharge() {
-			trace(this, "has equipped explosive charge")
-			getCharge().visible = true;
-			getCharge().mouseEnabled = true;
-			getCharge().owner = this;
-		}
-
-		override public function equipSyringe() {
-			trace(this, "has equipped test syringe")
-			getSyringe().equip(this)
 		}
 	}
 }

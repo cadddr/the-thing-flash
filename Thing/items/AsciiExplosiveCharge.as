@@ -57,7 +57,7 @@
 				return;
 			}
 
-			if(!owner.IsInactive)
+			if(!owner.AlreadyActed)
 			{
 				trace(owner, "has planted explosive charge in", owner.currentRoom);				
 				this.visible = false;
