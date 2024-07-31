@@ -60,6 +60,8 @@
 			room1.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_EXPLOSIVES
 			room5.passiveAbility = RoomBase.PASSIVE_ABILITY_DISPENSE_SYRINGES
 
+
+			// TODO: why not add via editor?
 			room9.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
 			room13.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
 

@@ -27,6 +27,8 @@ package rooms
 		}
 
 		// this is duplicated in special room classes
+		// assigned to rooms in level then called via enhancePlayers
+		// dispensing is done via this and not via an Interactable in Room
 		public static var PASSIVE_ABILITY_DISPENSE_EXPLOSIVES = function (room:RoomBase):void
 		{			
 			var eligiblePlayers = room.guests.filter(function(item:*) {
