@@ -10,6 +10,7 @@
 	import rooms.RoomBase;
 	import items.GeneratorSwitch;
 	
+	// TODO: revamp AI logic
 	public class Thing extends Character 
 	{		
 		private var switchLightRetries = 2;
@@ -31,7 +32,7 @@
 			
 			if (value) {
 				alpha = 1;
-				dispatchEvent(new Event("ThingRevealed"));
+				dispatchEvent(new Event("ThingRevealed")); // not used now but maybe could be subscribed by players to react
 			}
 			else {
 				if(GlobalState.DEBUG)
@@ -58,6 +59,10 @@
 			this.thingCautiousnessLevel = thingCautiousnessLevel;
 			this.humanKillingProbability = humanKillingProbability;
 
+			// random walk until run into generator room or room with other players
+			// if in generator can be switched off try several times
+			// if there are players either assimilate (if invisible) or try to openly fight
+			// otherwise flee to random room
 			policy = function()
 			{				
 				//so it wouldn't compete with players at switching the light
@@ -119,32 +124,47 @@
 			// return foundItems[0];
 			return null;
 		}
-		
-		protected function getAttackedByPlayer(): void {
-			if(GlobalState.draggableCharacter)
-				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
-				{	
-					trace(GlobalState.draggableCharacter, "is attacking", this);
-					
-					//dice roll should be 2 or 1
-					if(Utils.getRandom(6, 1) <= humanKillingProbability)
-					{
-						die();
-					}
-					else
-						unhighlightForInteraction();
-						
-				// so he would knock off
-				currentRoom.register(GlobalState.draggableCharacter as Player);
-				GlobalState.draggableCharacter.finalizeAction();
-			}
+
+		// could stay in same room
+		private function goToRandomReachableRoom()
+		{
+			trace(this, "is moving to a random reachable room");
+			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
+			ReachableRooms[randomRoom].register(this);
 		}
 		
+		//todo: has to see if there are players in reachable rooms
+		private function goToAnotherRandomReachableRoom()
+		{
+			trace(this, "is moving to a different room");
+			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
+			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
+			//invalidate, so that its location is regenerated
+			x=0;
+			y=0;
+			ReachableRooms[randomRoom].register(this);
+		}
 		
+		// seems unused, broken?
+		private function goToLeastPopulatedRoom()
+		{
+			var leastPopulatedRoom:RoomBase = ReachableRooms[0];
+			
+			for(var i:int = 0; i < ReachableRooms.length; i++)
+			{
+				trace(this, "is deciding on where to go");
+				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * thingCautiousnessLevel)	
+					leastPopulatedRoom = ReachableRooms[i];
+			}
+			
+			leastPopulatedRoom.register(this);
+		}
+
 		private function assimilate(victim:Player)
 		{
-			//infection to be communicated to victim
-			var infection:Function = function() // this is different from things policy???
+			// infection to be communicated to victim
+			// infected victim can quietly infect others when left alone with them without doing any other thing stuff
+			var infection:Function = function() 
 			{				
 				var potentialVictims = this.currentRoom.Players;
 				trace("Infected", this, "in", this.currentRoom, "\n\tpotential victims:", potentialVictims.length)
@@ -171,12 +191,7 @@
 				victim.getInfected(infection);
 			}
 		}
-		
-		override public function die() {
-			IsVisible = true;
-			super.die();
-		}
-		
+
 		private function attack(victim:Player)
 		{
 			trace(this, "is attacking", victim);
@@ -184,41 +199,30 @@
 			if(Utils.getRandom(6, 1) <= thingKillingProbability)
 				victim.die();
 		}
-				
-		private function goToRandomReachableRoom()
-		{
-			trace(this, "is moving to a random reachable room");
-			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
-			ReachableRooms[randomRoom].register(this);
-		}
 		
-		//todo: has to see if there are players in reachable rooms
-		private function goToAnotherRandomReachableRoom()
-		{
-			trace(this, "is moving to a different room");
-			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
-			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
-			//invalidate, so that its location is regenerated
-			x=0;
-			y=0;
-			ReachableRooms[randomRoom].register(this);
-		}
-		
-		private function goToLeastPopulatedRoom()
-		{
-			var leastPopulatedRoom:RoomBase = ReachableRooms[0];
-			
-			for(var i:int = 0; i < ReachableRooms.length; i++)
-			{
-				trace(this, "is deciding on where to go");
-				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * thingCautiousnessLevel)	
-					leastPopulatedRoom = ReachableRooms[i];
+		protected function getAttackedByPlayer(): void {
+			if(GlobalState.draggableCharacter)
+				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
+				{	
+					trace(GlobalState.draggableCharacter, "is attacking", this);
+					
+					//dice roll should be 2 or 1
+					if(Utils.getRandom(6, 1) <= humanKillingProbability)
+					{
+						die();
+					}
+					else
+						unhighlightForInteraction();
+						
+				// so he would knock off
+				currentRoom.register(GlobalState.draggableCharacter as Player);
+				GlobalState.draggableCharacter.finalizeAction();
 			}
-			
-			leastPopulatedRoom.register(this);
 		}
 		
-		
+		override public function die() {
+			IsVisible = true;
+			super.die();
+		}		
 	}
-	
 }

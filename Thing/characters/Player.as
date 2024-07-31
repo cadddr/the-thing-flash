@@ -7,6 +7,7 @@
 	import GlobalState;
 	import characters.Character;
 
+	// TODO: improve motion animation with proper pathfinding
 	public class Player extends Character {
 		protected var infectedRefusalProbability;
 		protected var spawnThing: Function;
