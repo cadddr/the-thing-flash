@@ -15,6 +15,7 @@
 	import rooms.RoomBase;
 	import flash.events.Event;
 	import events.CharacterEvent;
+	import events.LightswitchEvent;
 	import characters.Interactable;
 	
 	//display specific functionality, UI interactions, positioning, animations
@@ -25,11 +26,15 @@
 		
 		public function AsciiRoomBase() {
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
+			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
+				setFloorBackgroundColor(e.isLightOn ? GlobalState.DARK_PURPLE : int(e.isLightOn));
+			});
 		}
 
 		// and this is a different Interactable e.g., a generator switch or a planted charge
 		public function spawnInteractable(interactable: Interactable, cameraLayer: MovieClip): void {
 			interactables.push(interactable);
+
 
 			var point = computePositionInRoom(Math.random() * width, Math.random() * height * tileHeight,0,0);
 			interactable.x = point.x;
@@ -145,7 +150,7 @@
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
-					child.asciiTileText.backgroundColor = new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
+					child.asciiTileText.backgroundColor = color;//new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
 					// child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 27 * color, 27 * color, 47 * color);
 				}
 			}

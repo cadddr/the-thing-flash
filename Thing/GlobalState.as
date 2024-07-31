@@ -1,6 +1,7 @@
 ﻿package  {
 	import flash.display.MovieClip;
 	import characters.*;
+
 	public class GlobalState {
 
 		public static var DEBUG:Boolean = false;
@@ -21,5 +22,26 @@
 
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 		public static const LIGHT_SWITCHED = "lightSwitched";
+		
+		private static var globalEventHandlers: Object = {
+			characterPlacedInRoom: new Array(), 
+			lightSwitched: new Array()
+		};
+
+		public static function addGlobalEventListener(type: String, handler: Function) {
+			globalEventHandlers[type].push(handler);
+		}
+
+		public static function removeGlobalEventListener(type: String, handler: Function) {
+			if (globalEventHandlers[type].indexOf(handler) != -1) {
+				globalEventHandlers[type].remove(handler);
+			}
+		}
+
+		public static function globalDispatchEvent(e:*) {
+			for each (var func in globalEventHandlers[e.type]) {
+				func(e);
+			}
+		}
 	}
 }

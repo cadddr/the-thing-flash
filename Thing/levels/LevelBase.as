@@ -71,7 +71,7 @@
 		// initialization requiring MovieClip objects
 		// may be overriden and called from subclass
 		protected function onAddedToStage(e: Event): void {
-			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
+			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
 				refreshThingsVisibility();
 			});
 						

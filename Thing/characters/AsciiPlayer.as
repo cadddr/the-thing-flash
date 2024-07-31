@@ -85,7 +85,9 @@
 		}
 
 		override public function finalizeAction() {
-			previousRoom.unhighlightReachableRooms();
+			if (previousRoom != null) {
+				previousRoom.unhighlightReachableRooms();
+			}
 			currentRoom.unhighlightReachableRooms();
 			GlobalState.draggableCharacter = null;
 			AlreadyActed = true;

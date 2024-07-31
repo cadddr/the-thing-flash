@@ -5,6 +5,7 @@
 	import rooms.*
 	import characters.Interactable;
 	import asciiRooms.AsciiRoomBase
+	import events.LightswitchEvent
 	
 	public class GeneratorSwitch extends Interactable {
 		// TODO: support multiple switches in a chain
@@ -16,9 +17,9 @@
 		// TODO: rename as generic interact
 		public function switchPower()
 		{			
-			   trace("Light has been switched to", GlobalState.isLightOn ? "on": "off");
-			   GlobalState.isLightOn = !GlobalState.isLightOn;
-			   dispatchEvent(new Event(GlobalState.LIGHT_SWITCHED));
+			GlobalState.isLightOn = !GlobalState.isLightOn;
+			trace("Light has been switched to", GlobalState.isLightOn ? "on": "off");   
+			GlobalState.globalDispatchEvent(new LightswitchEvent(GlobalState.LIGHT_SWITCHED, GlobalState.isLightOn));
 		}
 	}	
 }
