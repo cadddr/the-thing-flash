@@ -44,7 +44,6 @@
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number): void {
-			return;
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
 				if (child is AsciiFloorTile) {
@@ -150,7 +149,7 @@
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
-					child.asciiTileText.backgroundColor = color;//new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
+					child.ambient = color;//new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
 					// child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 27 * color, 27 * color, 47 * color);
 				}
 			}

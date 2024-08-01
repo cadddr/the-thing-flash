@@ -38,6 +38,7 @@ package asciiRooms
         override protected function unhighlightForInteraction(): void {
         }
 
+        // TODO: !!!
         private function highlightOnMouseProximity(caller: AsciiTile, currentFrame: Number) {
             // if (GlobalState.draggableCharacter != null) {
                 // var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
@@ -68,29 +69,12 @@ package asciiRooms
             }
         }
 
-        private function getDistanceFrom(sourceX, sourceY) {
+        protected function getDistanceFrom(sourceX, sourceY) {
             // var global = localToGlobal(new Point(this.x, this.y));
             var x = parent.x + this.x - sourceX;
             var y = parent.y + this.y - sourceY;
             var dist = Math.sqrt(x*x + y*y);
             return dist;
-        }
-
-
-        public function applyLighting(sourceX, sourceY) {            
-            var kd = 1;//0.0025
-            var dist = getDistanceFrom(sourceX, sourceY);
-            var diffuse = Math.cos(Math.atan(dist + 5));
-
-            AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0,0,0,1,
-                27+(255-27)*diffuse,
-                27+(255-27)*diffuse,
-                47+(255-47)*diffuse,1).color;
-
-		}
-
-        public function unapplyLighting() {
-            // AsciiFloorTile(this).asciiTileText.backgroundColor = new ColorTransform(0, 0, 0, 1, 31, 64, 104, 1).color;
         }
     }
 }

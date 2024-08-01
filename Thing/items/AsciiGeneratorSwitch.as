@@ -52,7 +52,7 @@
 		override public function switchPower()
 		{		
 			super.switchPower();
-			stage.color = GlobalState.isLightOn ? GlobalState.DARK_PURPLE : int(GlobalState.isLightOn)//GlobalState.DARK_BLUE
+			// stage.color = GlobalState.isLightOn ? GlobalState.DARK_PURPLE : int(GlobalState.isLightOn)//GlobalState.DARK_BLUE
 			// AsciiRoomBase(GlobalState.draggableCharacter.currentRoom).setFloorBackgroundColor(int(GlobalState.isLightOn))// * 0x1b1b2f);
 			this.gotoAndStop(GlobalState.isLightOn ? 1 : 2);
 			unhighlightForInteraction();
