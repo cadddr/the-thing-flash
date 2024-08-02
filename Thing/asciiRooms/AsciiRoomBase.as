@@ -149,8 +149,7 @@
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
-					child.ambient = color;//new ColorTransform(0, 0, 0, 1, 27 /2, 27 /2, 47 /2).color;
-					// child.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 27 * color, 27 * color, 47 * color);
+					child.Ambient = color;
 				}
 			}
 		}

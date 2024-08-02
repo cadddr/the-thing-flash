@@ -10,7 +10,21 @@
 	
 	public class AsciiFloorTile extends AsciiTile{
 		var albedo = GlobalState.DARK_PURPLE;
+
 		public var ambient = 1;
+		public function set Ambient(value: uint) {		
+			ambient = value;
+	
+			var albedoRgba = new Color();
+			albedoRgba.tintColor = albedo;
+			albedoRgba.tintMultiplier = ambient;
+			
+			asciiTileText.backgroundColor = new ColorTransform(0,0,0,1,
+                albedoRgba.redOffset,
+                albedoRgba.greenOffset,
+                albedoRgba.blueOffset
+			).color;
+		}
 		
 		
 		public function AsciiFloorTile() {
@@ -35,10 +49,11 @@
 			albedoRgba.tintColor = albedo;
 			albedoRgba.tintMultiplier = ambient;
 			// trace(albedoRgba.redOffset, albedoRgba.greenOffset, albedoRgba.blueOffset)
-            asciiTileText.backgroundColor = albedo * ambient; //new ColorTransform(0,0,0,1,
-                // albedoRgba.redOffset+(255-albedoRgba.redOffset)*diffuse,
-                // albedoRgba.greenOffset+(255-albedoRgba.greenOffset)*diffuse,
-                // albedoRgba.blueOffset+(255-albedoRgba.blueOffset)*diffuse,1).color;
+            asciiTileText.backgroundColor = //albedo * ambient; 
+			new ColorTransform(0,0,0,1,
+                albedoRgba.redOffset+(255-albedoRgba.redOffset)*diffuse,
+                albedoRgba.greenOffset+(255-albedoRgba.greenOffset)*diffuse,
+                albedoRgba.blueOffset+(255-albedoRgba.blueOffset)*diffuse,1).color;
 		}
 
         public function unapplyLighting() {
