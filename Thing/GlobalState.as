@@ -40,6 +40,7 @@
 
 		public static function globalDispatchEvent(e:*) {
 			for each (var func in globalEventHandlers[e.type]) {
+				trace('dispatching', func)
 				func(e);
 			}
 		}

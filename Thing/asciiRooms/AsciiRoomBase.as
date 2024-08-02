@@ -27,7 +27,7 @@
 		public function AsciiRoomBase() {
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
-				setFloorBackgroundColor(e.isLightOn ? GlobalState.DARK_PURPLE : int(e.isLightOn));
+				setFloorBackgroundColor(int(e.isLightOn));
 			});
 		}
 
