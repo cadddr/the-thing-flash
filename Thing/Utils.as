@@ -1,6 +1,8 @@
 ﻿package
 {
 	import flash.utils.*;
+	import flash.geom.ColorTransform;
+	import fl.motion.Color;
 
 	public class Utils
 	{
@@ -28,6 +30,24 @@
             		break;
         		}
     		}
+		}
+
+		public static function scaleTransformColor(color: uint, multiplier: Number, f: Function): uint {
+			var albedoRgba = new Color();
+			albedoRgba.tintColor = color;
+			albedoRgba.tintMultiplier = multiplier;
+
+			var scaledColor = new ColorTransform(0,0,0,1,
+                f(albedoRgba.redOffset),
+                f(albedoRgba.greenOffset),
+                f(albedoRgba.blueOffset)
+			)
+			
+			return scaledColor.color;
+		}
+
+		public static function scaleColor(color: uint, multiplier: Number): uint {
+			return scaleTransformColor(color, multiplier, function (x: uint): Number {return x;});
 		}
 	}
 }
