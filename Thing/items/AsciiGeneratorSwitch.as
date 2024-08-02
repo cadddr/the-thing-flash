@@ -65,7 +65,7 @@
 				0.75 * (1 - int(!GlobalState.isLightOn))
 			var value = 1.0 * int(GlobalState.isLightOn) +
 				0.75 * (1 - int(GlobalState.isLightOn));
-			Utils.tweenValue(stage, "rotation", None.easeNone, start, value, 0.5, function(e:TweenEvent) {
+			Utils.tweenValue({"x": 0}, "x", None.easeNone, start, value, 0.5, function(e:TweenEvent) {
 				stage.color = Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
 			});
 			
