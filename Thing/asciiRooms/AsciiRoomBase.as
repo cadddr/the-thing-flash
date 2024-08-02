@@ -43,6 +43,7 @@
 		}
 
 		// TODO: shouldn't it be applied at each tile' ENTER_FRAME?
+		// triggers when player is selected/unselected or moving
 		public function applyTileLightingFromSource(container: MovieClip, x: Number, y: Number): void {
 			for(var i:int = 0; i < container.numChildren; i++) {
 				var child = container.getChildAt(i);
