@@ -6,6 +6,8 @@
 	import rooms.*;
 	import items.GeneratorSwitch;
 	import asciiRooms.AsciiRoomBase;
+	import flash.geom.ColorTransform;
+	import fl.motion.Color;
 	
 	
 	public class AsciiGeneratorSwitch extends GeneratorSwitch {
@@ -52,8 +54,21 @@
 		override public function switchPower()
 		{		
 			super.switchPower();
-			// stage.color = GlobalState.isLightOn ? GlobalState.DARK_PURPLE : int(GlobalState.isLightOn)//GlobalState.DARK_BLUE
-			// AsciiRoomBase(GlobalState.draggableCharacter.currentRoom).setFloorBackgroundColor(int(GlobalState.isLightOn))// * 0x1b1b2f);
+			if (!GlobalState.isLightOn) {
+				var albedoRgba = new Color();
+				albedoRgba.tintColor = stage.color;
+				albedoRgba.tintMultiplier = 0.75 * (1 - int(GlobalState.isLightOn));
+
+				stage.color = new ColorTransform(0,0,0,1,
+					albedoRgba.redOffset,
+					albedoRgba.greenOffset,
+					albedoRgba.blueOffset
+				).color;
+			}
+			else {
+				stage.color = GlobalState.DARK_PURPLE;
+			}
+			
 			this.gotoAndStop(GlobalState.isLightOn ? 1 : 2);
 			unhighlightForInteraction();
 		}

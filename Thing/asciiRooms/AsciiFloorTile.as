@@ -10,8 +10,8 @@
 	public class AsciiFloorTile extends AsciiTile{
 		var albedo = GlobalState.DARK_PURPLE;
 
-		public var ambient = 1;
-		public function set Ambient(value: uint) {		
+		public var ambient = 1.;
+		public function set Ambient(value: Number) {		
 			ambient = value;
 	
 			var albedoRgba = new Color();
@@ -41,19 +41,20 @@
 
 		var maxDist = 25. //tileWidth
         public function applyLighting(sourceX, sourceY) {            
-            var kd = 0.25
+            var kd = 0.25 + (1. - ambient) // double character light intensity during blackout
             var dist = getDistanceFrom(sourceX, sourceY);
-            var diffuse = Math.exp(-dist / maxDist); //Math.cos(Math.atan(dist + 5)); --> for 3D
+            var diffuse = Math.exp(-dist / maxDist);
 
 			var albedoRgba = new Color();
 			albedoRgba.tintColor = albedo;
 			albedoRgba.tintMultiplier = ambient;
-			// trace(albedoRgba.redOffset, albedoRgba.greenOffset, albedoRgba.blueOffset)
-            asciiTileText.backgroundColor = //albedo * ambient; 
-			new ColorTransform(0,0,0,1,
-                albedoRgba.redOffset+(255-albedoRgba.redOffset)*diffuse * kd,
-                albedoRgba.greenOffset+(255-albedoRgba.greenOffset)*diffuse * kd,
-                albedoRgba.blueOffset+(255-albedoRgba.blueOffset)*diffuse * kd,1).color;
+
+			var D = function (x) {
+				return x + (255 - x) * diffuse * kd;
+			}
+			
+            asciiTileText.backgroundColor = 
+				new ColorTransform(0,0,0,1,D(albedoRgba.redOffset),D(albedoRgba.greenOffset), D(albedoRgba.blueOffset),1).color;
 		}
 
         public function unapplyLighting() {

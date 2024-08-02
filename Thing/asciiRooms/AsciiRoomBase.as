@@ -27,7 +27,7 @@
 		public function AsciiRoomBase() {
 			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
-				setFloorBackgroundColor(int(e.isLightOn));
+				setFloorBackgroundColor(int(e.isLightOn) + 0.75 * (1 - int(e.isLightOn)));
 			});
 		}
 
@@ -146,7 +146,7 @@
 			}
 		}
 
-		public function setFloorBackgroundColor(color: int) {
+		public function setFloorBackgroundColor(color: Number) {
 			for(var i:int = 0; i < numChildren; i++) {
 				var child = getChildAt(i);
 				if (child is AsciiFloorTile ) {
