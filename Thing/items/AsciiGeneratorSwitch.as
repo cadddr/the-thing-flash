@@ -7,6 +7,9 @@
 	import items.GeneratorSwitch;
 	import asciiRooms.AsciiRoomBase;
 	import Utils;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+    import fl.transitions.easing.*;
 	
 	
 	public class AsciiGeneratorSwitch extends GeneratorSwitch {
@@ -53,11 +56,18 @@
 		override public function switchPower()
 		{		
 			super.switchPower();
-			stage.color = Utils.scaleColor(
-				GlobalState.DARK_PURPLE, 
-				1.0 * int(GlobalState.isLightOn) +
-				0.75 * (1 - int(GlobalState.isLightOn))
-			)
+			// stage.color = Utils.scaleColor(
+			// 	GlobalState.DARK_PURPLE, 
+			// 	1.0 * int(GlobalState.isLightOn) +
+			// 	0.75 * (1 - int(GlobalState.isLightOn))
+			// )
+			var start = 1.0 * int(!GlobalState.isLightOn) +
+				0.75 * (1 - int(!GlobalState.isLightOn))
+			var value = 1.0 * int(GlobalState.isLightOn) +
+				0.75 * (1 - int(GlobalState.isLightOn));
+			Utils.tweenValue(stage, "rotation", None.easeNone, start, value, 0.5, function(e:TweenEvent) {
+				stage.color = Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
+			});
 			
 			this.gotoAndStop(GlobalState.isLightOn ? 1 : 2);
 			unhighlightForInteraction();

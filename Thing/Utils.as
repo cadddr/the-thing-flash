@@ -3,6 +3,9 @@
 	import flash.utils.*;
 	import flash.geom.ColorTransform;
 	import fl.motion.Color;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+    import fl.transitions.easing.*;
 
 	public class Utils
 	{
@@ -48,6 +51,14 @@
 
 		public static function scaleColor(color: uint, multiplier: Number): uint {
 			return scaleTransformColor(color, multiplier, function (x: uint): Number {return x;});
+		}
+
+
+		public static function tweenValue(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function) {
+			var tween: Tween = new Tween(caller, propname, easing, start, value, duration, true);
+			tween.addEventListener(TweenEvent.MOTION_CHANGE, onChange);
+			// tween.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {throw null;});
+			tween.start();
 		}
 	}
 }

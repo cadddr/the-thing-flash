@@ -5,14 +5,21 @@
 	import flash.events.*;
 	import GlobalState;
 	import Utils;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+    import fl.transitions.easing.*;
 	
 	public class AsciiFloorTile extends AsciiTile{
 		var albedo = GlobalState.DARK_PURPLE;
 
 		public var ambient = 1.;
+		
 		public function set Ambient(value: Number) {		
-			ambient = value;
-			asciiTileText.backgroundColor = Utils.scaleColor(albedo, ambient);
+			// ambient = value;
+			Utils.tweenValue(this, "ambient", None.easeNone, this.ambient, value, 0.5, function(e:TweenEvent) {
+				asciiTileText.backgroundColor = Utils.scaleColor(albedo, e.position);
+			});
+			// asciiTileText.backgroundColor = Utils.scaleColor(albedo, ambient);
 		}
 		
 		public function AsciiFloorTile() {
