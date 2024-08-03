@@ -53,12 +53,16 @@
 			return scaleTransformColor(color, multiplier, function (x: uint): Number {return x;});
 		}
 
-
-		public static function tweenValue(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function) {
+		public static function tweenValueAndFinish(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function, onFinish: Function) {
 			var tween: Tween = new Tween(caller, propname, easing, start, value, duration, true);
 			tween.addEventListener(TweenEvent.MOTION_CHANGE, onChange);
-			// tween.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent): void {throw null;});
+			tween.addEventListener(TweenEvent.MOTION_FINISH, onFinish);
 			tween.start();
+		}
+
+
+		public static function tweenValue(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function) {
+			tweenValueAndFinish(caller, propname, easing, start, value, duration, onChange, function(e:TweenEvent): void {});
 		}
 	}
 }
