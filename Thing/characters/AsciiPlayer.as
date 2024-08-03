@@ -113,18 +113,26 @@
 				}
 				AsciiRoomBase(caller.currentRoom).applyTileLightingFromSource(caller.currentRoom, caller.x, caller.y)
 			}
-			var roundObject:Shape = new Shape(); 
-			roundObject.graphics.lineStyle(2, 0x990000, .75);
+			var mySprite:Shape = new Shape(); 
+			mySprite.graphics.lineStyle(2, 0x990000, .75);
 			
-			roundObject.graphics.moveTo(this.x, this.y);
-			roundObject.graphics.cubicCurveTo(
+			mySprite.graphics.moveTo(this.x, this.y);
+			mySprite.graphics.cubicCurveTo(
 					previousRoom.x + previousRoom.width / 2,
 					previousRoom.y + previousRoom.height / 2,
 					currentRoom.x + currentRoom.width / 2, 
 					currentRoom.y + currentRoom.height / 2,
 					x, y
 			);
-			cameraLayer.addChild(roundObject);
+			mySprite.graphics.beginFill(0xFFCC00); 
+			// mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width / 2, previousRoom.y + previousRoom.height / 2, 5); 
+			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
+			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
+			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
+			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
+			// mySprite.graphics.drawCircle(currentRoom.x + currentRoom.width / 2, currentRoom.y + currentRoom.height / 2, 5); 
+			mySprite.graphics.endFill(); 
+			cameraLayer.addChild(mySprite);
 
 			var trajectory = new BezierSegment(
 				new Point(this.x, this.y), 
