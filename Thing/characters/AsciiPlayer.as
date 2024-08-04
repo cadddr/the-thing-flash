@@ -100,6 +100,23 @@
 			unhighlightForInteraction();
 		}
 
+		private static function getCommonCoordinate(p1, p2, size1, size2, tolerance) {
+			var dy = p1 - p2
+			if (Math.abs(dy) <= tolerance) {
+				trace('equivertical')
+				var commonY = (p1 + p2) / 2.
+			}
+			else if (dy > 0) {
+				trace('new room above')
+				var commonY = p2 + size2;
+			} 
+			else if (dy < 0) {
+				trace('new room below')
+				var commonY = p1 + size1;
+			}
+			return commonY
+		}
+
 		public function animateMoveTo(x:Number, y:Number) {
 			if (camera != null) {
 				camera.pinCameraToObject(this);
@@ -116,32 +133,78 @@
 			var mySprite:Shape = new Shape(); 
 			mySprite.graphics.lineStyle(2, 0x990000, .75);
 			
+			// var commonY1 = getCommonCoordinate(previousRoom.y + previousRoom.height, currentRoom.y, -previousRoom.height, currentRoom.height, 40.25)
+			// var commonX1 = getCommonCoordinate(previousRoom.x + previousRoom.width, currentRoom.x, -previousRoom.width, currentRoom.width, 25.)
+			
+
+
+			// var dy = previousRoom.y - currentRoom.y
+			// if (Math.abs(dy) <= 40.25) {
+			// 	trace('equivertical')
+			// }
+			// else if (dy > 0) {
+			// 	trace('new room above')
+			// 	var commonY = currentRoom.y + currentRoom.height;
+			// } 
+			// else if (dy < 0) {
+			// 	trace('new room below')
+			// 	var commonY = previousRoom.y + previousRoom.height
+			// }
+			var commonY = getCommonCoordinate(previousRoom.y, currentRoom.y, previousRoom.height, currentRoom.height, 40.25)
+			// var dx = previousRoom.x - currentRoom.x
+			// if (Math.abs(dx) <= 25.) {
+			// 	trace('equihorizontal')
+			// }
+			// else if (dx > 0) {
+			// 	trace('new room left')
+			// 	var commonX = currentRoom.x + currentRoom.width;
+			// } 
+			// else if (dx < 0) {
+			// 	trace('new room right')
+			// 	var commonX = previousRoom.x + previousRoom.width;
+			// }
+			var commonX = getCommonCoordinate(previousRoom.x, currentRoom.x, previousRoom.width, currentRoom.width, 25.)
+			// var dx = previousRoom.x - currentRoom.x
+			// mySprite.graphics.moveTo(this.x, this.y);
+			// var commonX = (previousRoom.x + previousRoom.width / 2. + currentRoom.x + currentRoom.width / 2.) / 2.
+			// var commonY = (previousRoom.y + previousRoom.height / 2. + currentRoom.y + currentRoom.height / 2.) / 2.
+			// mySprite.graphics.lineTo(this.x, y);
 			mySprite.graphics.moveTo(this.x, this.y);
 			mySprite.graphics.cubicCurveTo(
-					previousRoom.x + previousRoom.width / 2,
-					previousRoom.y + previousRoom.height / 2,
-					currentRoom.x + currentRoom.width / 2, 
-					currentRoom.y + currentRoom.height / 2,
-					x, y
+				this.x,
+				y,
+				this.x, 
+				y,
+				x, y
 			);
-			mySprite.graphics.beginFill(0xFFCC00); 
+
+			// mySprite.graphics.beginFill(0xFFCC00); 
+			mySprite.graphics.drawRect(Math.min(previousRoom.x, currentRoom.x), Math.min(previousRoom.y, currentRoom.y), 
+			Math.max(previousRoom.x + previousRoom.width, currentRoom.x + currentRoom.width) - Math.min(previousRoom.x, currentRoom.x), 
+			Math.max(previousRoom.y + previousRoom.height, currentRoom.y + currentRoom.height) - Math.min(previousRoom.y, currentRoom.y)); 
 			// mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width / 2, previousRoom.y + previousRoom.height / 2, 5); 
 			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
 			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
 			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
 			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
+			// mySprite.graphics.drawCircle(commonX, commonY, 5); 
 			// mySprite.graphics.drawCircle(currentRoom.x + currentRoom.width / 2, currentRoom.y + currentRoom.height / 2, 5); 
-			mySprite.graphics.endFill(); 
+			// mySprite.graphics.endFill(); 
 			cameraLayer.addChild(mySprite);
+
+
+
+
+
 
 			var trajectory = new BezierSegment(
 				new Point(this.x, this.y), 
 				new Point(
-					previousRoom.x + previousRoom.width / 2,
-					previousRoom.y + previousRoom.height / 2), 
+					commonX,
+					commonY), 
 				new Point(
-					currentRoom.x + currentRoom.width / 2, 
-					currentRoom.y + currentRoom.height / 2),
+					commonX, 
+					commonY),
 				new Point(x, y));
 
 			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, 1, 
