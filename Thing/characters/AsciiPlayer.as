@@ -18,13 +18,14 @@
 	
 	public class AsciiPlayer extends Player {
 		
+		const IDLE_FRAME = 17;
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
 			asciiSyringe.visible = false;
 			asciiCharge.visible = false;
 			asciiMarker.visible = true;
-			gotoAndStop(24); // where walking animation stops
+			gotoAndStop(IDLE_FRAME); // where walking animation stops
 		}
 
 		override public function getSyringe(): MovieClip {
@@ -177,15 +178,18 @@
 
 			// quadratic
 			var trajectory = new BezierSegment(new Point(this.x, this.y), new Point(commonX, commonY), new Point(commonX, commonY), new Point(x, y));
-
-			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, 1, 
+            var dist = Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y)) / Math.sqrt(40.25 * 40.25 + 25 * 25);
+        
+			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 10., 
 				function (e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
+					var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))
+					caller.rotation = 180. * angle / Math.PI - 90;
 					caller.x = p.x;
 					caller.y = p.y;
 					updateLighting(e);
 				},
-				function(e:TweenEvent) {caller.gotoAndStop(24);}
+				function(e:TweenEvent) {caller.gotoAndStop(IDLE_FRAME);}
 			);
 		}	
 
