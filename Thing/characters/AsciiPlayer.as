@@ -12,6 +12,7 @@
     import fl.transitions.easing.*;
 	import fl.motion.BezierSegment;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import Utils;
 
 	
@@ -100,23 +101,6 @@
 			unhighlightForInteraction();
 		}
 
-		private static function getCommonCoordinate(p1, p2, size1, size2, tolerance) {
-			var dy = p1 - p2
-			if (Math.abs(dy) <= tolerance) {
-				trace('equivertical')
-				var commonY = (p1 + p2) / 2.
-			}
-			else if (dy > 0) {
-				trace('new room above')
-				var commonY = p2 + size2;
-			} 
-			else if (dy < 0) {
-				trace('new room below')
-				var commonY = p1 + size1;
-			}
-			return commonY
-		}
-
 		public function animateMoveTo(x:Number, y:Number) {
 			if (camera != null) {
 				camera.pinCameraToObject(this);
@@ -130,14 +114,7 @@
 				}
 				AsciiRoomBase(caller.currentRoom).applyTileLightingFromSource(caller.currentRoom, caller.x, caller.y)
 			}
-			var mySprite:Shape = new Shape(); 
-			mySprite.graphics.lineStyle(2, 0x990000, .75);
 			
-			// var commonY1 = getCommonCoordinate(previousRoom.y + previousRoom.height, currentRoom.y, -previousRoom.height, currentRoom.height, 40.25)
-			// var commonX1 = getCommonCoordinate(previousRoom.x + previousRoom.width, currentRoom.x, -previousRoom.width, currentRoom.width, 25.)
-			
-
-
 			// var dy = previousRoom.y - currentRoom.y
 			// if (Math.abs(dy) <= 40.25) {
 			// 	trace('equivertical')
@@ -150,7 +127,7 @@
 			// 	trace('new room below')
 			// 	var commonY = previousRoom.y + previousRoom.height
 			// }
-			var commonY = getCommonCoordinate(previousRoom.y, currentRoom.y, previousRoom.height, currentRoom.height, 40.25)
+
 			// var dx = previousRoom.x - currentRoom.x
 			// if (Math.abs(dx) <= 25.) {
 			// 	trace('equihorizontal')
@@ -163,63 +140,52 @@
 			// 	trace('new room right')
 			// 	var commonX = previousRoom.x + previousRoom.width;
 			// }
-			var commonX = getCommonCoordinate(previousRoom.x, currentRoom.x, previousRoom.width, currentRoom.width, 25.)
-			// var dx = previousRoom.x - currentRoom.x
-			// mySprite.graphics.moveTo(this.x, this.y);
-			// var commonX = (previousRoom.x + previousRoom.width / 2. + currentRoom.x + currentRoom.width / 2.) / 2.
-			// var commonY = (previousRoom.y + previousRoom.height / 2. + currentRoom.y + currentRoom.height / 2.) / 2.
-			// mySprite.graphics.lineTo(this.x, y);
-			mySprite.graphics.moveTo(this.x, this.y);
-			mySprite.graphics.cubicCurveTo(
-				this.x,
-				y,
-				this.x, 
-				y,
-				x, y
-			);
 
-			// mySprite.graphics.beginFill(0xFFCC00); 
-			mySprite.graphics.drawRect(Math.min(previousRoom.x, currentRoom.x), Math.min(previousRoom.y, currentRoom.y), 
-			Math.max(previousRoom.x + previousRoom.width, currentRoom.x + currentRoom.width) - Math.min(previousRoom.x, currentRoom.x), 
-			Math.max(previousRoom.y + previousRoom.height, currentRoom.y + currentRoom.height) - Math.min(previousRoom.y, currentRoom.y)); 
-			// mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width / 2, previousRoom.y + previousRoom.height / 2, 5); 
-			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
-			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
-			mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
-			mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
-			// mySprite.graphics.drawCircle(commonX, commonY, 5); 
-			// mySprite.graphics.drawCircle(currentRoom.x + currentRoom.width / 2, currentRoom.y + currentRoom.height / 2, 5); 
-			// mySprite.graphics.endFill(); 
-			cameraLayer.addChild(mySprite);
+			var corner1 = new Point(this.x, y);
+			var corner2 = new Point(x, this.y);
 
+			var rect1 = new Rectangle(previousRoom.x, previousRoom.y, previousRoom.width, previousRoom.height)
+			var rect2 = new Rectangle(currentRoom.x, currentRoom.y, currentRoom.width, currentRoom.height)
 
+			if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
+				var commonX = corner1.x;
+				var commonY = corner1.y;
+			}
+			else if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) {
+				var commonX = corner2.x;
+				var commonY = corner2.y;
+			} else {
+				throw null; //shouldn't happen
+			}
+			if (GlobalState.DEBUG) {
+				var mySprite:Shape = new Shape(); 
+				mySprite.graphics.lineStyle(2, 0x990000, .75);
+				// trajectory that will be tweened
+				mySprite.graphics.moveTo(this.x, this.y);
+				mySprite.graphics.cubicCurveTo(commonX, commonY, commonX, commonY, x, y);
+				// box containing both points
+				mySprite.graphics.drawRect(Math.min(this.x, x), Math.min(this.y, y), Math.abs(this.x - x), Math.abs(this.y - y)); 
+				// show corners
+				mySprite.graphics.beginFill(0xFFCC00); 
+				mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
+				mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
+				mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
+				mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
+				mySprite.graphics.endFill(); 
+				cameraLayer.addChild(mySprite);
+			}
 
-
-
-
-			var trajectory = new BezierSegment(
-				new Point(this.x, this.y), 
-				new Point(
-					commonX,
-					commonY), 
-				new Point(
-					commonX, 
-					commonY),
-				new Point(x, y));
+			// quadratic
+			var trajectory = new BezierSegment(new Point(this.x, this.y), new Point(commonX, commonY), new Point(commonX, commonY), new Point(x, y));
 
 			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, 1, 
 				function (e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
 					caller.x = p.x;
 					caller.y = p.y;
+					updateLighting(e);
 				},
 				function(e:TweenEvent) {caller.gotoAndStop(24);}
-			// Utils.tweenValue(caller, "x", None.easeNone, caller.x, Math.max(x, minX), 1, updateLighting
-				// function(e:TweenEvent) {
-				// 	Utils.tweenValueAndFinish(caller, "y", None.easeNone, caller.y, y, 1, updateLighting,
-				// 		function(e:TweenEvent) {caller.gotoAndStop(24);}
-				// 	);
-				// }
 			);
 		}	
 
