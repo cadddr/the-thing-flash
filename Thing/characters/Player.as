@@ -49,7 +49,7 @@
 			this.infectedRefusalProbability = infectedRefusalProbability;
 			this.spawnThing = spawnThing;
 
-			transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255); // Random color?
+			// transform.colorTransform = new ColorTransform(0, 0, 0, 1, Math.random() * 255, Math.random() * 255, Math.random() * 255); // Random color?
 		}
 
 		public function getSyringe(): MovieClip {throw null;}

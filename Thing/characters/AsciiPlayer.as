@@ -180,13 +180,13 @@
 			var trajectory = new BezierSegment(new Point(this.x, this.y), new Point(commonX, commonY), new Point(commonX, commonY), new Point(x, y));
             var dist = Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y)) / Math.sqrt(40.25 * 40.25 + 25 * 25);
         
-			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 5., 
+			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
 				function (e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
-					var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))
-					caller.transform.matrix.translate((caller.x * caller.width/2), (caller.y + caller.height/2));
-					caller.rotation = 180. * angle / Math.PI - 90;
-					caller.transform.matrix.translate(-(caller.x * caller.width/2), -(caller.y + caller.height/2));
+					// var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))
+					// caller.transform.matrix.translate((caller.x * caller.width/2), (caller.y + caller.height/2));
+					// caller.rotation = 180. * angle / Math.PI - 90;
+					// caller.transform.matrix.translate(-(caller.x * caller.width/2), -(caller.y + caller.height/2));
 					caller.x = p.x;
 					caller.y = p.y;
 					updateLighting(e);
