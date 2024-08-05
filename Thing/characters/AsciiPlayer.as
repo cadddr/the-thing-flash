@@ -152,11 +152,10 @@
 				var commonX = corner1.x;
 				var commonY = corner1.y;
 			}
-			else if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) {
+			else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
+			{
 				var commonX = corner2.x;
 				var commonY = corner2.y;
-			} else {
-				throw null; //shouldn't happen
 			}
 			if (GlobalState.DEBUG) {
 				var mySprite:Shape = new Shape(); 
@@ -191,7 +190,11 @@
 					caller.y = p.y;
 					updateLighting(e);
 				},
-				function(e:TweenEvent) {caller.gotoAndStop(IDLE_FRAME);}
+				function(e:TweenEvent) {
+					trace ('tween finished')
+					caller.gotoAndStop(IDLE_FRAME);
+					Utils.currentTween = null;
+				}
 			);
 		}	
 

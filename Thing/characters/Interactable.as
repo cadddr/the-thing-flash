@@ -1,6 +1,7 @@
 ﻿package characters {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import fl.transitions.Tween;
 	
 	public class Interactable extends MovieClip {
 

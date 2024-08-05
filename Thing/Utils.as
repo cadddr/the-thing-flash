@@ -53,8 +53,12 @@
 			return scaleTransformColor(color, multiplier, function (x: uint): Number {return x;});
 		}
 
+		public static var currentTween: Tween = null;
+
 		public static function tweenValueAndFinish(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function, onFinish: Function) {
 			var tween: Tween = new Tween(caller, propname, easing, start, value, duration, true);
+			currentTween = tween;
+			trace ('tween set')
 			tween.addEventListener(TweenEvent.MOTION_CHANGE, onChange);
 			tween.addEventListener(TweenEvent.MOTION_FINISH, onFinish);
 			tween.start();
@@ -62,7 +66,8 @@
 
 
 		public static function tweenValue(caller: Object, propname: String, easing: Function, start: Number, value: Number, duration: Number, onChange: Function) {
-			tweenValueAndFinish(caller, propname, easing, start, value, duration, onChange, function(e:TweenEvent): void {});
+			
+			tweenValueAndFinish(caller, propname, easing, start, value, duration, onChange, function(e:TweenEvent): void {trace ('tween finished'); currentTween = null});
 		}
 	}
 }
