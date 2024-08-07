@@ -23,7 +23,7 @@
 		}
 
 		override protected function unhighlightForInteraction(): void {
-				getSelection().visible = false;
+			getSelection().visible = false;	
 		}
 
 		// TODO: extract condition to logic

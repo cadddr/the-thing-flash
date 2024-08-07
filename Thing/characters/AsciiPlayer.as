@@ -19,6 +19,8 @@
 	public class AsciiPlayer extends Player {
 		
 		const IDLE_FRAME = 17;
+		const WALK_FRAME = 1;
+		const WEAPON_FRAME = 21;
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
@@ -100,6 +102,7 @@
 			AlreadyActed = true;
 
 			unhighlightForInteraction();
+			stopWeaponAnimation(); // TODO: check if it was running
 		}
 
 		public function animateMoveTo(x:Number, y:Number) {
@@ -107,7 +110,7 @@
 				camera.pinCameraToObject(this);
 			}
 
-			gotoAndPlay(1); // walk animation
+			gotoAndPlay(WALK_FRAME);
 			var caller = this;
 			var updateLighting = function(e:TweenEvent) {
 				if (caller.previousRoom) {
@@ -197,6 +200,12 @@
 				}
 			);
 		}	
+		public function weaponAnimation() {
+			gotoAndPlay(WEAPON_FRAME);
+		}
+		public function stopWeaponAnimation() {
+			gotoAndStop(IDLE_FRAME);
+		}
 
 		override protected function dieAnimation() {
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);

@@ -3,7 +3,9 @@
 	import flash.display.MovieClip;
 	import ui.LevelSelectionScreen;
 	import fl.VirtualCamera;
-	import flash.utils.describeType
+	import flash.utils.describeType;
+	import flash.ui.Mouse;
+	import flash.events.*;
 
 
 	//todo: hovering players can be underneath other objects
@@ -24,7 +26,7 @@
 			trace(cameraLayer.parent == this)
 
 			// using this rather than stage as parent for child clips
-			addChild(new LevelSelectionScreen(camera, cameraLayer));
+			addChild(new LevelSelectionScreen(camera, cameraLayer));			
 		}
 	}
 }

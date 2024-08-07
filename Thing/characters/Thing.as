@@ -205,7 +205,9 @@
 				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
 				{	
 					trace(GlobalState.draggableCharacter, "is attacking", this);
-					
+					if (GlobalState.draggableCharacter) { //TODO:
+						AsciiPlayer(GlobalState.draggableCharacter).weaponAnimation();
+					}
 					//dice roll should be 2 or 1
 					if(Utils.getRandom(6, 1) <= humanKillingProbability)
 					{
