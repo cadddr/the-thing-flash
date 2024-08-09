@@ -20,7 +20,8 @@
 		
 		const IDLE_FRAME = 17;
 		const WALK_FRAME = 1;
-		const WEAPON_FRAME = 21;
+		const WEAPON_FRAME = 18;
+
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
@@ -44,7 +45,7 @@
 		}
 
 		override protected function unhighlightForInteraction(): void {
-			if (GlobalState.draggableCharacter != this) {
+			if (GlobalState.activePlayer != this) {
 				if (currentRoom != null) //TODO:
 				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
 			}
@@ -86,20 +87,19 @@
 		}
 
 		override protected function initializeAction() {
+			super.initializeAction();
 			if (previousRoom) {
 				previousRoom.unhighlightReachableRooms();
 			}
 			currentRoom.highlightReachableRooms();
-			GlobalState.draggableCharacter = this;
 		}
 
 		override public function finalizeAction() {
+			super.finalizeAction()
 			if (previousRoom != null) {
 				previousRoom.unhighlightReachableRooms();
 			}
 			currentRoom.unhighlightReachableRooms();
-			GlobalState.draggableCharacter = null;
-			AlreadyActed = true;
 
 			unhighlightForInteraction();
 			// stopWeaponAnimation(); // TODO: check if it was running
@@ -202,8 +202,29 @@
 				}
 			);
 		}	
-		public function weaponAnimation() {
+		public function weaponAnimation(targetX, targetY) {
 			gotoAndPlay(WEAPON_FRAME);
+
+			targetX = targetX - currentRoom.x
+			targetY = targetY - currentRoom.y
+			var thisX = x - currentRoom.x;
+			var thisY = y - currentRoom.y;
+
+			var projectile = new Spark();
+			projectile.x = thisX;
+			projectile.y = thisY;
+
+			var slope = (targetY - thisY) / (targetX - thisX);
+			var inter = thisY - slope * thisX;
+			currentRoom.addChild(projectile);
+			var caller = this;
+			Utils.tweenValueAndFinish(projectile, "x", None.easeNone, thisX, targetX, .5,
+			function (e:*) {
+				projectile.y = e.position * slope + inter;
+			},
+			function (e:*) {
+				caller.currentRoom.removeChild(projectile);
+			});
 		}
 		public function stopWeaponAnimation() {
 			gotoAndStop(IDLE_FRAME);

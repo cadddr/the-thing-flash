@@ -43,7 +43,7 @@
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
 			trace ("charge on mouse over");
-			if(GlobalState.draggableCharacter 
+			if(GlobalState.activePlayer 
 				&& currentRoom)
 			{	
 				trace ("passes");
@@ -80,10 +80,10 @@
 		override protected function interactOnMouseUp(e:MouseEvent): void
 		{
 			//explode
-			if(isCharged && GlobalState.draggableCharacter != null)
+			if(isCharged && GlobalState.activePlayer != null)
 			{
-				GlobalState.draggableCharacter.currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
-				GlobalState.draggableCharacter.finalizeAction();
+				GlobalState.activePlayer.currentRoom.moveCharacterToRoom(GlobalState.activePlayer as Player);
+				GlobalState.activePlayer.finalizeAction();
 				
 				GlobalState.plantedCharges.forEach(function(charge:*) {charge.explode()})
 				GlobalState.plantedCharges = [];

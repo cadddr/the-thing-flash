@@ -47,10 +47,10 @@
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{			
 			//explode
-			if(isCharged && GlobalState.draggableCharacter != null)
+			if(isCharged && GlobalState.activePlayer != null)
 			{
-				GlobalState.draggableCharacter.currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
-				GlobalState.draggableCharacter.finalizeAction();
+				GlobalState.activePlayer.currentRoom.moveCharacterToRoom(GlobalState.activePlayer as Player);
+				GlobalState.activePlayer.finalizeAction();
 				
 				GlobalState.plantedCharges.forEach(function(charge:*) {charge.explode()})
 				GlobalState.plantedCharges = [];

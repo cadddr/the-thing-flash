@@ -40,8 +40,8 @@ package asciiRooms
 
         // TODO: !!!
         private function highlightOnMouseProximity(caller: AsciiTile, currentFrame: Number) {
-            // if (GlobalState.draggableCharacter != null) {
-                // var dist = getDistanceFrom(GlobalState.draggableCharacter.x, GlobalState.draggableCharacter.y);
+            // if (GlobalState.activePlayer != null) {
+                // var dist = getDistanceFrom(GlobalState.activePlayer.x, GlobalState.activePlayer.y);
                 var dist = getDistanceFrom(stage.mouseX, stage.mouseY);
                 // var camPos = parent.camera.getPosition();
                 // if (dist > 400) {

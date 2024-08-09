@@ -201,13 +201,10 @@
 		}
 		
 		protected function getAttackedByPlayer(): void {
-			if(GlobalState.draggableCharacter)
-				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
+			if(GlobalState.activePlayer)
+				if(currentRoom == GlobalState.activePlayer.currentRoom)
 				{	
-					trace(this, "is being attacked by", GlobalState.draggableCharacter);
-					if (GlobalState.draggableCharacter) { //TODO:
-						AsciiPlayer(GlobalState.draggableCharacter).weaponAnimation();
-					}
+					trace(this, "is being attacked by", GlobalState.activePlayer);
 					//dice roll should be 2 or 1
 					if(Utils.getRandom(6, 1) <= humanKillingProbability)
 					{
@@ -217,8 +214,8 @@
 						unhighlightForInteraction();
 						
 				// so he would knock off
-				// currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
-				GlobalState.draggableCharacter.finalizeAction();
+				// currentRoom.moveCharacterToRoom(GlobalState.activePlayer as Player);
+				GlobalState.activePlayer.finalizeAction();
 			}
 		}
 		

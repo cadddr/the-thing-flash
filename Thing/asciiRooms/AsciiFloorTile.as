@@ -36,16 +36,16 @@
             // asciiTileText.backgroundColor = GlobalState.DARK_PURPLE;
         }
 		override protected function interactOnMouseClick(e:MouseEvent): void {
-			var caller = this;
-			var origAmbient = ambient;
-			// asciiTileText.backgroundColor = GlobalState.BRIGHT_ORANGE
-			Utils.tweenValueAndFinish(this, "ambient", None.easeNone, 10., origAmbient, 1., 
-				function (e:*) {},
-				function (e:*) {
-					caller.ambient = origAmbient;
-					caller.asciiTileText.backgroundColor = Utils.scaleColor(caller.albedo, caller.ambient);
-				}
-			);
+			// var caller = this;
+			// var origAmbient = ambient;
+			asciiTileText.backgroundColor = GlobalState.BRIGHT_ORANGE
+			// Utils.tweenValueAndFinish(this, "ambient", None.easeNone, 10., origAmbient, 1., 
+			// 	function (e:*) {},
+			// 	function (e:*) {
+			// 		caller.ambient = origAmbient;
+			// 		caller.asciiTileText.backgroundColor = Utils.scaleColor(caller.albedo, caller.ambient);
+			// 	}
+			// );
 		}
 
 		var maxDist = 25. //tileWidth

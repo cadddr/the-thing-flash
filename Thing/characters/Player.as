@@ -79,8 +79,13 @@
 			}
 		}
 
-		protected function initializeAction() {throw null;}
-		public function finalizeAction() {throw null;}
+		protected function initializeAction() {
+			GlobalState.activePlayer = this;
+		}
+		public function finalizeAction() {
+			GlobalState.activePlayer = null;
+			AlreadyActed = true;
+		}
 
 		public function getInfected(infection: Function) {
 			trace(this, "got infected");

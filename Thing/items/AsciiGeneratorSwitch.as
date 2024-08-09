@@ -31,8 +31,8 @@
 
 		override protected function interactOnMouseOver(e:MouseEvent): void
 		{
-			if(GlobalState.draggableCharacter 
-			   && GlobalState.draggableCharacter.currentRoom.interactables.indexOf(this) != -1)
+			if(GlobalState.activePlayer 
+			   && GlobalState.activePlayer.currentRoom.interactables.indexOf(this) != -1)
 				{
 					highlightForInteraction();
 				}
@@ -45,11 +45,11 @@
 		
 		override protected function interactOnMouseClick(e:MouseEvent): void
 		{
-			if(GlobalState.draggableCharacter)
-				if(GlobalState.draggableCharacter.currentRoom.interactables.indexOf(this) != -1)
+			if(GlobalState.activePlayer)
+				if(GlobalState.activePlayer.currentRoom.interactables.indexOf(this) != -1)
 				{
 					switchPower();
-					GlobalState.draggableCharacter.finalizeAction();
+					GlobalState.activePlayer.finalizeAction();
 				}
 		}
 

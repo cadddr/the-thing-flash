@@ -25,8 +25,8 @@
 			GlobalState.activeOverlay = new Shape()
 			GlobalState.activeOverlay.graphics.lineStyle(3, 0xFF0000, 1);
 			GlobalState.activeOverlay.graphics.moveTo(
-				GlobalState.draggableCharacter.x - currentRoom.x + GlobalState.TILE_WIDTH / 2, 
-				GlobalState.draggableCharacter.y - currentRoom.y + GlobalState.TILE_HEIGHT / 2
+				GlobalState.activePlayer.x - currentRoom.x + GlobalState.TILE_WIDTH / 2, 
+				GlobalState.activePlayer.y - currentRoom.y + GlobalState.TILE_HEIGHT / 2
 			)
 			GlobalState.activeOverlay.graphics.lineTo(x - currentRoom.x + GlobalState.TILE_WIDTH / 2, y - currentRoom.y + GlobalState.TILE_HEIGHT / 2)
 			currentRoom.addChild(GlobalState.activeOverlay)
@@ -42,7 +42,7 @@
 
 		// TODO: extract condition to logic
 		override protected function interactOnMouseOver(e:MouseEvent): void {
-			if(GlobalState.draggableCharacter && currentRoom == GlobalState.draggableCharacter.currentRoom) {
+			if(GlobalState.activePlayer && currentRoom == GlobalState.activePlayer.currentRoom) {
 				highlightForInteraction();
 			}
 		}
@@ -52,7 +52,10 @@
 		}
 
 		override protected function interactOnMouseClick(e: MouseEvent): void {
-			getAttackedByPlayer();
+			if (GlobalState.activePlayer) {
+				AsciiPlayer(GlobalState.activePlayer).weaponAnimation(x, y);
+				getAttackedByPlayer();
+			}	
 		}
 
 		override protected function dieAnimation() {

@@ -75,17 +75,17 @@
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
-			if (GlobalState.draggableCharacter != null) {
-				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
-					moveCharacterToRoomAt(GlobalState.draggableCharacter, event.target.x, event.target.y);
-					GlobalState.draggableCharacter.finalizeAction();
+			if (GlobalState.activePlayer != null) {
+				if (isReachableFrom(GlobalState.activePlayer.currentRoom)) {
+					moveCharacterToRoomAt(GlobalState.activePlayer, event.target.x, event.target.y);
+					GlobalState.activePlayer.finalizeAction();
 				}
 			}
 		}
 
 		override protected function interactOnMouseOver(e: MouseEvent): void {
-			if (GlobalState.draggableCharacter) {
-				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
+			if (GlobalState.activePlayer) {
+				if (isReachableFrom(GlobalState.activePlayer.currentRoom)) {
 					highlightSelected();
 				} 
 				else {
@@ -95,8 +95,8 @@
 		}
 
 		override protected function interactOnMouseOut(e:MouseEvent): void {
-			if (GlobalState.draggableCharacter) {
-				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
+			if (GlobalState.activePlayer) {
+				if (isReachableFrom(GlobalState.activePlayer.currentRoom)) {
 					highlightReachable();
 				} 
 				else {

@@ -139,12 +139,12 @@
 
 		public function selectActiveCharacter() {
 			var i = 0;
-			if (GlobalState.draggableCharacter != null) {
-				i = Players.indexOf(GlobalState.draggableCharacter)
+			if (GlobalState.activePlayer != null) {
+				i = Players.indexOf(GlobalState.activePlayer)
 			}
 			
 			Players[(i + 1) % Players.length].selectAsActiveCharacter();
-			camera.pinCameraToObject(GlobalState.draggableCharacter, 0, 0);
+			camera.pinCameraToObject(GlobalState.activePlayer, 0, 0);
 			Players[i].unselectAsActiveCharacter();
 		}
 
