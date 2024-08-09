@@ -10,6 +10,7 @@
 	
 	public class AsciiThing extends Thing {
 		
+		private const DIE_FRAME = 11;
 		public function AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) {
 			super(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 			unhighlightForInteraction();
@@ -59,7 +60,8 @@
 		}
 
 		override protected function dieAnimation() {
-			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+			// transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+			gotoAndStop(DIE_FRAME);
 		}
 	}	
 }

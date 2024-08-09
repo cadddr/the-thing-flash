@@ -219,14 +219,23 @@
 			currentRoom.addChild(projectile);
 			var caller = this;
 			Utils.tweenValueAndFinish(projectile, "x", None.easeNone, thisX, targetX, .25,
-			function (e:*) {
-				projectile.y = e.position * slope + inter;
-				caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, caller.currentRoom.x + projectile.x, caller.currentRoom.y + projectile.y)
-			},
-			function (e:*) {
-				caller.currentRoom.removeChild(projectile);
-				caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, 0, 0)
-			});
+				function (e:*) {
+					projectile.y = e.position * slope + inter;
+					caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, caller.currentRoom.x + projectile.x, caller.currentRoom.y + projectile.y)
+				},
+				function (e:*) {
+					caller.currentRoom.removeChild(projectile);
+					
+					var explosion = new SparkExplosion();
+					explosion.x = targetX;
+					explosion.y = targetY;
+					caller.currentRoom.addChild(explosion);
+					explosion.gotoAndPlay(1);
+
+					caller.currentRoom.setFloorBackgroundColor(10.)
+					// caller.currentRoom.removeChild(explosion);
+					// caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, 0, 0);
+				});
 		}
 		public function stopWeaponAnimation() {
 			gotoAndStop(IDLE_FRAME);
