@@ -34,8 +34,8 @@
 		public function spawnInteractable(interactable: Interactable, cameraLayer: MovieClip): void {
 			interactables.push(interactable);
 
-
-			var point = computePositionInRoom(Math.random() * width, Math.random() * height * tileHeight,0,0);
+			// TODO: this probably broke
+			var point = normalizeToTilePosition(Math.random() * width, Math.random() * height * tileHeight);
 			interactable.x = point.x;
 			interactable.y = point.y;
 			cameraLayer.addChild(interactable)
@@ -55,9 +55,8 @@
 			}
 		}
 
-		override public function positionInRoom(character: Character, newX, newY): void {
-			var position: Point = computePositionInRoom(newX, newY, character.width, character.height);
-			trace ('position in room', position);
+		override public function positionCharacterInRoom(character: Character, roomX, roomY): void {
+			var position: Point = normalizeToTilePosition(roomX, roomY);
 			if (character.previousRoom != null && character is AsciiPlayer) {
 				AsciiPlayer(character).animateMoveTo(position.x, position.y);
 			}
@@ -67,13 +66,10 @@
 			}
 		}
 		
-		public function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
-			trace ('pos char in room', x, y, whomX, whomY)
-			// return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
-			// 				 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
+		public function normalizeToTilePosition(roomX: Number, roomY: Number): Point {
 			return new Point(
-				this.x + Math.floor(whomX / tileWidth) * tileWidth,
-				this.y + Math.floor(whomY / tileHeight) * tileHeight
+				this.x + Math.floor(roomX / tileWidth) * tileWidth,
+				this.y + Math.floor(roomY / tileHeight) * tileHeight
 			);
 		}
 

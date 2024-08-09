@@ -141,14 +141,14 @@ package rooms
 			character.currentRoom = this;
 
             admitCharacter(character);
-			positionInRoom(character, roomX, roomY);
+			positionCharacterInRoom(character, roomX, roomY);
 		}
 
 		public function moveCharacterToRoom(character: Character) {
 			moveCharacterToRoomAt(character, 25, 40.25)
 		}
 
-		public function positionInRoom(character: Character, newX, newY): void {
+		public function positionCharacterInRoom(character: Character, newX, newY): void {
 				character.x = newX;
 				character.y = newY;
 		}
