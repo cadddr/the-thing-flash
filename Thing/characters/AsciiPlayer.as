@@ -218,12 +218,14 @@
 			var inter = thisY - slope * thisX;
 			currentRoom.addChild(projectile);
 			var caller = this;
-			Utils.tweenValueAndFinish(projectile, "x", None.easeNone, thisX, targetX, .5,
+			Utils.tweenValueAndFinish(projectile, "x", None.easeNone, thisX, targetX, .25,
 			function (e:*) {
 				projectile.y = e.position * slope + inter;
+				caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, caller.currentRoom.x + projectile.x, caller.currentRoom.y + projectile.y)
 			},
 			function (e:*) {
 				caller.currentRoom.removeChild(projectile);
+				caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, 0, 0)
 			});
 		}
 		public function stopWeaponAnimation() {
