@@ -1,6 +1,7 @@
 ﻿package  {
 	import flash.display.MovieClip;
 	import characters.*;
+	import flash.display.Shape;
 
 	public class GlobalState {
 
@@ -9,6 +10,7 @@
 		public static var draggableCharacter:Player;
 		public static var isLightOn:Boolean = true;
  		public static var plantedCharges:Array = [];
+		public static var activeOverlay:Shape;
 
 		public static const DARK_PURPLE: uint = 0x1b1b2f;
 		public static const BRIGHT_RED: uint = 0xe43f5a;
@@ -19,6 +21,9 @@
 		public static const LIGHTER_GREY: uint = 0x30475e;
 		public static const BRIGHT_ORANGE: uint = 0xf2a365;
 		public static const OFF_WHITE: uint = 0xececec;
+
+		public static const TILE_WIDTH = 40.25;
+		public static const TILE_HEIGHT = 40.25;
 
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 		public static const LIGHT_SWITCHED = "lightSwitched";

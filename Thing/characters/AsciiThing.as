@@ -22,15 +22,22 @@
 		override protected function highlightForInteraction(): void {
 			getSelection().visible = true;
 			
-			var sprite = new Shape()
-			sprite.graphics.lineStyle(3, 0xFF0000, 1);
-			sprite.graphics.moveTo(GlobalState.draggableCharacter.x - currentRoom.x, GlobalState.draggableCharacter.y - currentRoom.y)
-			sprite.graphics.lineTo(x - currentRoom.x, y - currentRoom.y)
-			currentRoom.addChild(sprite)
+			GlobalState.activeOverlay = new Shape()
+			GlobalState.activeOverlay.graphics.lineStyle(3, 0xFF0000, 1);
+			GlobalState.activeOverlay.graphics.moveTo(
+				GlobalState.draggableCharacter.x - currentRoom.x + GlobalState.TILE_WIDTH / 2, 
+				GlobalState.draggableCharacter.y - currentRoom.y + GlobalState.TILE_HEIGHT / 2
+			)
+			GlobalState.activeOverlay.graphics.lineTo(x - currentRoom.x + GlobalState.TILE_WIDTH / 2, y - currentRoom.y + GlobalState.TILE_HEIGHT / 2)
+			currentRoom.addChild(GlobalState.activeOverlay)
 		}
 
 		override protected function unhighlightForInteraction(): void {
 			getSelection().visible = false;	
+			if (GlobalState.activeOverlay != null) { // TODO: what if there is another overlay
+				currentRoom.removeChild(GlobalState.activeOverlay)
+				GlobalState.activeOverlay = null;
+			}
 		}
 
 		// TODO: extract condition to logic

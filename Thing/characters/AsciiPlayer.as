@@ -189,9 +189,11 @@
 					// caller.transform.matrix.translate((caller.x * caller.width/2), (caller.y + caller.height/2));
 					// caller.rotation = 180. * angle / Math.PI - 90;
 					// caller.transform.matrix.translate(-(caller.x * caller.width/2), -(caller.y + caller.height/2));
-					caller.x = p.x;
-					caller.y = p.y;
-					updateLighting(e);
+					// if (Math.abs(p.x - caller.x) >= 25.|| Math.abs(p.y - caller.y) >= 40.25) {
+						caller.x = p.x;
+						caller.y = p.y;
+						updateLighting(e);
+					// }
 				},
 				function(e:TweenEvent) {
 					trace ('tween finished')
