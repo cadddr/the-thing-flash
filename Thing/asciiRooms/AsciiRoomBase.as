@@ -78,7 +78,7 @@
 			if (GlobalState.draggableCharacter != null) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
 					trace('click on ', event.relatedObject, event.target, event.currentTarget)
-					moveCharacterToRoomAt(GlobalState.draggableCharacter, event.localX, event.localY); //also raises event that positions char in room
+					moveCharacterToRoomAt(GlobalState.draggableCharacter, event.target.x, event.target.y);
 					GlobalState.draggableCharacter.finalizeAction();
 				}
 			}

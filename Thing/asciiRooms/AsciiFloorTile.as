@@ -24,7 +24,7 @@
 		
 		public function AsciiFloorTile() {
 			asciiTileText.background = true;
-			// asciiTileText.mouseEnabled = false;
+			asciiTileText.mouseEnabled = false;
 			asciiTileText.backgroundColor = albedo;
 		}
 

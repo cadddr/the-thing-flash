@@ -6,7 +6,7 @@
 	public class Interactable extends MovieClip {
 
 		public function Interactable() {
-			mouseChildren = false;
+			// mouseChildren = false;
 			addEventListener(MouseEvent.ROLL_OVER, function (e: *) {
 				// trace('over'); trace(e.localX); trace(e.localY); trace(e.target); trace(e.target.getBounds(e.target.parent)); 
 				interactOnMouseOver(e); 
