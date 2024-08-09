@@ -25,7 +25,6 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-			addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function(e:CharacterEvent): void {positionInRoom(e.character);});
 			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
 				setFloorBackgroundColor(int(e.isLightOn) + 0.75 * (1 - int(e.isLightOn)));
 			});
@@ -56,12 +55,8 @@
 			}
 		}
 
-		public function positionInRoom(character: Character): void {
-			var position: Point = computePositionInRoom(
-				character.x != 0 ? mouseX : 0, 
-				character.y != 0 ? mouseY : 0, 
-				character.width, character.height
-			);
+		override public function positionInRoom(character: Character, newX, newY): void {
+			var position: Point = computePositionInRoom(newX, newY, character.width, character.height);
 			trace ('position in room', position);
 			if (character.previousRoom != null && character is AsciiPlayer) {
 				AsciiPlayer(character).animateMoveTo(position.x, position.y);
@@ -73,15 +68,21 @@
 		}
 		
 		public function computePositionInRoom(whomX: Number, whomY: Number, whomW: Number, whomH: Number): Point {
-			return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
-							 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
+			trace ('pos char in room', x, y, whomX, whomY)
+			// return new Point(this.x + (Math.max(1, Math.floor(whomX / tileWidth) % Math.floor(width / tileWidth - .5))) * tileWidth, 
+			// 				 this.y + (Math.max(1, Math.floor(whomY / tileHeight) % Math.floor(height / tileHeight - .5))) * tileHeight);
+			return new Point(
+				this.x + Math.floor(whomX / tileWidth) * tileWidth,
+				this.y + Math.floor(whomY / tileHeight) * tileHeight
+			);
 		}
 
 		//undrags the player and puts it into the room
 		override protected function interactOnMouseClick(event: MouseEvent): void {
 			if (GlobalState.draggableCharacter != null) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
-					register(GlobalState.draggableCharacter); //also raises event that positions char in room
+					trace('click on ', event.relatedObject, event.target, event.currentTarget)
+					moveCharacterToRoomAt(GlobalState.draggableCharacter, event.localX, event.localY); //also raises event that positions char in room
 					GlobalState.draggableCharacter.finalizeAction();
 				}
 			}

@@ -49,7 +49,7 @@
 			//explode
 			if(isCharged && GlobalState.draggableCharacter != null)
 			{
-				GlobalState.draggableCharacter.currentRoom.register(GlobalState.draggableCharacter as Player);
+				GlobalState.draggableCharacter.currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
 				
 				GlobalState.plantedCharges.forEach(function(charge:*) {charge.explode()})

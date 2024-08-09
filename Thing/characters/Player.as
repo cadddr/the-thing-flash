@@ -104,7 +104,7 @@
 				this.die();
 				cameraLayer.removeChild(this);
 
-				tmpRoom.register(revealedThing); // TODO: why this needs to happen afterwards?
+				tmpRoom.moveCharacterToRoom(revealedThing); // TODO: why this needs to happen afterwards?
 				revealedThing.x = tmpX;
 				revealedThing.y = tmpY;
 

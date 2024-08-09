@@ -130,7 +130,7 @@
 		{
 			trace(this, "is moving to a random reachable room");
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
-			ReachableRooms[randomRoom].register(this);
+			ReachableRooms[randomRoom].moveCharacterToRoom(this);
 		}
 		
 		//todo: has to see if there are players in reachable rooms
@@ -142,7 +142,7 @@
 			//invalidate, so that its location is regenerated
 			x=0;
 			y=0;
-			ReachableRooms[randomRoom].register(this);
+			ReachableRooms[randomRoom].moveCharacterToRoom(this);
 		}
 		
 		// seems unused, broken?
@@ -157,7 +157,7 @@
 					leastPopulatedRoom = ReachableRooms[i];
 			}
 			
-			leastPopulatedRoom.register(this);
+			leastPopulatedRoom.moveCharacterToRoom(this);
 		}
 
 		private function assimilate(victim:Player)
@@ -217,7 +217,7 @@
 						unhighlightForInteraction();
 						
 				// so he would knock off
-				currentRoom.register(GlobalState.draggableCharacter as Player);
+				currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
 			}
 		}

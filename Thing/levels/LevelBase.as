@@ -116,7 +116,7 @@
 				player.setCameraAndLayer(this.camera, this.cameraLayer);
 				//player.revelationCallback = function(myplayer:Player, isInfected:Boolean){paranoia.considerEvidence(myplayer, isInfected)};
 
-				Rooms[initialRoom].register(player);
+				Rooms[initialRoom].moveCharacterToRoom(player);
 				cameraLayer.addChild(player);
 			}
 		}
@@ -133,7 +133,7 @@
 				thingsInitialRoom = Utils.getRandom(Rooms.length - 1, 0, thingsInitialRoom);
 			}
 
-			Rooms[thingsInitialRoom].register(thing);
+			Rooms[thingsInitialRoom].moveCharacterToRoom(thing);
 			cameraLayer.addChild(thing);
 		}
 
@@ -178,7 +178,7 @@
 			if (Utils.getRandom(6, 1) <= leftBehindProbability) {
 				trace("Who's the lucky man?");
 				var luckyMan: Player = squad[Utils.getRandom(squad.length - 1)];
-				luckyMan.previousRoom.register(luckyMan);
+				luckyMan.previousRoom.moveCharacterToRoom(luckyMan);
 			}
 		}
 		

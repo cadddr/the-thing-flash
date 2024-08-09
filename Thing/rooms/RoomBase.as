@@ -120,7 +120,6 @@ package rooms
 				thing.refreshVisibility()
 			});
 
-			dispatchEvent(new CharacterEvent(GlobalState.CHARACTER_PLACED_IN_ROOM, character));
         }
 
         public function releaseCharacter(character: Character) {
@@ -133,14 +132,25 @@ package rooms
             });
         }
 
-		public function register(character: Character) {
+		public function moveCharacterToRoomAt(character: Character, roomX, roomY) {
 			//leave previous room & refresh visibility
 			if (character.currentRoom) {
 				character.currentRoom.releaseCharacter(character)
 				character.previousRoom = character.currentRoom;		
 			}
 			character.currentRoom = this;
-            this.admitCharacter(character);
+
+            admitCharacter(character);
+			positionInRoom(character, roomX, roomY);
+		}
+
+		public function moveCharacterToRoom(character: Character) {
+			moveCharacterToRoomAt(character, 25, 40.25)
+		}
+
+		public function positionInRoom(character: Character, newX, newY): void {
+				character.x = newX;
+				character.y = newY;
 		}
 
 		public function killGuests() {
