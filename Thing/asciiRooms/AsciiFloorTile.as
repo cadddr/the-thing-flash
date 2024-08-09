@@ -8,6 +8,7 @@
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
     import fl.transitions.easing.*;
+	import Utils;
 	
 	public class AsciiFloorTile extends AsciiTile{
 		var albedo = GlobalState.DARK_PURPLE;
@@ -34,6 +35,18 @@
         override protected function unhighlightForInteraction(): void {
             // asciiTileText.backgroundColor = GlobalState.DARK_PURPLE;
         }
+		override protected function interactOnMouseClick(e:MouseEvent): void {
+			var caller = this;
+			var origAmbient = ambient;
+			// asciiTileText.backgroundColor = GlobalState.BRIGHT_ORANGE
+			Utils.tweenValueAndFinish(this, "ambient", None.easeNone, 10., origAmbient, 1., 
+				function (e:*) {},
+				function (e:*) {
+					caller.ambient = origAmbient;
+					caller.asciiTileText.backgroundColor = Utils.scaleColor(caller.albedo, caller.ambient);
+				}
+			);
+		}
 
 		var maxDist = 25. //tileWidth
         public function applyLighting(sourceX, sourceY) {            
