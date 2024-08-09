@@ -226,13 +226,13 @@
 				function (e:*) {
 					caller.currentRoom.removeChild(projectile);
 					
-					var explosion = new SparkExplosion();
-					explosion.x = targetX;
-					explosion.y = targetY;
-					caller.currentRoom.addChild(explosion);
-					explosion.gotoAndPlay(1);
+					// var explosion = new SparkExplosion();
+					// explosion.x = targetX;
+					// explosion.y = targetY;
+					// caller.currentRoom.addChild(explosion);
+					// explosion.gotoAndPlay(1);
 
-					caller.currentRoom.setFloorBackgroundColor(10.)
+					// caller.currentRoom.setFloorBackgroundColor(10.)
 					// caller.currentRoom.removeChild(explosion);
 					// caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, 0, 0);
 				});

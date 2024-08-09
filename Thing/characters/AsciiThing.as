@@ -7,6 +7,7 @@
 	import flash.events.*
 	import flash.geom.ColorTransform;
 	import flash.display.Shape;
+	import asciiRooms.AsciiRoomBase;
 	
 	public class AsciiThing extends Thing {
 		
@@ -60,7 +61,15 @@
 		}
 
 		override protected function dieAnimation() {
+			getSelection().visible = false;
 			// transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+			var explosion = new SparkExplosion();
+			explosion.x = x - currentRoom.x;
+			explosion.y = y - currentRoom.y;
+			currentRoom.addChild(explosion);
+			explosion.gotoAndPlay(1);
+
+			AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
 			gotoAndStop(DIE_FRAME);
 		}
 	}	

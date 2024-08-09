@@ -36,8 +36,8 @@
 			trace(this, "died")
 			disableAllInteraction();
 			policy = null;
-			this.currentRoom.releaseCharacter(this);
 			dieAnimation();
+			this.currentRoom.releaseCharacter(this);
 		}
 
 		protected function dieAnimation() {throw null;}
