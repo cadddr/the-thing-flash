@@ -102,7 +102,7 @@
 			AlreadyActed = true;
 
 			unhighlightForInteraction();
-			stopWeaponAnimation(); // TODO: check if it was running
+			// stopWeaponAnimation(); // TODO: check if it was running
 		}
 
 		public function animateMoveTo(x:Number, y:Number) {

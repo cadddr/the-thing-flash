@@ -18,7 +18,11 @@
 				e.stopPropagation();
 			});
 			
-			addEventListener(MouseEvent.CLICK, interactOnMouseClick);
+			addEventListener(MouseEvent.CLICK, function (e: *) {
+				trace('click on ', e.relatedObject, e.target, e.currentTarget);
+				interactOnMouseClick(e);
+			});
+			
 			addEventListener(MouseEvent.RIGHT_CLICK, interactOnMouseRightClick);
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, interactOnMouseDown);

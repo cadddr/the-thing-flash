@@ -77,7 +77,6 @@
 		override protected function interactOnMouseClick(event: MouseEvent): void {
 			if (GlobalState.draggableCharacter != null) {
 				if (isReachableFrom(GlobalState.draggableCharacter.currentRoom)) {
-					trace('click on ', event.relatedObject, event.target, event.currentTarget)
 					moveCharacterToRoomAt(GlobalState.draggableCharacter, event.target.x, event.target.y);
 					GlobalState.draggableCharacter.finalizeAction();
 				}

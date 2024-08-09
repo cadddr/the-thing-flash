@@ -6,6 +6,7 @@
 	import GlobalState;
 	import flash.events.*
 	import flash.geom.ColorTransform;
+	import flash.display.Shape;
 	
 	public class AsciiThing extends Thing {
 		
@@ -20,6 +21,12 @@
 
 		override protected function highlightForInteraction(): void {
 			getSelection().visible = true;
+			
+			var sprite = new Shape()
+			sprite.graphics.lineStyle(3, 0xFF0000, 1);
+			sprite.graphics.moveTo(GlobalState.draggableCharacter.x - currentRoom.x, GlobalState.draggableCharacter.y - currentRoom.y)
+			sprite.graphics.lineTo(x - currentRoom.x, y - currentRoom.y)
+			currentRoom.addChild(sprite)
 		}
 
 		override protected function unhighlightForInteraction(): void {

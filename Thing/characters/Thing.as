@@ -204,7 +204,7 @@
 			if(GlobalState.draggableCharacter)
 				if(currentRoom == GlobalState.draggableCharacter.currentRoom)
 				{	
-					trace(GlobalState.draggableCharacter, "is attacking", this);
+					trace(this, "is being attacked by", GlobalState.draggableCharacter);
 					if (GlobalState.draggableCharacter) { //TODO:
 						AsciiPlayer(GlobalState.draggableCharacter).weaponAnimation();
 					}
@@ -217,7 +217,7 @@
 						unhighlightForInteraction();
 						
 				// so he would knock off
-				currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
+				// currentRoom.moveCharacterToRoom(GlobalState.draggableCharacter as Player);
 				GlobalState.draggableCharacter.finalizeAction();
 			}
 		}
