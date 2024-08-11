@@ -26,8 +26,11 @@
 			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
 			asciiSyringe.visible = false;
+			asciiSyringe.mouseEnabled = false;
 			asciiCharge.visible = false;
+			asciiCharge.mouseEnabled = false;
 			asciiMarker.visible = true;
+			asciiMarker.mouseEnabled = false;
 			gotoAndStop(IDLE_FRAME); // where walking animation stops
 		}
 
