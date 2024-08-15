@@ -14,7 +14,6 @@
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import Utils;
-	import MyCustomEase;
 	
 	public class AsciiPlayer extends Player {
 		
@@ -107,56 +106,7 @@
 			unhighlightForInteraction();
 			// stopWeaponAnimation(); // TODO: check if it was running
 		}
-		var tweens = []
-
-		function bezierLength(segment:BezierSegment, steps:int = 100):Number {
-			var length:Number = 0;
-			var prevPoint:Point = segment.getValue(0);
-			
-			for (var i:int = 1; i <= steps; i++) {
-				var t:Number = i / steps;
-				var currentPoint:Point = segment.getValue(t);
-				length += Point.distance(prevPoint, currentPoint);
-				prevPoint = currentPoint;
-			}
-			
-			return length;
-		}
-
-		function createArcLengthMap(segment:BezierSegment, steps:int = 100):Array {
-			var map:Array = [];
-			var totalLength:Number = 0;
-			var prevPoint:Point = segment.getValue(0);
-			
-			map.push({t: 0, length: 0});
-			
-			for (var i:int = 1; i <= steps; i++) {
-				var t:Number = i / steps;
-				var currentPoint:Point = segment.getValue(t);
-				totalLength += Point.distance(prevPoint, currentPoint);
-				map.push({t: t, length: totalLength});
-				prevPoint = currentPoint;
-			}
-			
-			return map;
-		}
-
-		function getTFromArcLength(arcLengthMap:Array, targetLength:Number):Number {
-			var totalLength:Number = arcLengthMap[arcLengthMap.length - 1].length;
-			var normalizedTarget:Number = targetLength / totalLength;
-			
-			for (var i:int = 1; i < arcLengthMap.length; i++) {
-				var prevNormalized:Number = arcLengthMap[i-1].length / totalLength;
-				var currentNormalized:Number = arcLengthMap[i].length / totalLength;
-				
-				if (normalizedTarget >= prevNormalized && normalizedTarget <= currentNormalized) {
-					var ratio:Number = (normalizedTarget - prevNormalized) / (currentNormalized - prevNormalized);
-					return arcLengthMap[i-1].t + ratio * (arcLengthMap[i].t - arcLengthMap[i-1].t);
-				}
-			}
-			
-			return 1; // Return 1 if we somehow exceed the total length
-		}
+		
 
 		public function animateMoveTo(x:Number, y:Number) {
 			if (camera != null) {
@@ -234,88 +184,22 @@
 			// quadratic
 			var trajectory = new BezierSegment(new Point(this.x, this.y), new Point(commonX, commonY), new Point(commonX, commonY), new Point(x, y));
 
-			// var t = 0.;
-			// while (t < 1.) {
-			// 	var p = trajectory.getValue(t);
-			// 	if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-			// 	t += 0.5; // Increase precision for better results	
-			// }
-
-            // var dist = Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y)) / Math.sqrt(40.25 * 40.25 + 25 * 25);
-			// trace ('dist', dist)
-			var totalLength:Number = bezierLength(trajectory);
-			var tileSize:Number = Math.sqrt(40.25 * 40.25 + 25 * 25); // Assuming this is your tile size
+			var totalLength:Number = Utils.bezierLength(trajectory);
+			var tileSize:Number = Math.sqrt(GlobalState.TILE_HEIGHT * GlobalState.TILE_HEIGHT + GlobalState.TILE_WIDTH * GlobalState.TILE_WIDTH);
 			var numSteps:int = Math.ceil(totalLength / tileSize);
-			var map = createArcLengthMap(trajectory)
-			// for (var step = 0; step < numSteps; step++) {
-			// 	var t = getTFromArcLength(map, step * tileSize)
-			// 	var p = trajectory.getValue(t);
-			// 	if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-			// }
+			var stepValues = Utils.getTValuesForSteps(trajectory, numSteps, tileSize);
 
-			var updatePosition = function(e:TweenEvent) {
-				var p = trajectory.getValue(e.position);
-				// trace ('e.position', e.position)
-				caller.x = p.x;
-				caller.y = p.y;
-				updateLighting(e);
-				// if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-			}
-        
-			tweens = [];
-			var t_ = 0;
-			// var accumulatedLength:Number = 0;
-			// for (var step=0; step < Math.ceil(dist); step++) {
-			// 	trace ('from', step / Math.ceil(dist), 'to', (step + 1) / Math.ceil(dist))
-			// 	var tween: Tween = new Tween({"x": 0}, "x", None.easeNone, step / Math.ceil(dist), (step + 1) / Math.ceil(dist), 1 / Math.ceil(dist), true);
-			for (var step:int = 1; step <= numSteps; step++) {
-				// trace ('step', step, 'accumulatedLength', accumulatedLength, 'totalLength', totalLength)
-				// var targetLength:Number = (step * tileSize);
-				// var t:Number = 0;
-				// var currentLength:Number = 0;
-				
-				// // Find t value for current step
-				// while (currentLength < targetLength && t < 1) {
-				// 	t += 0.01; // Increase precision for better results
-				// 	currentLength = bezierLength(trajectory, t * 100);
-				// }
-				// trace ('tween', accumulatedLength / totalLength, t, (t - accumulatedLength / totalLength))
-				// var tween:Tween = new Tween({"x": 0}, "x", None.easeNone, accumulatedLength / totalLength, t, (t - accumulatedLength / totalLength), true);
-				var t = getTFromArcLength(map, step * tileSize)
-				var tween:Tween = new Tween({"x": 0}, "x", Regular.easeInOut, t_, t, 0.35, true);
-				t_ = t;
-
-				tween.stop();
-				tween.addEventListener(TweenEvent.MOTION_CHANGE, updatePosition);
-				tweens.push(tween);
-
-				// accumulatedLength = currentLength;
-				trace("Tween " + step + ": start=" + t_ + ", end=" + t + ", duration=" + (1 / numSteps));
-
-			}
-
-			var getNextTweenFunc = function(tweens, i) {
-				var func = function(e:*) {
-					// trace (i, 'starting', i+1)
+			Utils.tweenValueSteppedAndFinish({"x": 0}, "x", Regular.easeInOut, stepValues, 0.35, 
+				function(e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
+					// trace ('e.position', e.position)
+					caller.x = p.x;
+					caller.y = p.y;
+					updateLighting(e);
 					if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-					// Utils.sleep(200);
-					tweens[i+1].start()
-				}
-				return func;
-			}
-			
-			for (var i=0; i < (tweens.length - 1); i++) {
-				tweens[i].addEventListener(TweenEvent.MOTION_FINISH, getNextTweenFunc(tweens, i));
-			}
-			tweens[tweens.length - 1].addEventListener(TweenEvent.MOTION_FINISH, function(e:*) {
-					// trace (i, 'starting', i+1)
-					// var p = trajectory.getValue(e.position);
-					// if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-				});
-			tweens[0].start()
-
-
+				}, 
+				function (e:*) {}
+			);
 			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
 			// 	function (e:TweenEvent) {
 			// 		var p = trajectory.getValue(e.position);
