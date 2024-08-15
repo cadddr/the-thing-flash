@@ -107,13 +107,14 @@
 			unhighlightForInteraction();
 			// stopWeaponAnimation(); // TODO: check if it was running
 		}
+		var tweens = []
 
 		public function animateMoveTo(x:Number, y:Number) {
 			if (camera != null) {
 				camera.pinCameraToObject(this);
 			}
 
-			gotoAndPlay(WALK_FRAME);
+			// gotoAndPlay(WALK_FRAME);
 			var caller = this;
 			var updateLighting = function(e:TweenEvent) {
 				if (caller.previousRoom) {
@@ -184,27 +185,70 @@
 			// quadratic
 			var trajectory = new BezierSegment(new Point(this.x, this.y), new Point(commonX, commonY), new Point(commonX, commonY), new Point(x, y));
             var dist = Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y)) / Math.sqrt(40.25 * 40.25 + 25 * 25);
+			trace ('dist', dist)
+
+			var updatePosition = function(e:TweenEvent) {
+				var p = trajectory.getValue(e.position);
+				// trace ('e.position', e.position)
+				caller.x = p.x;
+				caller.y = p.y;
+				// updateLighting(e);
+				// if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
+			}
         
-			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
-				function (e:TweenEvent) {
+			tweens = [];
+			for (var step=0; step < Math.ceil(dist); step++) {
+				trace ('from', step / Math.ceil(dist), 'to', (step + 1) / Math.ceil(dist))
+				var tween: Tween = new Tween({"x": 0}, "x", Regular.easeOut, step / Math.ceil(dist), (step + 1) / Math.ceil(dist), 1 / Math.ceil(dist), true);
+				tween.stop();
+				tween.addEventListener(TweenEvent.MOTION_CHANGE, updatePosition);
+				tweens.push(tween);
+			}
+
+			var getNextTweenFunc = function(tweens, i) {
+				var func = function(e:*) {
+					// trace (i, 'starting', i+1)
 					var p = trajectory.getValue(e.position);
-					// var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))
-					// caller.transform.matrix.translate((caller.x * caller.width/2), (caller.y + caller.height/2));
-					// caller.rotation = 180. * angle / Math.PI - 90;
-					// caller.transform.matrix.translate(-(caller.x * caller.width/2), -(caller.y + caller.height/2));
-					// if (Math.abs(p.x - caller.x) >= 25.|| Math.abs(p.y - caller.y) >= 40.25) {
-						caller.x = p.x;
-						caller.y = p.y;
-						updateLighting(e);
-					// }
-				},
-				function(e:TweenEvent) {
-					trace ('tween finished')
-					caller.gotoAndStop(IDLE_FRAME);
-					Utils.currentTween = null;
+					if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
+					// Utils.sleep(200);
+					tweens[i+1].start()
 				}
-			);
+				return func;
+			}
+			
+			for (var i=0; i < (tweens.length - 1); i++) {
+				tweens[i].addEventListener(TweenEvent.MOTION_FINISH, getNextTweenFunc(tweens, i));
+			}
+			tweens[tweens.length - 1].addEventListener(TweenEvent.MOTION_FINISH, function(e:*) {
+					// trace (i, 'starting', i+1)
+					var p = trajectory.getValue(e.position);
+					if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
+				});
+			tweens[0].start()
+
+
+			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
+			// 	function (e:TweenEvent) {
+			// 		var p = trajectory.getValue(e.position);
+			// 		// var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))
+			// 		// caller.transform.matrix.translate((caller.x * caller.width/2), (caller.y + caller.height/2));
+			// 		// caller.rotation = 180. * angle / Math.PI - 90;
+			// 		// caller.transform.matrix.translate(-(caller.x * caller.width/2), -(caller.y + caller.height/2));
+			// 		// if (Math.abs(p.x - caller.x) >= 25.|| Math.abs(p.y - caller.y) >= 40.25) {
+			// 			caller.x = p.x;
+			// 			caller.y = p.y;
+			// 			updateLighting(e);
+			// 			if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
+			// 		// }
+			// 	},
+			// 	function(e:TweenEvent) {
+			// 		trace ('tween finished')
+			// 		caller.gotoAndStop(IDLE_FRAME);
+			// 		Utils.currentTween = null;
+			// 	}
+			// );
 		}	
+
 		public function weaponAnimation(targetX, targetY) {
 			gotoAndPlay(WEAPON_FRAME);
 
