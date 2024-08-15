@@ -77,26 +77,26 @@
 		}
 
 		static var tweens: Array;
-		public static function tweenValueSteppedAndFinish(caller, propname, easing: Function, stepValues: Array, duration: Number, onChange: Function, onFinish: Function) {
-			var getNextTweenFunc = function(tweens, i) {
-				return function(e:*) {
-					tweens[i + 1].start()
-				};
-			}
-
+		public static function tweenValueSteppedAndFinish(stepValues: Array, duration: Number, onChange: Function, onSwitch: Function, onFinish: Function) {
 			tweens = [];
-			for (var step:int = 1; step < stepValues.length; step++) {
+			for (var step:int = stepValues.length - 1; step > 0; step--) { // instantiate tweens in reverse order of steps to register hand overs in same loop
 				var tween:Tween = new Tween({"x": 0}, "x", Regular.easeInOut, stepValues[step - 1], stepValues[step], duration, true);
 				tween.stop();
 				tween.addEventListener(TweenEvent.MOTION_CHANGE, onChange);
+
+				if (step < stepValues.length - 1) { // steps before last hand over to next tween
+					tween.addEventListener(TweenEvent.MOTION_FINISH, 
+						function (nextTween) {return function(e:*) {nextTween.start()}}(tweens[tweens.length - 1]) // last added tween is next to be called after current one finishes
+					);
+				}
+				else { // last step finishes globally rather than handing over (gets added first)
+					tween.addEventListener(TweenEvent.MOTION_FINISH, onFinish);
+				}
+
 				tweens.push(tween);
 			}
 			
-			for (var i = 0; i < (tweens.length - 1); i++) {
-				tweens[i].addEventListener(TweenEvent.MOTION_FINISH, getNextTweenFunc(tweens, i));
-			}
-			tweens[tweens.length - 1].addEventListener(TweenEvent.MOTION_FINISH, onFinish);
-			tweens[0].start()
+			tweens[tweens.length - 1].start() // last one added is first to run
 		}
 
 		/// Bezier utils

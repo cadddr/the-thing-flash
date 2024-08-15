@@ -189,15 +189,15 @@
 			var numSteps:int = Math.ceil(totalLength / tileSize);
 			var stepValues = Utils.getTValuesForSteps(trajectory, numSteps, tileSize);
 
-			Utils.tweenValueSteppedAndFinish({"x": 0}, "x", Regular.easeInOut, stepValues, 0.35, 
+			Utils.tweenValueSteppedAndFinish(stepValues, 0.35, 
 				function(e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
-					// trace ('e.position', e.position)
 					caller.x = p.x;
 					caller.y = p.y;
-					updateLighting(e);
 					if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
+					updateLighting(e);
 				}, 
+				function (e:*) {},
 				function (e:*) {}
 			);
 			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
