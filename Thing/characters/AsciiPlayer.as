@@ -48,14 +48,14 @@
 
 		override protected function highlightForInteraction(): void {
 			if (currentRoom != null) //TODO:
-			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
+			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x - GlobalState.TILE_WIDTH / 2, y - GlobalState.TILE_HEIGHT / 2);}
 		}
 
 		override protected function unhighlightForInteraction(): void {
-			if (GlobalState.activePlayer != this) {
-				if (currentRoom != null) //TODO:
-				{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
-			}
+			// if (GlobalState.activePlayer != this) {
+			// 	if (currentRoom != null) //TODO:
+			// 	{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);}
+			// }
 		}
 
 		override protected function markAlreadyActed(): void {
@@ -79,48 +79,22 @@
 		}
 
 		override protected function interactOnMouseClick(e: MouseEvent): void {
+			if (GlobalState.activePlayer != null) {
+				AsciiPlayer(GlobalState.activePlayer).unselectAsActiveCharacter()
+			}
+			selectAsActiveCharacter();
+		}
+
+		public function selectAsActiveCharacter(): void {
+			trace ('select', this)
+			highlightForInteraction();
+			addEventListener(Event.ENTER_FRAME, trackMousePosition);
 			attemptAction();
 		}
 
-		// TODO: this one inadvertedly circumvents order refusal check?
-		// also no check for having acted?
-		public function selectAsActiveCharacter(): void {
-			highlightForInteraction();
-
-			addEventListener(Event.ENTER_FRAME, trackMousePosition);
-
-			initializeAction();
-		}
-
-		public function trackMousePosition(e:*) {
-			// if (GlobalState.activeOverlay && GlobalState.activeOverlay.parent == stage) {
-			// 		stage.removeChild(GlobalState.activeOverlay)
-			// 	}
-			// 	GlobalState.activeOverlay = new Shape()
-			// 	GlobalState.activeOverlay.graphics.lineStyle(3, 0xFF0000, 1);
-			// 	GlobalState.activeOverlay.graphics.moveTo(stage.mouseX, stage.mouseY)
-			// 	GlobalState.activeOverlay.graphics.lineTo(parent.x + x, parent.y + y)
-			// 	stage.addChild(GlobalState.activeOverlay)
-
-				var stageX = parent.x + x;
-				var stageY = parent.y + y
-
-				var dy = stageY - stage.mouseY
-				var dx = stageX - stage.mouseX
-
-				if (dx >= 0) {
-					var angle = Math.atan(dy / dx)
-					rotation = 180. * angle / Math.PI - 90
-				}
-				else {
-					var angle = Math.atan(dy / dx)
-					rotation = 180. * angle / Math.PI - 90 + 180
-				}
-		}
-
 		public function unselectAsActiveCharacter(): void {
+			trace ('unselect', this)
 			unhighlightForInteraction();
-
 			removeEventListener(Event.ENTER_FRAME, trackMousePosition)
 		}
 
@@ -139,8 +113,25 @@
 			}
 			currentRoom.unhighlightReachableRooms();
 
-			unhighlightForInteraction();
+			unselectAsActiveCharacter();
 			// stopWeaponAnimation(); // TODO: check if it was running
+		}
+
+		public function trackMousePosition(e:*) {
+			var stageX = parent.x + x;
+			var stageY = parent.y + y
+
+			var dy = stageY - stage.mouseY
+			var dx = stageX - stage.mouseX
+
+			if (dx >= 0) {
+				var angle = Math.atan(dy / dx)
+				rotation = 180. * angle / Math.PI - 90
+			}
+			else {
+				var angle = Math.atan(dy / dx)
+				rotation = 180. * angle / Math.PI - 90 + 180
+			}
 		}
 		
 
@@ -152,9 +143,9 @@
 			var caller = this;
 			var updateLighting = function(e:TweenEvent) {
 				if (caller.previousRoom) {
-					AsciiRoomBase(caller.previousRoom).applyTileLightingFromSource(caller.previousRoom, caller.x, caller.y)
+					AsciiRoomBase(caller.previousRoom).applyTileLightingFromSource(caller.previousRoom, caller.x - GlobalState.TILE_WIDTH / 2, caller.y - GlobalState.TILE_HEIGHT / 2)
 				}
-				AsciiRoomBase(caller.currentRoom).applyTileLightingFromSource(caller.currentRoom, caller.x, caller.y)
+				AsciiRoomBase(caller.currentRoom).applyTileLightingFromSource(caller.currentRoom, caller.x - GlobalState.TILE_WIDTH / 2, caller.y - GlobalState.TILE_HEIGHT / 2)
 			}
 			
 			// var dy = previousRoom.y - currentRoom.y
@@ -225,7 +216,7 @@
 			var stepValues = Utils.getTValuesForSteps(trajectory, numSteps, tileSize);
 
 			// gotoAndStop(WALK_FRAME);
-			Utils.tweenValueSteppedAndFinish(stepValues, 1.35, 
+			Utils.tweenValueSteppedAndFinish(stepValues, 0.35, 
 				function(e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
 					// var angle = Math.atan((p.y - caller.y) / (p.x - caller.x))

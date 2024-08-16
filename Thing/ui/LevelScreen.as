@@ -45,10 +45,12 @@
 					stage.removeChild(level); // TODO:
 					stage.removeChild(caller);
 				});
+				goBackButton.tabEnabled = false;
 
 				endTurnButton.addEventListener(MouseEvent.CLICK, function (e: MouseEvent): void {
 					level.endTurn();
 				});
+				endTurnButton.tabEnabled = false;
 
 				level.onGameOver = function(): void {
 					stage.addChild(new GameOverScreen());
@@ -100,6 +102,7 @@
 					level.endTurn();
 					break;
 				case KEY_TAB:
+					trace ('tab')
 					level.selectActiveCharacter();
 					break;
 			}
