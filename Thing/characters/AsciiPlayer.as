@@ -127,13 +127,14 @@
 		public function atan2(x1, y1, x2, y2) {
 			var dy = y2 - y1
 			var dx = x2 - x1
+			var angle;
 
 			if (dx >= 0) {
-				var angle = Math.atan(dy / dx)
+				angle = Math.atan(dy / dx)
 				return 180. * angle / Math.PI - 90
 			}
 			else {
-				var angle = Math.atan(dy / dx)
+				angle = Math.atan(dy / dx)
 				return 180. * angle / Math.PI - 90 + 180
 			}
 		}
@@ -185,14 +186,15 @@
 			var rect1 = new Rectangle(previousRoom.x, previousRoom.y, previousRoom.width, previousRoom.height)
 			var rect2 = new Rectangle(currentRoom.x, currentRoom.y, currentRoom.width, currentRoom.height)
 
+			var commonX, commonY;
 			if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
-				var commonX = corner1.x;
-				var commonY = corner1.y;
+				commonX = corner1.x;
+				commonY = corner1.y;
 			}
 			else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
 			{
-				var commonX = corner2.x;
-				var commonY = corner2.y;
+				commonX = corner2.x;
+				commonY = corner2.y;
 			}
 			if (GlobalState.DEBUG) {
 				var mySprite:Shape = new Shape(); 
@@ -220,7 +222,7 @@
 			var numSteps:int = Math.ceil(totalLength / tileSize);
 			var stepValues = Utils.getTValuesForSteps(trajectory, numSteps, tileSize);
 
-			// gotoAndStop(WALK_FRAME);
+			gotoAndStop(WALK_FRAME);
 			Utils.tweenValueSteppedAndFinish(stepValues, 0.35, 
 				function(e:TweenEvent) {
 					var p = trajectory.getValue(e.position);
@@ -239,24 +241,24 @@
 					// var p = trajectory.getValue(e.position);
 	
 			
-					// switch (currentFrame) {
-					// 	case WALK_FRAME: {
-					// 		gotoAndStop(WALK_FRAME3)
-					// 		break
-					// 	}
-					// 	// case WALK_FRAME2: {
-					// 	// 	gotoAndStop(WALK_FRAME3)
-					// 	// 	break
-					// 	// }
-					// 	case WALK_FRAME3: {
-					// 		gotoAndStop(WALK_FRAME)
-					// 		break
-					// 	}
-					// 	// case WALK_FRAME4: {
-					// 	// 	gotoAndStop(WALK_FRAME)
-					// 	// 	break
-					// 	// }
-					// }
+					switch (currentFrame) {
+						case WALK_FRAME: {
+							gotoAndStop(WALK_FRAME3)
+							break
+						}
+						// case WALK_FRAME2: {
+						// 	gotoAndStop(WALK_FRAME3)
+						// 	break
+						// }
+						case WALK_FRAME3: {
+							gotoAndStop(WALK_FRAME)
+							break
+						}
+						// case WALK_FRAME4: {
+						// 	gotoAndStop(WALK_FRAME)
+						// 	break
+						// }
+					}
 				},
 				function (e:*) {gotoAndStop(IDLE_FRAME)}
 			);
@@ -280,8 +282,8 @@
 		public function weaponAnimation(targetX, targetY) {
 			gotoAndPlay(WEAPON_FRAME);
 
-			targetX = targetX - currentRoom.x
-			targetY = targetY - currentRoom.y
+			targetX = targetX - currentRoom.x + GlobalState.TILE_WIDTH / 2
+			targetY = targetY - currentRoom.y + GlobalState.TILE_HEIGHT / 2
 			var thisX = x - currentRoom.x;
 			var thisY = y - currentRoom.y;
 
@@ -293,23 +295,13 @@
 			var inter = thisY - slope * thisX;
 			currentRoom.addChild(projectile);
 			var caller = this;
-			Utils.tweenValueAndFinish(projectile, "x", None.easeNone, thisX, targetX, .25,
+			Utils.tweenValueAndFinish(projectile, "x", Regular.easeOut, thisX, targetX, .15,
 				function (e:*) {
 					projectile.y = e.position * slope + inter;
 					caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, caller.currentRoom.x + projectile.x, caller.currentRoom.y + projectile.y)
 				},
 				function (e:*) {
 					caller.currentRoom.removeChild(projectile);
-					
-					// var explosion = new SparkExplosion();
-					// explosion.x = targetX;
-					// explosion.y = targetY;
-					// caller.currentRoom.addChild(explosion);
-					// explosion.gotoAndPlay(1);
-
-					// caller.currentRoom.setFloorBackgroundColor(10.)
-					// caller.currentRoom.removeChild(explosion);
-					// caller.currentRoom.applyTileLightingFromSource(caller.currentRoom, 0, 0);
 				});
 		}
 		public function stopWeaponAnimation() {
