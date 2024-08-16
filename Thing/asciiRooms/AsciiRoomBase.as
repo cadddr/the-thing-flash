@@ -68,8 +68,8 @@
 		
 		public function normalizeToTilePosition(roomX: Number, roomY: Number): Point {
 			return new Point(
-				this.x + Math.floor(roomX / tileWidth) * tileWidth,
-				this.y + Math.floor(roomY / tileHeight) * tileHeight
+				this.x + Math.floor(roomX / tileWidth) * tileWidth + tileWidth / 2,
+				this.y + Math.floor(roomY / tileHeight) * tileHeight + tileHeight / 2
 			);
 		}
 

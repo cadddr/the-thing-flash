@@ -86,7 +86,7 @@
 
 				if (step < stepValues.length - 1) { // steps before last hand over to next tween
 					tween.addEventListener(TweenEvent.MOTION_FINISH, 
-						function (nextTween) {return function(e:*) {nextTween.start()}}(tweens[tweens.length - 1]) // last added tween is next to be called after current one finishes
+						function (nextTween) {return function(e:*) {onSwitch(e); nextTween.start()}}(tweens[tweens.length - 1]) // last added tween is next to be called after current one finishes
 					);
 				}
 				else { // last step finishes globally rather than handing over (gets added first)

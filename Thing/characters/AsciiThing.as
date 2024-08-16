@@ -36,7 +36,7 @@
 
 		override protected function unhighlightForInteraction(): void {
 			getSelection().visible = false;	
-			if (GlobalState.activeOverlay != null) { // TODO: what if there is another overlay
+			if (GlobalState.activeOverlay != null && GlobalState.activeOverlay.parent == currentRoom) { // TODO: what if there is another overlay
 				currentRoom.removeChild(GlobalState.activeOverlay)
 				GlobalState.activeOverlay = null;
 			}
