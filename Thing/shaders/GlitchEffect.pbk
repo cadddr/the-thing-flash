@@ -1,0 +1,91 @@
+/*
+	Glitch Effect Shader by Yui Kinomoto @arlez80
+
+	MIT License
+*/
+
+<languageVersion: 1.0; >
+kernel Tiling
+<   namespace : "CircularDisks";
+    vendor : "Yui Kinomoto";
+    version : 1;
+    description : "Glitch Effect";
+>
+{   
+	// Declare the shader parameters
+	parameter float shake_power
+	<
+		defaultValue: float(30.0);
+	>;
+	
+	parameter float shake_rate
+	<
+		minValue: float(0.0);
+		maxValue: float (1.0);
+		defaultValue: float(0.2);
+	>;
+	
+	parameter float shake_speed
+	<
+		defaultValue: float(5.0);
+	>;
+	
+	parameter float shake_block_size
+	<
+		defaultValue: float(3000.5);
+	>;
+	
+	parameter float shake_color_rate
+	<
+		minValue: float(0.0);
+		maxValue: float(1.0);
+		defaultValue: float(0.01);
+	>;    
+	
+	parameter float time
+	< 
+		defaultValue: float(0.0);
+	>;
+    
+    input image4 src;  
+    output pixel4 dst; 
+	
+	// Random function
+	float random(float seed) {
+	    return fract(543.2543 * sin(dot(float2(seed, seed), float2(3525.46, -54.3415))));
+	}
+    
+    void evaluatePixel()
+    {		
+		float seed = floor(time * shake_speed);
+		float rand = fract(543.2543 * sin(dot(float2(seed, seed), float2(3525.46, -54.3415))));
+
+		float enable_shift; 
+		if (rand < shake_rate) {
+			enable_shift = 1.0;
+		}
+		else {
+			enable_shift = 0.0;
+		}
+		
+		float2 uv = outCoord();
+		float2 fixed_uv = uv;
+		
+		// seed = floor(uv.y * shake_block_size) / shake_block_size + time;
+		//rand = fract(543.2543 * sin(dot(float2(seed, seed), float2(3525.46, -54.3415))));
+		
+		dst = sample(src, uv);
+		
+		fixed_uv.x += (- 0.5) * shake_power * enable_shift;
+		
+		dst.r = mix(dst.r, 
+			sample(src, fixed_uv + float2(shake_color_rate, 0.0)).r, 
+			0.5
+		);
+		dst.b = mix(dst.b, 
+			sample(src, fixed_uv + float2(-shake_color_rate, 0.0)).b, 
+			0.5
+		);
+    } 
+}
+
