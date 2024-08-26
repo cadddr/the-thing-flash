@@ -9,6 +9,7 @@
 	import characters.Thing;
 	import flash.display.SimpleButton;
 	import flash.events.KeyboardEvent;
+	// import shaders.GlitchEffect;
 	
 	public class LevelScreen extends MovieClip {
 		
@@ -29,6 +30,7 @@
 
 
 		public function LevelScreen(level: LevelBase, camera: VirtualCamera = null, cameraLayer: MovieClip = null) {
+			// var shader = new GlitchEffect();
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
@@ -57,6 +59,16 @@
 					stage.removeChild(level);
 					stage.removeChild(caller);
 				};
+
+				
+				// shader.x = cameraLayer.x
+				// shader.y = cameraLayer.y
+
+				// stage.addEventListener(Event.ENTER_FRAME, function (e:*) {
+				// 	stage.addChild(shader);
+				// 	shader.initSource(stage.root);
+				// })
+				
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e: KeyboardEvent): void {
 					if ([KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_ZOOM_IN, KEY_ZOOM_OUT].indexOf(e.keyCode) != -1) {

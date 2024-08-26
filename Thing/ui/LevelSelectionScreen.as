@@ -4,13 +4,11 @@
 	import flash.events.*;
 	import levels.*;
 	import fl.VirtualCamera;
-	import shaders.GlitchEffect;
 	
 	public class LevelSelectionScreen extends MovieClip {
 		
 		
 		public function LevelSelectionScreen(camera:VirtualCamera=null, cameraLayer: MovieClip=null) {
-			var shader = new GlitchEffect();
 			var caller = this; // this becomes global when event listeners are called
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
@@ -32,11 +30,6 @@
 						caller.parent.addChild(new LevelScreen(new AsciiLevel3(), camera, cameraLayer));
 						caller.parent.removeChild(caller);
 				});
-
-				title.parent.addChild(shader);
-				shader.x = title.x
-				shader.y = title.y
-				shader.initSource(title);
 			});
 		}
 	}

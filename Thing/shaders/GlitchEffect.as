@@ -53,19 +53,6 @@
             bottomLeft = new Point(0, size - 10);
             bottomRight = new Point(size, size - 10);
 			
-			// new ImageFormatImporter(initSource);
-		}
-		
-		public function initSource(source:*):void { 
-			trace ('source', source)
-			var bmd:BitmapData = new BitmapData(source.width, source.height, false, 0x00001100);
-			//convert a display object (MovieClip in our example) into bitmap data
-			bmd.draw(source);
-			
-			//	set filter input and output 
-			input	= bmd; 
-			//output	= new BitmapData(bmd.width, bmd.height, true, 0); 
-
             loader = new URLLoader();
             loader.dataFormat = URLLoaderDataFormat.BINARY;
             loader.addEventListener(Event.COMPLETE, onLoadComplete);
@@ -83,12 +70,25 @@
             /*shader.data.point1.value = [topMiddle.x, topMiddle.y];
             shader.data.point2.value = [bottomLeft.x, bottomLeft.y];
             shader.data.point3.value = [bottomRight.x, bottomRight.y];*/
-
-            addEventListener(Event.ENTER_FRAME, updateShaderFill);
         }
+		
+		public function initSource(source:*):void { 
+			if (shader != null) {
+				trace ('shader init')
+				var bmd:BitmapData = new BitmapData(source.width, source.height, false, 0x00001100);
+				//convert a display object (MovieClip in our example) into bitmap data
+				bmd.draw(source);
+				
+				//	set filter input and output 
+				input	= bmd; 
+				//output	= new BitmapData(bmd.width, bmd.height, true, 0); 
+				addEventListener(Event.ENTER_FRAME, updateShaderFill);
+			}
+		}
 
         private function updateShaderFill(event:Event):void
         {
+			trace('shader update')
 			shader.data.src.input = input;
 			time += 1/24.;
 			/*time %= 1.0;*/
@@ -118,6 +118,8 @@
             //canvas.graphics.lineTo(bottomRight.x, bottomLeft.y);
 
             canvas.graphics.endFill();
+			removeEventListener(Event.ENTER_FRAME, updateShaderFill);
+			parent.removeChild(this);
         }
 	}
 }
