@@ -13,30 +13,19 @@
 			
 			playerReachabilityMap = 
 			[
-				[1, 1, 1, 0],
-				[1, 1, 0, 1],
-			    [1, 0, 1, 1],
-				[0, 1, 1, 1]
+				[1, 0],
+				[0, 1]
 			];
 			
 			thingReachabilityMap = 
 			[
-				[1, 1, 1, 0],
-				[1, 1, 0, 1],
-			    [1, 0, 1, 1],
-				[0, 1, 1, 1]
+				[1, 0],
+				[0, 1]
 			];
 		}
 
 		override protected function get Rooms(): Array {
-			return [room1, room2, room3, room4];
-		}
-
-		override public function endTurn() {
-			room1.enhancePlayers();
-			room4.enhancePlayers();
-
-			super.endTurn();
+			return [room1, room2];
 		}
 	}
 }
