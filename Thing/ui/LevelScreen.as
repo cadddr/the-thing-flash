@@ -40,6 +40,14 @@
 				caller.removeChild(backgroundSprite);
 				caller.parent.addChildAt(backgroundSprite, 0);
 
+
+				asciiGalaxy = new AsciiGalaxySprite();
+				// var galaxyLayer = MovieClip(cameraLayer.parent.getChildByName("galaxy"));
+				// asciiGalaxy.x = -2200
+				// asciiGalaxy.y = -1500
+				// galaxyLayer.
+				addChild(asciiGalaxy);
+
 				level.setCameraAndLayer(camera, cameraLayer);
 
 				cameraLayer.addChild(level); // level needs to be on camera layer for scrolling and zooming
@@ -70,9 +78,6 @@
 				// 	stage.addChild(shader);
 				// 	shader.initSource(stage.root);
 				// })
-			
-				asciiGalaxy = new AsciiGalaxySprite();
-				addChild(asciiGalaxy);
 				
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e: KeyboardEvent): void {
