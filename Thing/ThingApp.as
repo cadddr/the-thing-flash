@@ -26,7 +26,7 @@
 			trace(cameraLayer.parent == this)
 
 			// using this rather than stage as parent for child clips
-			addChild(new LevelSelectionScreen(camera, cameraLayer));			
+			addChild(new LevelSelectionScreen(camera, cameraLayer));
 		}
 	}
 }

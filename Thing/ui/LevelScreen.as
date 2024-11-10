@@ -10,8 +10,10 @@
 	import flash.display.SimpleButton;
 	import flash.events.KeyboardEvent;
 	// import shaders.GlitchEffect;
+	import AsciiGalaxySprite;
 	
 	public class LevelScreen extends MovieClip {
+		var asciiGalaxy: AsciiGalaxySprite;
 		
 		private static const KEY_LEFT: int = 37; // Left arrow key
 		private static const KEY_UP: int = 38; // Up arrow key
@@ -68,6 +70,9 @@
 				// 	stage.addChild(shader);
 				// 	shader.initSource(stage.root);
 				// })
+			
+				asciiGalaxy = new AsciiGalaxySprite();
+				addChild(asciiGalaxy);
 				
 
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e: KeyboardEvent): void {
@@ -92,9 +97,11 @@
 					break;
 				case KEY_UP: // Up arrow key
 					camera.moveBy(0, CAMERA_PAN_AMOUNT);
+					asciiGalaxy.VScroll += 1;
 					break;
 				case KEY_DOWN: // Down arrow key
 					camera.moveBy(0, -CAMERA_PAN_AMOUNT);
+					asciiGalaxy.VScroll -= 1;
 					break;
 				case KEY_ZOOM_IN: // Plus key (Zoom in)
 					camera.zoomBy(CAMERA_ZOOM_IN_AMOUNT);
