@@ -7,6 +7,7 @@
 
 	public class AsciiGalaxySprite extends Sprite {
 
+		var fontSize = 8;
 		var textField: TextField;
 		function get innerHTML() {
 			return textField.text;
@@ -26,7 +27,7 @@
 			bufferGalaxy = new AsciiGalaxy(180 * 2, 60 * 2);
 
 			addEventListener(Event.ADDED_TO_STAGE, function (e: * ) {
-				var format: TextFormat = new TextFormat("Courier New", 8, 0xFFFFFF);
+				var format: TextFormat = new TextFormat("Courier New", fontSize, 0xFFFFFF);
 				textField.defaultTextFormat = format;
 				textField.width = 1280;
 				textField.height = 900; 
@@ -42,19 +43,14 @@
 			return vScroll;
 		}
 
-		var yOffset = 0;
 		public function set VScroll(value) {
-			if (Math.abs(yOffset) < 8) {
-				yOffset += (value >= vScroll ? 1 : -1);
-				textField.y = yOffset;
+			if (Math.abs(textField.y) < fontSize) {
+				textField.y += (value >= vScroll ? 1 : -1);
 				rerender(); // to take up same time
 				return;
 			}
-			else {
-				yOffset = 0;
-				textField.y = 0;
-			}
-			
+			textField.y = 0;
+
 			vScroll = value;
 			if (vScroll >=asciiGalaxy.height) { // we scrolled all of current galaxy
 				var temp:AsciiGalaxy = asciiGalaxy;
@@ -68,7 +64,7 @@
 				var temp:AsciiGalaxy = asciiGalaxy;
 				asciiGalaxy = bufferGalaxy;
 				bufferGalaxy = temp;
-				vScroll = bufferGalaxy.height;
+				vScroll = bufferGalaxy.height - 1;
 				//bufferGalaxy.init();
 			}
 
@@ -79,20 +75,14 @@
 			innerHTML = "";
 			// vScroll is how many of top rows render from (bottom of) buffer galaxy
 			for (var r = 0; r < vScroll; r++) {
-				// if (!r == 0) 
-
-				
 				innerHTML += bufferGalaxy.fieldRows[bufferGalaxy.height - vScroll + r];
 				innerHTML += "\n";
 			}
 			// remaining rows are from current galaxy
 			for (var r = 0; r < asciiGalaxy.height - vScroll; r++) {
-				// if (!r == 0) 
-				
 				innerHTML += asciiGalaxy.fieldRows[r];
 				innerHTML += "\n";
 			}
 		}
-
 	}
 }
