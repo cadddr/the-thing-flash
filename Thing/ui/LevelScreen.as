@@ -42,11 +42,7 @@
 
 
 				asciiGalaxy = new AsciiGalaxySprite();
-				// var galaxyLayer = MovieClip(cameraLayer.parent.getChildByName("galaxy"));
-				// asciiGalaxy.x = -2200
-				// asciiGalaxy.y = -1500
-				// galaxyLayer.
-				addChild(asciiGalaxy);
+				caller.parent.addChildAt(asciiGalaxy, 0);
 
 				level.setCameraAndLayer(camera, cameraLayer);
 

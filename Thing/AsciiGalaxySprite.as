@@ -30,6 +30,7 @@
 				textField.defaultTextFormat = format;
 				textField.width = 1280;
 				textField.height = 900; 
+				textField.mouseEnabled = false;
 
 				addChild(textField);
 				rerender();
@@ -41,9 +42,21 @@
 			return vScroll;
 		}
 
+		var yOffset = 0;
 		public function set VScroll(value) {
+			if (Math.abs(yOffset) < 8) {
+				yOffset += (value >= vScroll ? 1 : -1);
+				textField.y = yOffset;
+				rerender(); // to take up same time
+				return;
+			}
+			else {
+				yOffset = 0;
+				textField.y = 0;
+			}
+			
 			vScroll = value;
-			if (vScroll > asciiGalaxy.height) { // we scrolled all of current galaxy
+			if (vScroll >=asciiGalaxy.height) { // we scrolled all of current galaxy
 				var temp:AsciiGalaxy = asciiGalaxy;
 				asciiGalaxy = bufferGalaxy;
 				bufferGalaxy = temp; // make buffer current galaxy with zero scroll
@@ -66,13 +79,18 @@
 			innerHTML = "";
 			// vScroll is how many of top rows render from (bottom of) buffer galaxy
 			for (var r = 0; r < vScroll; r++) {
-				if (!r == 0) innerHTML += "\n";
+				// if (!r == 0) 
+
+				
 				innerHTML += bufferGalaxy.fieldRows[bufferGalaxy.height - vScroll + r];
+				innerHTML += "\n";
 			}
 			// remaining rows are from current galaxy
 			for (var r = 0; r < asciiGalaxy.height - vScroll; r++) {
-				if (!r == 0) innerHTML += "\n";
+				// if (!r == 0) 
+				
 				innerHTML += asciiGalaxy.fieldRows[r];
+				innerHTML += "\n";
 			}
 		}
 
