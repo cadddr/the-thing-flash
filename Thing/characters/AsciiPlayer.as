@@ -282,7 +282,7 @@
 
 		public function weaponAnimation(targetX, targetY) {
 			gotoAndPlay(WEAPON_FRAME);
-			return;
+			
 			targetX = targetX - currentRoom.x + GlobalState.TILE_WIDTH / 2
 			targetY = targetY - currentRoom.y + GlobalState.TILE_HEIGHT / 2
 			var thisX = x - currentRoom.x;

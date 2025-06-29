@@ -3,6 +3,9 @@
 	import flash.display.MovieClip;
 	import characters.*;
 	import Utils;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+    import fl.transitions.easing.*;
 	import GlobalState;
 	import flash.events.*
 	import flash.geom.ColorTransform;
@@ -71,8 +74,12 @@
 			currentRoom.addChild(explosion);
 			explosion.gotoAndPlay(1);
 
-			//AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
-			gotoAndPlay(DIE_FRAME);
+			// AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
+			// Utils.tweenValue({"x": 0}, "x", None.easeNone, 0, 10., 0.5, function(e:TweenEvent) {
+			// 	AsciiRoomBase(currentRoom).FloorBackgroundColor = e.position * 10.; //Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
+			// });
+
+			gotoAndStop(DIE_FRAME);
 		}
 	}	
 }

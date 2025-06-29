@@ -186,10 +186,11 @@
 		}
 		
 		public function endTurn() {
-			var squads = identifySquads();
-			squads.forEach(function (squad: * ) {
-				returnRandomSquadMember(squad)
-			});
+			// annoying af, nothing but frustrating for intro level
+			// var squads = identifySquads();
+			// squads.forEach(function (squad: * ) {
+			// 	returnRandomSquadMember(squad)
+			// });
 
 			Players.forEach(function (item: * ) {
 				item.actAutonomously()
