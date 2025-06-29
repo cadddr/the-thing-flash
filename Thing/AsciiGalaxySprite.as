@@ -46,7 +46,7 @@
 		public function set VScroll(value) {
 			if (Math.abs(textField.y) < fontSize) {
 				textField.y += (value >= vScroll ? 1 : -1);
-				rerender(); // to take up same time
+				// rerender(); // to take up same time
 				return;
 			}
 			textField.y = 0;
