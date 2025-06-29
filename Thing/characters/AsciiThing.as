@@ -74,15 +74,13 @@
 			currentRoom.addChild(explosion);
 			explosion.gotoAndPlay(1);
 
-			// AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
 			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 10., 0.5, function(e:TweenEvent) {
-				AsciiRoomBase(currentRoom).FloorBackgroundColor = e.position; //Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
+				AsciiRoomBase(currentRoom).setFloorBackgroundColor(e.position);
 			}, function(e:TweenEvent) {
 				AsciiRoomBase(currentRoom).setFloorBackgroundColor(1.);
-				// AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);
 			});
 
-			gotoAndStop(DIE_FRAME);
+			gotoAndPlay(DIE_FRAME);
 		}
 	}	
 }

@@ -150,9 +150,5 @@
 				}
 			}
 		}
-
-		public function set FloorBackgroundColor(value: Number) {
-			setFloorBackgroundColor(value);
-		}
 	}
 }
