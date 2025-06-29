@@ -75,9 +75,12 @@
 			explosion.gotoAndPlay(1);
 
 			// AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
-			// Utils.tweenValue({"x": 0}, "x", None.easeNone, 0, 10., 0.5, function(e:TweenEvent) {
-			// 	AsciiRoomBase(currentRoom).FloorBackgroundColor = e.position * 10.; //Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
-			// });
+			Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 10., 0.5, function(e:TweenEvent) {
+				AsciiRoomBase(currentRoom).FloorBackgroundColor = e.position; //Utils.scaleColor(GlobalState.DARK_PURPLE, e.position);
+			}, function(e:TweenEvent) {
+				AsciiRoomBase(currentRoom).setFloorBackgroundColor(1.);
+				// AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x, y);
+			});
 
 			gotoAndStop(DIE_FRAME);
 		}
