@@ -10,6 +10,7 @@ package levels {
 		
 		public function AsciiLevel3() {
 			maxPlayers = 2;
+			initialRoom = 0;
 			
 			playerReachabilityMap = 
 			[
@@ -42,6 +43,8 @@ package levels {
 			// room37.spawnInteractable(new AsciiGeneratorSwitch(), cameraLayer); 
 			room37.interactables.push(room37.asciiGeneratorSwitch)
 			super.onAddedToStage(e);
+			room31.stop();
+			room31.cockpit.stop();
 		}
 	}
 }

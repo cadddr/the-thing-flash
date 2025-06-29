@@ -14,6 +14,7 @@
 
 	public class LevelBase extends MovieClip {
 		protected var maxPlayers = 5;
+		protected var initialRoom = -1;
 
 		protected var playerReachabilityMap: Array;
  		protected var thingReachabilityMap: Array;
@@ -106,7 +107,9 @@
 
 		protected function initializePlayers() {
 			trace("Where do humans start?")
-			var initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
+			if (initialRoom == -1) {
+				initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
+			}
 
 			for (var i: int = 0; i < maxPlayers; i++) {
 				var player = new AsciiPlayer(humanInfectedRefusalProbability, 

@@ -41,8 +41,8 @@
 				caller.parent.addChildAt(backgroundSprite, 0);
 
 
-				asciiGalaxy = new AsciiGalaxySprite();
-				caller.parent.addChildAt(asciiGalaxy, 0);
+				// asciiGalaxy = new AsciiGalaxySprite();
+				// caller.parent.addChildAt(asciiGalaxy, 0);
 
 				level.setCameraAndLayer(camera, cameraLayer);
 
