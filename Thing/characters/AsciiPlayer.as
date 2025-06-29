@@ -25,6 +25,7 @@
 		const WALK_FRAME4 = 13;
 
 		const WEAPON_FRAME = 18;
+		const WEAPON_END_FRAME = 28;
 
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
@@ -121,7 +122,7 @@
 			var stageX = parent.x + x;
 			var stageY = parent.y + y
 
-			rotation = atan2(stage.mouseX, stage.mouseY, stageX, stageY)
+			rotation = 45 * Math.floor(atan2(stage.mouseX, stage.mouseY, stageX, stageY) / 45);
 		}
 
 		public function atan2(x1, y1, x2, y2) {
@@ -281,7 +282,7 @@
 
 		public function weaponAnimation(targetX, targetY) {
 			gotoAndPlay(WEAPON_FRAME);
-
+			return;
 			targetX = targetX - currentRoom.x + GlobalState.TILE_WIDTH / 2
 			targetY = targetY - currentRoom.y + GlobalState.TILE_HEIGHT / 2
 			var thisX = x - currentRoom.x;

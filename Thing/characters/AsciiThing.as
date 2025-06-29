@@ -71,8 +71,8 @@
 			currentRoom.addChild(explosion);
 			explosion.gotoAndPlay(1);
 
-			AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
-			gotoAndStop(DIE_FRAME);
+			//AsciiRoomBase(currentRoom).setFloorBackgroundColor(10.)
+			gotoAndPlay(DIE_FRAME);
 		}
 	}	
 }
