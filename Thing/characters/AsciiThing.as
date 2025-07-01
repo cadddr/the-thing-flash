@@ -68,8 +68,30 @@
 		}
 
 		override protected function attack(victim:Player) {
-			super.attack(victim);
+			camera.pinCameraToObject(this, 0, 0);
 			gotoAndPlay(ATTACK_FRAME);
+
+			var caller = this;
+			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, victim.x, .5,
+				function (e:*) {
+					trace('waiting to pin to victim')
+				},
+				function (e:*) {
+					camera.pinCameraToObject(victim, 0, 0);	
+					Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, victim.x, .5,
+						function (e:*) {
+							trace('waiting to pin back to thing')
+						},
+						function (e:*) {
+							camera.pinCameraToObject(caller, 0, 0);
+						});
+				});
+
+			
+			super.attack(victim);
+			// Utils.sleep(500);
+
+			// camera.pinCameraToObject(this, 0, 0);
 		}
 
 		override protected function dieAnimation() {

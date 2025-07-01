@@ -136,6 +136,7 @@
 				thingsInitialRoom = Utils.getRandom(Rooms.length - 1, 0, thingsInitialRoom);
 			}
 
+			thing.setCameraAndLayer(this.camera, this.cameraLayer);
 			Rooms[thingsInitialRoom].moveCharacterToRoom(thing);
 			cameraLayer.addChild(thing);
 		}
