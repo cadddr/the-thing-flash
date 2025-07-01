@@ -192,7 +192,7 @@
 			}
 		}
 
-		private function attack(victim:Player)
+		protected function attack(victim:Player)
 		{
 			trace(this, "is attacking", victim);
 			

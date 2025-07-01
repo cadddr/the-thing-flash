@@ -15,6 +15,8 @@
 	public class AsciiThing extends Thing {
 		
 		private const DIE_FRAME = 11;
+		private const ATTACK_FRAME = 20;
+		
 		public function AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability) {
 			super(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 			unhighlightForInteraction();
@@ -63,6 +65,11 @@
 				AsciiPlayer(GlobalState.activePlayer).weaponAnimation(x, y);
 				getAttackedByPlayer();
 			}	
+		}
+
+		override protected function attack(victim:Player) {
+			super.attack(victim);
+			gotoAndPlay(ATTACK_FRAME);
 		}
 
 		override protected function dieAnimation() {

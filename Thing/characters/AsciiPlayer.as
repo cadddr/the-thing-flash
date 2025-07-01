@@ -18,11 +18,13 @@
 	
 	public class AsciiPlayer extends Player {
 		
-		const IDLE_FRAME = 17;
+		const DEFAULT_FRAME = 17;
 		const WALK_FRAME = 1;
 		const WALK_FRAME2 = 5;
 		const WALK_FRAME3 = 9;
 		const WALK_FRAME4 = 13;
+
+		const IDLE_FRAME = 33;
 
 		const WEAPON_FRAME = 18;
 		const WEAPON_END_FRAME = 28;
@@ -36,7 +38,7 @@
 			asciiCharge.mouseEnabled = false;
 			asciiMarker.visible = true;
 			asciiMarker.mouseEnabled = false;
-			gotoAndStop(IDLE_FRAME); // where walking animation stops
+			gotoAndPlay(IDLE_FRAME); // where walking animation stops
 		}
 
 		override public function getSyringe(): MovieClip {
@@ -89,6 +91,7 @@
 		public function selectAsActiveCharacter(): void {
 			trace ('select', this)
 			highlightForInteraction();
+			gotoAndStop(DEFAULT_FRAME);
 			addEventListener(Event.ENTER_FRAME, trackMousePosition);
 			attemptAction();
 		}
@@ -96,6 +99,7 @@
 		public function unselectAsActiveCharacter(): void {
 			trace ('unselect', this)
 			unhighlightForInteraction();
+			// gotoAndStop(IDLE_FRAME);
 			removeEventListener(Event.ENTER_FRAME, trackMousePosition)
 		}
 
@@ -154,32 +158,6 @@
 				}
 				AsciiRoomBase(caller.currentRoom).applyTileLightingFromSource(caller.currentRoom, caller.x - GlobalState.TILE_WIDTH / 2, caller.y - GlobalState.TILE_HEIGHT / 2)
 			}
-			
-			// var dy = previousRoom.y - currentRoom.y
-			// if (Math.abs(dy) <= 40.25) {
-			// 	trace('equivertical')
-			// }
-			// else if (dy > 0) {
-			// 	trace('new room above')
-			// 	var commonY = currentRoom.y + currentRoom.height;
-			// } 
-			// else if (dy < 0) {
-			// 	trace('new room below')
-			// 	var commonY = previousRoom.y + previousRoom.height
-			// }
-
-			// var dx = previousRoom.x - currentRoom.x
-			// if (Math.abs(dx) <= 25.) {
-			// 	trace('equihorizontal')
-			// }
-			// else if (dx > 0) {
-			// 	trace('new room left')
-			// 	var commonX = currentRoom.x + currentRoom.width;
-			// } 
-			// else if (dx < 0) {
-			// 	trace('new room right')
-			// 	var commonX = previousRoom.x + previousRoom.width;
-			// }
 
 			var corner1 = new Point(this.x, y);
 			var corner2 = new Point(x, this.y);
@@ -240,8 +218,7 @@
 				}, 
 				function (e:*) {
 					// var p = trajectory.getValue(e.position);
-	
-			
+					// to sync anim with step
 					switch (currentFrame) {
 						case WALK_FRAME: {
 							gotoAndStop(WALK_FRAME3)
@@ -261,7 +238,7 @@
 						// }
 					}
 				},
-				function (e:*) {gotoAndStop(IDLE_FRAME)}
+				function (e:*) {gotoAndStop(DEFAULT_FRAME)}
 			);
 			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
 			// 	function (e:TweenEvent) {
@@ -306,7 +283,7 @@
 				});
 		}
 		public function stopWeaponAnimation() {
-			gotoAndStop(IDLE_FRAME);
+			gotoAndStop(DEFAULT_FRAME);
 		}
 
 		override protected function dieAnimation() {
