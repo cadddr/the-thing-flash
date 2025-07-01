@@ -69,6 +69,9 @@
 
 		override protected function attack(victim:Player) {
 			camera.pinCameraToObject(this, 0, 0);
+			if (currentRoom != null) //TODO:
+			{AsciiRoomBase(currentRoom).applyTileLightingFromSource(currentRoom, x - GlobalState.TILE_WIDTH / 2, y - GlobalState.TILE_HEIGHT / 2);}
+		
 			gotoAndPlay(ATTACK_FRAME);
 
 			var caller = this;
@@ -78,6 +81,9 @@
 				},
 				function (e:*) {
 					camera.pinCameraToObject(victim, 0, 0);	
+					if (victim.currentRoom != null) //TODO:
+					{AsciiRoomBase(victim.currentRoom).applyTileLightingFromSource(victim.currentRoom, victim.x - GlobalState.TILE_WIDTH / 2, victim.y - GlobalState.TILE_HEIGHT / 2);}
+		
 				});
 
 			super.attack(victim);
