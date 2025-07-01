@@ -266,6 +266,7 @@
 			var thisY = y - currentRoom.y;
 
 			var projectile = new Spark();
+			projectile.visible = false;
 			projectile.x = thisX;
 			projectile.y = thisY;
 

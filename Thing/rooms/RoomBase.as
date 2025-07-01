@@ -149,7 +149,9 @@ package rooms
 			var heightTiles = Math.floor(height / GlobalState.TILE_HEIGHT);
 			var charIndex = guests.length;
 	
-			moveCharacterToRoomAt(character, GlobalState.TILE_WIDTH + 2 * charIndex * GlobalState.TILE_WIDTH, GlobalState.TILE_HEIGHT * heightTiles / 2)
+			moveCharacterToRoomAt(character, 
+			GlobalState.TILE_WIDTH + charIndex * GlobalState.TILE_WIDTH, 
+			GlobalState.TILE_HEIGHT) //* heightTiles / 2)
 		}
 
 		public function positionCharacterInRoom(character: Character, newX, newY): void {
