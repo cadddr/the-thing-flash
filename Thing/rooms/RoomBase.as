@@ -150,8 +150,8 @@ package rooms
 			var charIndex = guests.length;
 	
 			moveCharacterToRoomAt(character, 
-			GlobalState.TILE_WIDTH + charIndex * GlobalState.TILE_WIDTH, 
-			GlobalState.TILE_HEIGHT) //* heightTiles / 2)
+			GlobalState.TILE_WIDTH + GlobalState.TILE_WIDTH * (charIndex % (widthTiles - 1)), 
+			GlobalState.TILE_HEIGHT + GlobalState.TILE_HEIGHT * (charIndex / (widthTiles - 1)) % (heightTiles - 1)) 
 		}
 
 		public function positionCharacterInRoom(character: Character, newX, newY): void {
