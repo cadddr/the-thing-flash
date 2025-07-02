@@ -83,9 +83,10 @@
 					camera.pinCameraToObject(victim, 0, 0);	
 					if (victim.currentRoom != null) //TODO:
 					{AsciiRoomBase(victim.currentRoom).applyTileLightingFromSource(victim.currentRoom, victim.x - GlobalState.TILE_WIDTH / 2, victim.y - GlobalState.TILE_HEIGHT / 2);}
-		
+					caller.attackVictim(victim);
 				});
-
+		}
+		function attackVictim(victim: Player) {
 			super.attack(victim);
 		}
 

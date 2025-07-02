@@ -29,6 +29,8 @@
 		const WEAPON_FRAME = 18;
 		const WEAPON_END_FRAME = 28;
 
+		const DIE_FRAME = 53;
+
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
 			unhighlightForInteraction();
@@ -289,7 +291,11 @@
 		}
 
 		override protected function dieAnimation() {
+			removeEventListener(Event.ENTER_FRAME, trackMousePosition)
+			rotation = 0;
+			asciiMarker.visible = false;
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
+			gotoAndStop(DIE_FRAME);
 		}
 	}
 }
