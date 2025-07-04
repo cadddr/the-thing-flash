@@ -168,8 +168,8 @@ package rooms
 		}
 
 		public function revealInfectedPlayers() {
-			guests.forEach(function (item: * ) {
-				if (item is Player) item.revealItself()
+			InfectedPlayers.forEach(function (item: * ) {
+				item.revealItself();
 			});
 		}
     }

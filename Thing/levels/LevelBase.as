@@ -204,6 +204,9 @@
 				return item.NonInfectedPlayers.length == 0
 			})) {
 				trace("HUMANS LOST");
+				Rooms.forEach(function (item: * ) {
+					item.revealInfectedPlayers();
+				})
 				//stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 				onGameOver();
 			}

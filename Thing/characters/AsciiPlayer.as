@@ -31,7 +31,7 @@
 		const WEAPON_END_FRAME = 28;
 
 		const DIE_FRAME = 53;
-		const REVEAL_FRAME = 34;
+		const REVEAL_FRAME = 54;
 
 		const BLOCK_FRAME = 55;
 
@@ -304,12 +304,23 @@
 		}
 
 		override public function block() {
-			trace (this, 'blocking')
 			gotoAndStop(BLOCK_FRAME);
 			var caller = this;
 			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, caller.x + 10, .4,
 			function (e:*) {},
 			function (e:*) {caller.gotoAndStop(IDLE_FRAME);});
+		}
+
+		override public function revealItself() {
+			// rotation = 90;
+			gotoAndStop(REVEAL_FRAME);
+			var caller = this;
+			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, caller.x + 10, .8,
+			function (e:*) {},
+			function (e:*) {caller.superRevealItself();});
+		}
+		function superRevealItself() {
+			super.revealItself();
 		}
 	}
 }

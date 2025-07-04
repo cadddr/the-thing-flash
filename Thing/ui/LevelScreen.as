@@ -62,8 +62,8 @@
 
 				level.onGameOver = function(): void {
 					stage.addChild(new GameOverScreen());
-					stage.removeChild(level);
-					stage.removeChild(caller);
+					// stage.removeChild(level);
+					// stage.removeChild(caller);
 				};
 
 				
