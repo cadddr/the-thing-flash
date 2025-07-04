@@ -41,5 +41,7 @@
 		}
 
 		protected function dieAnimation() {throw null;}
+
+		public function block() {throw null;}
 	}
 }

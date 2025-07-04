@@ -21,10 +21,10 @@
 
 		//out of 6
 		protected var leftBehindProbability: Number = 2
-		protected var humanInfectedRefusalProbability = 2;
+		protected var humanInfectedRefusalProbability = 6;
 
 		protected var thingKillingProbability: Number = 3;
-		protected var thingOpenAssimilationProbability: Number = 2;
+		protected var thingOpenAssimilationProbability: Number = 0;
 		protected var humanKillingProbability: Number = 2;
 		protected var thingCautiousnessLevel: Number = 1;
 

@@ -18,18 +18,22 @@
 	
 	public class AsciiPlayer extends Player {
 		
-		const DEFAULT_FRAME = 17;
+		const AIM_FRAME = 17;
+
 		const WALK_FRAME = 1;
 		const WALK_FRAME2 = 5;
 		const WALK_FRAME3 = 9;
 		const WALK_FRAME4 = 13;
 
-		const IDLE_FRAME = 33;
+		const IDLE_FRAME = 38;
 
 		const WEAPON_FRAME = 18;
 		const WEAPON_END_FRAME = 28;
 
 		const DIE_FRAME = 53;
+		const REVEAL_FRAME = 34;
+
+		const BLOCK_FRAME = 55;
 
 		public function AsciiPlayer(infectedRefusalProbability, spawnThing) {
 			super(infectedRefusalProbability, spawnThing);
@@ -40,7 +44,7 @@
 			asciiCharge.mouseEnabled = false;
 			asciiMarker.visible = true;
 			asciiMarker.mouseEnabled = false;
-			gotoAndPlay(IDLE_FRAME); // where walking animation stops
+			gotoAndStop(IDLE_FRAME); // where walking animation stops
 		}
 
 		override public function getSyringe(): MovieClip {
@@ -93,7 +97,7 @@
 		public function selectAsActiveCharacter(): void {
 			trace ('select', this)
 			highlightForInteraction();
-			gotoAndStop(DEFAULT_FRAME);
+			gotoAndStop(AIM_FRAME);
 			addEventListener(Event.ENTER_FRAME, trackMousePosition);
 			attemptAction();
 		}
@@ -101,7 +105,7 @@
 		public function unselectAsActiveCharacter(): void {
 			trace ('unselect', this)
 			unhighlightForInteraction();
-			// gotoAndStop(IDLE_FRAME);
+			// gotoAndStop(IDLE_FRAME); or legs disappear
 			removeEventListener(Event.ENTER_FRAME, trackMousePosition)
 		}
 
@@ -240,7 +244,7 @@
 						// }
 					}
 				},
-				function (e:*) {gotoAndStop(DEFAULT_FRAME)}
+				function (e:*) {gotoAndStop(IDLE_FRAME)}
 			);
 			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
 			// 	function (e:TweenEvent) {
@@ -284,10 +288,11 @@
 				function (e:*) {
 					caller.currentRoom.removeChild(projectile);
 					AsciiRoomBase(caller.currentRoom).setFloorBackgroundColor(1.);
+					gotoAndStop(IDLE_FRAME);
 				});
 		}
 		public function stopWeaponAnimation() {
-			gotoAndStop(DEFAULT_FRAME);
+			gotoAndStop(IDLE_FRAME);
 		}
 
 		override protected function dieAnimation() {
@@ -296,6 +301,15 @@
 			asciiMarker.visible = false;
 			transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
 			gotoAndStop(DIE_FRAME);
+		}
+
+		override public function block() {
+			trace (this, 'blocking')
+			gotoAndStop(BLOCK_FRAME);
+			var caller = this;
+			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, caller.x + 10, .4,
+			function (e:*) {},
+			function (e:*) {caller.gotoAndStop(IDLE_FRAME);});
 		}
 	}
 }

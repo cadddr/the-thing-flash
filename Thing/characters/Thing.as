@@ -196,8 +196,12 @@
 		{
 			trace(this, "is attacking", victim);
 			
-			if(Utils.getRandom(6, 1) <= thingKillingProbability)
+			if(Utils.getRandom(6, 1) <= thingKillingProbability) {
 				victim.die();
+			}
+			else {
+				victim.block();
+			}
 		}
 		
 		protected function getAttackedByPlayer(): void {

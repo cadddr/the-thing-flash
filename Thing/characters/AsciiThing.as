@@ -75,7 +75,7 @@
 			gotoAndPlay(ATTACK_FRAME);
 
 			var caller = this;
-			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, victim.x, .2,
+			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, caller.x, victim.x, .4,
 				function (e:*) {
 					trace('waiting to pin to victim')
 				},
