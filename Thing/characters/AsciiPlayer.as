@@ -95,6 +95,7 @@
 		}
 
 		public function selectAsActiveCharacter(): void {
+			if (AlreadyActed) return;
 			trace ('select', this)
 			highlightForInteraction();
 			gotoAndStop(AIM_FRAME);

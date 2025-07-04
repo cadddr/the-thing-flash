@@ -142,14 +142,17 @@
 		}
 
 		public function selectActiveCharacter() {
+			var playersNotActed = Players.filter(function (item:*) {return !item.AlreadyActed});
+			if (playersNotActed.length == 0) return;
+
 			var i = 0;
 			if (GlobalState.activePlayer != null) {
-				i = Players.indexOf(GlobalState.activePlayer)
+				i = playersNotActed.indexOf(GlobalState.activePlayer)
 			}
 			
-			Players[(i + 1) % Players.length].selectAsActiveCharacter();
+			playersNotActed[i].unselectAsActiveCharacter();
+			playersNotActed[(i + 1) % playersNotActed.length].selectAsActiveCharacter();
 			camera.pinCameraToObject(GlobalState.activePlayer, 0, 0);
-			Players[i].unselectAsActiveCharacter();
 		}
 
 		protected function identifySquads() {
