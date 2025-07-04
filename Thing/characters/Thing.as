@@ -9,6 +9,8 @@
 	import flash.events.Event;
 	import rooms.RoomBase;
 	import items.GeneratorSwitch;
+	import Utils;
+	import fl.transitions.easing.*;
 	
 	// TODO: revamp AI logic
 	public class Thing extends Character 
@@ -27,18 +29,17 @@
 
 		public function set IsVisible(value: Boolean) {
 			trace(this, value ? "is revealed" : "disappears")
-			isVisible = value;
-			this.mouseEnabled = true;
-			
-			if (value) {
-				alpha = 1;
-				dispatchEvent(new Event("ThingRevealed")); // not used now but maybe could be subscribed by players to react
+			if(GlobalState.DEBUG) {
+				alpha = value ? 1. : 0.3;
 			}
 			else {
-				if(GlobalState.DEBUG)
-					alpha = 0.3;
-				else
-					alpha = 0;
+				Utils.tweenValue(this, "alpha", Regular.easeOut, Number(isVisible), Number(value), 0.5, function(e:*) {})
+			}
+			isVisible = value;
+			this.mouseEnabled = true;
+
+			if (value) {
+				dispatchEvent(new Event("ThingRevealed")); // not used now but maybe could be subscribed by players to react
 			}
 		}
 		
