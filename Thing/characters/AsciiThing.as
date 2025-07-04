@@ -94,8 +94,8 @@
 			getSelection().visible = false;
 			// transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0);
 			var explosion = new SparkExplosion();
-			explosion.x = x - currentRoom.x;
-			explosion.y = y - currentRoom.y;
+			explosion.x = x - currentRoom.x - GlobalState.TILE_WIDTH / 2;
+			explosion.y = y - currentRoom.y - GlobalState.TILE_HEIGHT / 2;
 			currentRoom.addChild(explosion);
 			explosion.gotoAndPlay(1);
 
