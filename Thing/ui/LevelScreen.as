@@ -45,6 +45,7 @@
 				// caller.parent.addChildAt(asciiGalaxy, 0);
 
 				level.setCameraAndLayer(camera, cameraLayer);
+				GlobalState.setAsciiTextBox(asciiTextBox);
 
 				cameraLayer.addChild(level); // level needs to be on camera layer for scrolling and zooming
 

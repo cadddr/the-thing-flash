@@ -68,7 +68,7 @@
 		protected function attemptAction() {
 			if (!AlreadyActed) {
 				if (this.IsInfected) {
-					trace("Is", this, "going to refuse to execute the order?");
+					GlobalState.announce("Is " + this + " going to refuse to execute the order?");
 					if (Utils.getRandom(6, 1) <= infectedRefusalProbability) {
 						this.revealItself();
 						return;
@@ -88,7 +88,7 @@
 		}
 
 		public function getInfected(infection: Function) {
-			trace(this, "got infected");
+			GlobalState.announce(this + " got infected.");
 			policy = infection;
 
 			currentRoom.refreshThingsVisibility();

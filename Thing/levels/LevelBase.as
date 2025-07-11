@@ -10,6 +10,7 @@
 	import asciiRooms.AsciiRoomBase;
 	import flash.utils.describeType;
 	import rooms.RoomBase;
+	import GlobalState;
 
 
 	public class LevelBase extends MovieClip {
@@ -85,7 +86,7 @@
 
 		public function refreshThingsVisibility(): void {
 			for each (var thing: * in Things) {
-				trace("lightSwitched");
+				GlobalState.announce("Light Switched.");
 				thing.refreshVisibility();
 			}
 		}
@@ -106,7 +107,7 @@
 		}
 
 		protected function initializePlayers() {
-			trace("Where do humans start?")
+			GlobalState.announce("Where do humans start?");
 			if (initialRoom == -1) {
 				initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 			}
@@ -128,7 +129,7 @@
 			var thing = new AsciiThing(thingKillingProbability, thingOpenAssimilationProbability, thingCautiousnessLevel, humanKillingProbability);
 
 			//todo: needs refactoring
-			trace("Where does", thing, "start?");
+			trace("Where does " + thing + " start?");
 			var thingsInitialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 
 			while (!Rooms[thingsInitialRoom].IsTakenOver) {
@@ -149,7 +150,7 @@
 			if (GlobalState.activePlayer != null) {
 				i = playersNotActed.indexOf(GlobalState.activePlayer)
 			}
-			
+
 			playersNotActed[i].unselectAsActiveCharacter();
 			playersNotActed[(i + 1) % playersNotActed.length].selectAsActiveCharacter();
 			camera.pinCameraToObject(GlobalState.activePlayer, 0, 0);
@@ -206,7 +207,7 @@
 			if (Rooms.every(function (item: * ) {
 				return item.NonInfectedPlayers.length == 0
 			})) {
-				trace("HUMANS LOST");
+				GlobalState.announce("HUMANS LOST");
 				Rooms.forEach(function (item: * ) {
 					item.revealInfectedPlayers();
 				})
@@ -217,7 +218,7 @@
 			if (Rooms.every(function (item: * ) {
 				return item.Things.length == 0 && item.InfectedPlayers.length == 0
 			})) {
-				trace("HUMANS WON");
+				GlobalState.announce("HUMANS WON");
 				//stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 				onGameOver();
 			}

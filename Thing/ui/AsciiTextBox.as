@@ -11,24 +11,29 @@
 		
 		var rows:Number = 5;
 		var cols:Number = 5;
-		var textToDisplay: String;
+	
 		public function AsciiTextBox() {
 			var caller = this;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, function(e: Event): void {
-				var textToDisplay = "Holy, Shit. The Matrix has you!";
-				Utils.tweenValue({"x":0}, "x", None.easeNone, 0, textToDisplay.length, 1.0, function(e:*) {
-					caller.drawText(textToDisplay.substring(0, e.position));
-				});
+				// var textToDisplay = "Holy, Shit. The Matrix has you!";
+				// caller.animateDrawText(textToDisplay);
 			});
 		}
 
-		function drawText(textToDisplay) {
+		public function animateDrawText(textToDisplay:String) {
+			Utils.tweenValue({"x":0}, "x", None.easeNone, 0, textToDisplay.length, textToDisplay.length / 30, function(e:*) {
+				drawText(textToDisplay.substring(0, e.position));
+			});
+		}
+
+		function drawText(textToDisplay:String) {
 			textbox.border = '1';
 			textbox.text = "";
 			cols = textToDisplay.length + 2 + 2;
 			textbox.height = rows * 40.25;
 			textbox.width = cols * 25.;
+			textbox.x = stage.stageWidth / 2 - textbox.width / 2;
 		
 			for (var i = 0; i < rows; i++) {
 				for (var j = 0; j < cols; j++) {

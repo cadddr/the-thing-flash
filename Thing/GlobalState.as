@@ -2,6 +2,7 @@
 	import flash.display.MovieClip;
 	import characters.*;
 	import flash.display.Shape;
+	import ui.AsciiTextBox;
 
 	public class GlobalState {
 
@@ -28,6 +29,16 @@
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 		public static const LIGHT_SWITCHED = "lightSwitched";
 		
+		static var asciiTextBox: AsciiTextBox;
+
+		public static function setAsciiTextBox(textbox: AsciiTextBox): void {
+			asciiTextBox = textbox;
+		}
+
+		public static function announce(textToDisplay) {
+			asciiTextBox.animateDrawText(textToDisplay);
+		}
+
 		private static var globalEventHandlers: Object = {
 			characterPlacedInRoom: new Array(), 
 			lightSwitched: new Array()

@@ -28,7 +28,6 @@
 		}
 
 		public function set IsVisible(value: Boolean) {
-			trace(this, value ? "is revealed" : "disappears")
 			if(GlobalState.DEBUG) {
 				alpha = value ? 1. : 0.3;
 			}
@@ -39,6 +38,7 @@
 			this.mouseEnabled = true;
 
 			if (value) {
+				GlobalState.announce(this + value ? " is revealed." : " disappears");
 				dispatchEvent(new Event("ThingRevealed")); // not used now but maybe could be subscribed by players to react
 			}
 		}
@@ -78,7 +78,7 @@
 					var potentialVictims = currentRoom.NonInfectedPlayers;
 					if(potentialVictims.length > 0)
 					{
-						trace(this, "is choosing whom to assimilate")
+						GlobalState.announce(this + " is choosing whom to assimilate.")
 						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
 						
 						if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
@@ -89,7 +89,7 @@
 						//has to do with player's killing probability						
 						else 
 						{
-							trace(this, "is deciding on whether to engage in an open fight");
+							GlobalState.announce(this + " is deciding on whether to engage in an open fight.");
 							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * thingCautiousnessLevel)						
 								attack(victim)
 							else	{											
@@ -129,7 +129,7 @@
 		// could stay in same room
 		private function goToRandomReachableRoom()
 		{
-			trace(this, "is moving to a random reachable room");
+			GlobalState.announce(this + " is moving to a random reachable room.");
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1);
 			ReachableRooms[randomRoom].moveCharacterToRoom(this);
 		}
@@ -137,7 +137,7 @@
 		//todo: has to see if there are players in reachable rooms
 		private function goToAnotherRandomReachableRoom()
 		{
-			trace(this, "is moving to a different room");
+			GlobalState.announce(this + " is moving to a different room.");
 			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			//invalidate, so that its location is regenerated
@@ -153,7 +153,7 @@
 			
 			for(var i:int = 0; i < ReachableRooms.length; i++)
 			{
-				trace(this, "is deciding on where to go");
+				GlobalState.announce(this + " is deciding on where to go.");
 				if(Utils.getRandom(6, 1) > ReachableRooms[i].PlayerMargin * thingCautiousnessLevel)	
 					leastPopulatedRoom = ReachableRooms[i];
 			}
@@ -168,13 +168,13 @@
 			var infection:Function = function() 
 			{				
 				var potentialVictims = this.currentRoom.Players;
-				trace("Infected", this, "in", this.currentRoom, "\n\tpotential victims:", potentialVictims.length)
+				GlobalState.announce("Infected " + this + " in " + this.currentRoom + "\n\tpotential victims: " + potentialVictims.length)
 				
 				if(this.currentRoom.IsTakenOver)
 				{
 					if(potentialVictims.length > 0)
 					{
-						trace(this, "is choosing whom to assimilate")
+						GlobalState.announce(this + " is choosing whom to assimilate.");
 						potentialVictims[Utils.getRandom(potentialVictims.length - 1)].getInfected(infection);
 					}
 				}
@@ -186,7 +186,7 @@
 				
 			}
 			
-			trace(this, "is trying to assimilate into", victim);
+			GlobalState.announce(this + " is trying to assimilate into " + victim);
 			if(Utils.getRandom(6,1) <= thingOpenAssimilationProbability + int(this.currentRoom.IsTakenOver) * 6)
 			{
 				victim.getInfected(infection);
@@ -195,7 +195,7 @@
 
 		protected function attack(victim:Player)
 		{
-			trace(this, "is attacking", victim);
+			GlobalState.announce(this + " is attacking " + victim);
 			
 			if(Utils.getRandom(6, 1) <= thingKillingProbability) {
 				victim.die();
@@ -209,7 +209,7 @@
 			if(GlobalState.activePlayer)
 				if(currentRoom == GlobalState.activePlayer.currentRoom)
 				{	
-					trace(this, "is being attacked by", GlobalState.activePlayer);
+					GlobalState.announce(this +" is being attacked by " + GlobalState.activePlayer);
 					//dice roll should be 2 or 1
 					if(Utils.getRandom(6, 1) <= humanKillingProbability)
 					{

@@ -33,7 +33,7 @@
 		}
 
 		public function die() {
-			trace(this, "died")
+			GlobalState.announce(this + " died.")
 			disableAllInteraction();
 			policy = null;
 			dieAnimation();

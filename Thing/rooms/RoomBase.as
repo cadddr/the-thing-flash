@@ -112,7 +112,7 @@ package rooms
 		}
 
         public function admitCharacter(character: Character) {
-            trace (character, "enters", this, "@", x, y);
+            trace (character + " enters " + this + " @ " + x + ", " + y);
 
             guests.push(character);
 			
