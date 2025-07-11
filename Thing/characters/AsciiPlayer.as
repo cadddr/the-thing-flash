@@ -173,15 +173,17 @@
 			var rect2 = new Rectangle(currentRoom.x, currentRoom.y, currentRoom.width, currentRoom.height)
 
 			var commonX, commonY;
-			if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
-				commonX = corner1.x;
-				commonY = corner1.y;
-			}
-			else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
-			{
-				commonX = corner2.x;
-				commonY = corner2.y;
-			}
+			commonX = (previousRoom.x + previousRoom.width / 2 + currentRoom.x + currentRoom.width / 2) / 2;
+			commonY = (previousRoom.y + previousRoom.height / 2 + currentRoom.y + currentRoom.height / 2) / 2;
+			// if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
+			// 	commonX = corner1.x;
+			// 	commonY = corner1.y;
+			// }
+			// else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
+			// {
+			// 	commonX = corner2.x;
+			// 	commonY = corner2.y;
+			// }
 			if (GlobalState.DEBUG) {
 				var mySprite:Shape = new Shape(); 
 				mySprite.graphics.lineStyle(2, 0x990000, .75);
@@ -192,10 +194,11 @@
 				mySprite.graphics.drawRect(Math.min(this.x, x), Math.min(this.y, y), Math.abs(this.x - x), Math.abs(this.y - y)); 
 				// show corners
 				mySprite.graphics.beginFill(0xFFCC00); 
-				mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
-				mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
-				mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
-				mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
+				mySprite.graphics.drawCircle(commonX, commonY, 5);
+				// mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y, 5); 
+				// mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y, 5); 
+				// mySprite.graphics.drawCircle(previousRoom.x, previousRoom.y + previousRoom.height, 5); 
+				// mySprite.graphics.drawCircle(previousRoom.x + previousRoom.width, previousRoom.y + previousRoom.height, 5); 
 				mySprite.graphics.endFill(); 
 				cameraLayer.addChild(mySprite);
 			}
@@ -247,21 +250,6 @@
 				},
 				function (e:*) {gotoAndStop(IDLE_FRAME)}
 			);
-			// Utils.tweenValueAndFinish({"x": 0}, "x", None.easeNone, 0, 1, dist / 2.5, 
-			// 	function (e:TweenEvent) {
-			// 		var p = trajectory.getValue(e.position);
-					// caller.x = p.x;
-					// caller.y = p.y;
-					// updateLighting(e);
-					// if (GlobalState.DEBUG) mySprite.graphics.drawCircle(p.x, p.y, 3); 
-			// 		// }
-			// 	},
-			// 	function(e:TweenEvent) {
-			// 		trace ('tween finished')
-			// 		caller.gotoAndStop(IDLE_FRAME);
-			// 		Utils.currentTween = null;
-			// 	}
-			// );
 		}	
 
 		public function weaponAnimation(targetX, targetY) {

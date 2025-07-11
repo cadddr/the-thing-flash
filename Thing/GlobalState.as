@@ -22,7 +22,7 @@
 		public static const BRIGHT_ORANGE: uint = 0xf2a365;
 		public static const OFF_WHITE: uint = 0xececec;
 
-		public static const TILE_WIDTH = 40.25;
+		public static const TILE_WIDTH = 40.25; // why?
 		public static const TILE_HEIGHT = 40.25;
 
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
