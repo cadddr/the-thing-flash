@@ -107,7 +107,7 @@
 		}
 
 		protected function initializePlayers() {
-			GlobalState.announce("Where do humans start?");
+			trace("Where do humans start?");
 			if (initialRoom == -1) {
 				initialRoom = Utils.getRandom(Rooms.length, 1) - 1;
 			}
