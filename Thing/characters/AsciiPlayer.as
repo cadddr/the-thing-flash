@@ -173,17 +173,17 @@
 			var rect2 = new Rectangle(currentRoom.x, currentRoom.y, currentRoom.width, currentRoom.height)
 
 			var commonX, commonY;
-			commonX = (previousRoom.x + previousRoom.width / 2 + currentRoom.x + currentRoom.width / 2) / 2;
-			commonY = (previousRoom.y + previousRoom.height / 2 + currentRoom.y + currentRoom.height / 2) / 2;
-			// if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
-			// 	commonX = corner1.x;
-			// 	commonY = corner1.y;
-			// }
-			// else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
-			// {
-			// 	commonX = corner2.x;
-			// 	commonY = corner2.y;
-			// }
+			// commonX = (previousRoom.x + previousRoom.width / 2 + currentRoom.x + currentRoom.width / 2) / 2;
+			// commonY = (previousRoom.y + previousRoom.height / 2 + currentRoom.y + currentRoom.height / 2) / 2;
+			if (rect1.contains(corner1.x, corner1.y) || rect2.contains(corner1.x, corner1.y)) {
+				commonX = corner1.x;
+				commonY = corner1.y;
+			}
+			else //if (rect1.contains(corner2.x, corner2.y) || rect2.contains(corner2.x, corner2.y)) 
+			{
+				commonX = corner2.x;
+				commonY = corner2.y;
+			}
 			if (GlobalState.DEBUG) {
 				var mySprite:Shape = new Shape(); 
 				mySprite.graphics.lineStyle(2, 0x990000, .75);
