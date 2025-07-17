@@ -10,6 +10,8 @@ package levels {
 	import fl.transitions.TweenEvent;
     import fl.transitions.easing.*;
 	import Math;
+	import characters.Player;
+	import asciiRooms.AsciiRoomBase;
 	
 	public class AsciiLevel3 extends LevelBase {
 		
@@ -53,18 +55,25 @@ package levels {
 			room31.cockpit.stop();
 
 			// camera.pinCameraToObject(room31, room31.width / 2, room31.height / 2);	
+			GlobalState.announce("We need to reach the generator.");
+
 			Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeInOut, room31.x, room37.x, 2.,
 				function (e:*) {
 					camera.pinCameraToObject(room37, e.position - room37.x, 0);
 				},
 				function (e:*) {
-					GlobalState.announce("We need to reach the generator.");
+					AsciiRoomBase(room37).applyTileLightingFromSource(
+						room37, 
+						room37.x + room37.asciiGeneratorSwitch.x - GlobalState.TILE_WIDTH / 2, 
+						room37.y + room37.asciiGeneratorSwitch.y - GlobalState.TILE_HEIGHT / 2
+					);
 					// camera.pinCameraToObject(room37, 0, 0);
-					Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeInOut, room37.x, room31.x, 2.,
+					Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, room37.x, room31.x, 2.,
 					function (e:*) {
 						camera.pinCameraToObject(room31, e.position - room31.x, (room37.y - room31.y));
 					},
 					function (e:*) {
+						GlobalState.announce("Let's make our way, one room at a time.");
 						// camera.pinCameraToObject(room31, 0, 0);	
 					});
 				}
@@ -72,8 +81,50 @@ package levels {
 
 			Things.forEach(function (thing: * ) {
 				thing.addEventListener(GlobalState.THING_REVEALED, function (e:*) {
-					GlobalState.announce("Holy shit, what is that?");
+					if (e.visible) {
+						GlobalState.announce("Holy shit, what is that THING?!");
+					}
+					else {
+						GlobalState.announce("Where did it go???");
+					}
 				});
+			});
+
+			room31.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+				if (e.character is Player) {
+					GlobalState.announce("Nice, we're out of here!");
+				}
+			});
+
+			room32.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+				if (e.character is Player) {
+					GlobalState.announce("So far so good. Let's keep going.");
+				}
+			});
+
+			room33.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+				if (e.character is Player) {
+					GlobalState.announce("Front door is blocked. We have to go around.");
+				}
+			});
+
+			room37.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+				if (e.character is Player) {
+					GlobalState.announce("Ok, now trip that switch.");
+				}
+			});
+
+			room37.asciiGeneratorSwitch.addEventListener(GlobalState.LIGHT_SWITCHED, function (e:*) {
+				if (e.character is Player) {
+					GlobalState.announce("Done. Now let's head back to the ship.");
+				}
+				else {
+					GlobalState.announce("What just happened, I can't see shit!");
+				}
+			});
+
+			addEventListener(GlobalState.THING_DIED, function (e:*) {
+				GlobalState.announce("Go to hell, you MOTHERFUCKER!!!");
 			});
 		}
 	}

@@ -11,6 +11,7 @@
 	import items.GeneratorSwitch;
 	import Utils;
 	import fl.transitions.easing.*;
+	import events.ThingRevealEvent;
 	
 	// TODO: revamp AI logic
 	public class Thing extends Character 
@@ -34,13 +35,18 @@
 			else {
 				Utils.tweenValue(this, "alpha", Regular.easeOut, Number(isVisible), Number(value), 0.5, function(e:*) {})
 			}
+			if (value) {
+				// GlobalState.announce(this + value ? " is revealed." : " disappears");
+				dispatchEvent(new ThingRevealEvent(GlobalState.THING_REVEALED, true));
+			}
+			else if (isVisible) {
+				dispatchEvent(new ThingRevealEvent(GlobalState.THING_REVEALED, false));
+			}
+
 			isVisible = value;
 			this.mouseEnabled = true;
 
-			if (value) {
-				// GlobalState.announce(this + value ? " is revealed." : " disappears");
-				dispatchEvent(new Event(GlobalState.THING_REVEALED)); // not used now but maybe could be subscribed by players to react
-			}
+
 		}
 		
 		public function refreshVisibility() {
@@ -69,7 +75,7 @@
 				//so it wouldn't compete with players at switching the light
 				if (findLightSwitchInRoom(currentRoom) != null && GlobalState.isLightOn && switchLightRetries > 0)
 				{
-					findLightSwitchInRoom(currentRoom).switchPower();
+					findLightSwitchInRoom(currentRoom).switchPower(this);
 					switchLightRetries--;
 				}
 				else
@@ -78,7 +84,7 @@
 					var potentialVictims = currentRoom.NonInfectedPlayers;
 					if(potentialVictims.length > 0)
 					{
-						GlobalState.announce(this + " is choosing whom to assimilate.")
+						trace(this + " is choosing whom to assimilate.")
 						var victim = potentialVictims[Utils.getRandom(potentialVictims.length - 1)];
 						
 						if(currentRoom.IsTakenOver || !GlobalState.isLightOn)
@@ -89,7 +95,7 @@
 						//has to do with player's killing probability						
 						else 
 						{
-							GlobalState.announce(this + " is deciding on whether to engage in an open fight.");
+							trace(this + " is deciding on whether to engage in an open fight.");
 							if(Utils.getRandom(6, 1) > currentRoom.NonInfectedPlayerMargin * thingCautiousnessLevel)						
 								attack(victim)
 							else	{											
@@ -209,7 +215,7 @@
 			if(GlobalState.activePlayer)
 				if(currentRoom == GlobalState.activePlayer.currentRoom)
 				{	
-					GlobalState.announce(this +" is being attacked by " + GlobalState.activePlayer);
+					trace(this +" is being attacked by " + GlobalState.activePlayer);
 					//dice roll should be 2 or 1
 					if(Utils.getRandom(6, 1) <= humanKillingProbability)
 					{
@@ -227,6 +233,7 @@
 		override public function die() {
 			IsVisible = true;
 			super.die();
+			dispatchEvent(new Event(GlobalState.THING_DIED));
 		}		
 	}
 }

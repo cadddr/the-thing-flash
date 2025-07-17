@@ -29,6 +29,8 @@
 		public static const LIGHT_SWITCHED = "lightSwitched";
 		public static const THING_REVEALED = "thingRevealed";
 		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
+		public static const THING_DIED = "thingDied";
+		
 		
 		static var asciiTextBox: AsciiTextBox;
 

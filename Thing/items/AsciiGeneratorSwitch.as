@@ -10,6 +10,7 @@
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
     import fl.transitions.easing.*;
+	import characters.Character;
 	
 	
 	public class AsciiGeneratorSwitch extends GeneratorSwitch {
@@ -48,14 +49,14 @@
 			if(GlobalState.activePlayer)
 				if(GlobalState.activePlayer.currentRoom.interactables.indexOf(this) != -1)
 				{
-					switchPower();
+					switchPower(GlobalState.activePlayer);
 					GlobalState.activePlayer.finalizeAction();
 				}
 		}
 
-		override public function switchPower()
+		override public function switchPower(character: Character)
 		{		
-			super.switchPower();
+			super.switchPower(character);
 			// stage.color = Utils.scaleColor(
 			// 	GlobalState.DARK_PURPLE, 
 			// 	1.0 * int(GlobalState.isLightOn) +

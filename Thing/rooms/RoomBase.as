@@ -7,6 +7,7 @@ package rooms
     import characters.Player;
     import events.CharacterEvent;
     import flash.display.MovieClip;
+	import events.CharacterEvent;
 
     public class RoomBase extends Interactable {
         // Bookkeeping and game logic only
@@ -113,6 +114,7 @@ package rooms
 
         public function admitCharacter(character: Character) {
             trace (character + " enters " + this + " @ " + x + ", " + y);
+			dispatchEvent(new CharacterEvent(GlobalState.CHARACTER_PLACED_IN_ROOM, character, this));
 
             guests.push(character);
 			
