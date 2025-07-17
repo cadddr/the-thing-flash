@@ -54,6 +54,8 @@ package levels {
 			room31.stop();
 			room31.cockpit.stop();
 
+			var winCondition = false;
+
 			// camera.pinCameraToObject(room31, room31.width / 2, room31.height / 2);	
 			GlobalState.announce("We need to reach the generator.");
 
@@ -92,31 +94,61 @@ package levels {
 
 			room31.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
 				if (e.character is Player) {
-					GlobalState.announce("Nice, we're out of here!");
+					if (winCondition) {
+						GlobalState.announce("Nice, we're out of here!");
+						onGameOver();
+					}
+					else {
+						GlobalState.announce("Ship still offline.");
+					}
 				}
 			});
 
-			room32.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+			var onEnterFirstRoom = function (e:*) {
 				if (e.character is Player) {
 					GlobalState.announce("So far so good. Let's keep going.");
+					room32.removeEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterFirstRoom);
 				}
-			});
+			};
+			room32.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterFirstRoom);
 
-			room33.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+			var onEnterIntersection = function (e:*) {
 				if (e.character is Player) {
 					GlobalState.announce("Front door is blocked. We have to go around.");
+					room33.removeEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterIntersection);
 				}
-			});
-
-			room37.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, function (e:*) {
+			};
+			room33.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterIntersection);	
+	
+			var onEnterGeneratorRoom = function (e:*) {
 				if (e.character is Player) {
 					GlobalState.announce("Ok, now trip that switch.");
+					room37.removeEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterGeneratorRoom);
 				}
-			});
+			};
+			room37.addEventListener(GlobalState.CHARACTER_PLACED_IN_ROOM, onEnterGeneratorRoom);
 
 			room37.asciiGeneratorSwitch.addEventListener(GlobalState.LIGHT_SWITCHED, function (e:*) {
 				if (e.character is Player) {
+					winCondition = true;
 					GlobalState.announce("Done. Now let's head back to the ship.");
+					Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeInOut, room37.x, room31.x, 2.,
+					function (e:*) {
+						camera.pinCameraToObject(room31, e.position - room31.x, 0);
+					},
+					function (e:*) {
+						room31.gotoAndPlay(1);
+						room31.cockpit.gotoAndPlay(1);
+						Utils.tweenValueAndFinish({"x":0}, "x", Regular.easeOut, room31.x, room37.x, 2.,
+						function (e:*) {
+							camera.pinCameraToObject(room37, e.position - room37.x, (room31.y - room37.y));
+						},
+						function (e:*) {
+							
+						});
+					}
+				);
+
 				}
 				else {
 					GlobalState.announce("What just happened, I can't see shit!");
@@ -124,7 +156,7 @@ package levels {
 			});
 
 			addEventListener(GlobalState.THING_DIED, function (e:*) {
-				GlobalState.announce("Go to hell, you MOTHERFUCKER!!!");
+				GlobalState.announce("Burn in hell, you MOTHERFUCKER!!!");
 			});
 		}
 	}

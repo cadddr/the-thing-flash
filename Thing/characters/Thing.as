@@ -35,18 +35,16 @@
 			else {
 				Utils.tweenValue(this, "alpha", Regular.easeOut, Number(isVisible), Number(value), 0.5, function(e:*) {})
 			}
-			if (value) {
+			if (value && !isVisible) {
 				// GlobalState.announce(this + value ? " is revealed." : " disappears");
 				dispatchEvent(new ThingRevealEvent(GlobalState.THING_REVEALED, true));
 			}
-			else if (isVisible) {
+			else if (!value && isVisible) {
 				dispatchEvent(new ThingRevealEvent(GlobalState.THING_REVEALED, false));
 			}
 
 			isVisible = value;
 			this.mouseEnabled = true;
-
-
 		}
 		
 		public function refreshVisibility() {
@@ -201,7 +199,7 @@
 
 		protected function attack(victim:Player)
 		{
-			GlobalState.announce(this + " is attacking " + victim);
+			trace(this + " is attacking " + victim);
 			
 			if(Utils.getRandom(6, 1) <= thingKillingProbability) {
 				victim.die();
