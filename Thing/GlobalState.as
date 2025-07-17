@@ -26,8 +26,9 @@
 		public static const TILE_WIDTH = 40.25; // why?
 		public static const TILE_HEIGHT = 40.25;
 
-		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 		public static const LIGHT_SWITCHED = "lightSwitched";
+		public static const THING_REVEALED = "thingRevealed";
+		public static const CHARACTER_PLACED_IN_ROOM = "characterPlacedInRoom";
 		
 		static var asciiTextBox: AsciiTextBox;
 
@@ -39,26 +40,26 @@
 			asciiTextBox.animateDrawText(textToDisplay);
 		}
 
-		private static var globalEventHandlers: Object = {
-			characterPlacedInRoom: new Array(), 
-			lightSwitched: new Array()
-		};
+		// private static var globalEventHandlers: Object = {
+		// 	characterPlacedInRoom: new Array(), 
+		// 	lightSwitched: new Array()
+		// };
 
-		public static function addGlobalEventListener(type: String, handler: Function) {
-			globalEventHandlers[type].push(handler);
-		}
+		// public static function addGlobalEventListener(type: String, handler: Function) {
+		// 	globalEventHandlers[type].push(handler);
+		// }
 
-		public static function removeGlobalEventListener(type: String, handler: Function) {
-			if (globalEventHandlers[type].indexOf(handler) != -1) {
-				globalEventHandlers[type].remove(handler);
-			}
-		}
+		// public static function removeGlobalEventListener(type: String, handler: Function) {
+		// 	if (globalEventHandlers[type].indexOf(handler) != -1) {
+		// 		globalEventHandlers[type].remove(handler);
+		// 	}
+		// }
 
-		public static function globalDispatchEvent(e:*) {
-			for each (var func in globalEventHandlers[e.type]) {
-				trace('dispatching', func)
-				func(e);
-			}
-		}
+		// public static function globalDispatchEvent(e:*) {
+		// 	for each (var func in globalEventHandlers[e.type]) {
+		// 		trace('dispatching', func)
+		// 		func(e);
+		// 	}
+		// }
 	}
 }

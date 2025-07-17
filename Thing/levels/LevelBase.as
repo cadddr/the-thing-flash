@@ -73,7 +73,7 @@
 		// initialization requiring MovieClip objects
 		// may be overriden and called from subclass
 		protected function onAddedToStage(e: Event): void {
-			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
+			addEventListener(GlobalState.LIGHT_SWITCHED, function (e: * ): void {
 				refreshThingsVisibility();
 			});
 						
@@ -86,7 +86,7 @@
 
 		public function refreshThingsVisibility(): void {
 			for each (var thing: * in Things) {
-				GlobalState.announce("Light Switched.");
+				// GlobalState.announce("Light Switched.");
 				thing.refreshVisibility();
 			}
 		}

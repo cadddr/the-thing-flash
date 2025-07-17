@@ -19,7 +19,7 @@
 		{			
 			GlobalState.isLightOn = !GlobalState.isLightOn;
 			trace("Light has been switched to", GlobalState.isLightOn ? "on": "off");   
-			GlobalState.globalDispatchEvent(new LightswitchEvent(GlobalState.LIGHT_SWITCHED, GlobalState.isLightOn));
+			dispatchEvent(new LightswitchEvent(GlobalState.LIGHT_SWITCHED, GlobalState.isLightOn));
 		}
 	}	
 }

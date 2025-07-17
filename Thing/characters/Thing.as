@@ -38,8 +38,8 @@
 			this.mouseEnabled = true;
 
 			if (value) {
-				GlobalState.announce(this + value ? " is revealed." : " disappears");
-				dispatchEvent(new Event("ThingRevealed")); // not used now but maybe could be subscribed by players to react
+				// GlobalState.announce(this + value ? " is revealed." : " disappears");
+				dispatchEvent(new Event(GlobalState.THING_REVEALED)); // not used now but maybe could be subscribed by players to react
 			}
 		}
 		
@@ -137,7 +137,7 @@
 		//todo: has to see if there are players in reachable rooms
 		private function goToAnotherRandomReachableRoom()
 		{
-			GlobalState.announce(this + " is moving to a different room.");
+			// GlobalState.announce(this + " is moving to a different room.");
 			var currentRoomIndex = ReachableRooms.indexOf(currentRoom);
 			var randomRoom = Utils.getRandom(ReachableRooms.length - 1, 0, currentRoomIndex);
 			//invalidate, so that its location is regenerated

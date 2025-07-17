@@ -25,7 +25,7 @@
 		var tileHeight = 40.25;
 		
 		public function AsciiRoomBase() {
-			GlobalState.addGlobalEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
+			addEventListener(GlobalState.LIGHT_SWITCHED, function (e:LightswitchEvent): void { 
 				setFloorBackgroundColor(int(e.isLightOn) + 0.75 * (1 - int(e.isLightOn)));
 			});
 		}

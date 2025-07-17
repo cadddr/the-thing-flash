@@ -67,7 +67,14 @@ package levels {
 					function (e:*) {
 						// camera.pinCameraToObject(room31, 0, 0);	
 					});
+				}
+			);
+
+			Things.forEach(function (thing: * ) {
+				thing.addEventListener(GlobalState.THING_REVEALED, function (e:*) {
+					GlobalState.announce("Holy shit, what is that?");
 				});
+			});
 		}
 	}
 }
